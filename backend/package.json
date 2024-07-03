@@ -12,15 +12,19 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.10.4",
+    "argon2": "^0.40.3",
     "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2",
     "type-graphql": "^2.0.0-rc.1",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.9",
     "typescript": "^5.5.3"
   }
