@@ -1,10 +1,19 @@
-import { Resolver, Arg, Query } from 'type-graphql';
+import {Resolver, Arg, Query, Mutation, Ctx} from 'type-graphql';
 import axios from 'axios';
 import { TestUrlResponse } from '../types/TestUrlResponse';
 import { EStatus } from "../types/EStatus";
+import { NewQueryInput } from "../types/NewQueryInput";
+import {User} from "../entity/User";
+import { SavedQuery } from '../entity/SavedQuery';
+import { AppContext } from '../types/AppContext';
 
 @Resolver()
-class QueryResolver {
+class SavedQueryResolver {
+
+    /**
+     * Test a URL
+     * @param url
+     */
     @Query(() => TestUrlResponse)
     async testUrl(
         @Arg('url') url: string
@@ -52,6 +61,37 @@ class QueryResolver {
             };
         }
     }
+
+    /**
+     * Add a new query
+     * @param data
+     * @param ctx
+     */
+    @Mutation(() => String)
+    async addQuery(
+        @Arg('data') data: NewQueryInput,
+        @Ctx() ctx: AppContext
+    ): Promise<string> {
+        const userId = ctx.payload?.userId; // Extract userId from context
+        if(!userId) {
+            throw new Error('User not authenticated');
+        }
+
+        const user = await User.findOne({ where: { _id: userId } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const query = SavedQuery.create({
+            url: data.url,
+            name: data.name,
+            frequency: data.frequency,
+            user,
+        });
+
+        await query.save();
+        return "Query saved";
+    }
 }
 
-export default QueryResolver;
+export default SavedQueryResolver;

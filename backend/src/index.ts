@@ -6,35 +6,17 @@ import {buildSchema} from "type-graphql";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from '@apollo/server/standalone';
 import UserResolver from "./resolvers/UserResolver";
-import QueryResolver from "./resolvers/QueryResolver";
+import SavedQueryResolver from "./resolvers/SavedQueryResolver";
 import LogResolver from "./resolvers/LogResolver";
+import {authChecker} from "./helpers/authChecker";
 
 const start = async () => {
 
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, QueryResolver, LogResolver],
-    // authChecker: ({context}, roles) => {
-    //   // Check user
-    //   if (!context.email) {
-    //     // No user, restrict access
-    //     return false;
-    //   }
-    //
-    //   // Check '@Authorized()'
-    //   if (roles.length === 0) {
-    //     // Only authentication required
-    //     return true;
-    //   }
-    //
-    //   // Check '@Authorized(...)' roles inclues the role of user
-    //   if (roles.includes(context.role)) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
+    resolvers: [UserResolver, SavedQueryResolver, LogResolver],
+    authChecker,
   });
 
   const server = new ApolloServer({schema});
