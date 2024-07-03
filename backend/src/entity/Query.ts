@@ -28,7 +28,7 @@ export class Query extends BaseEntity {
     @CreateDateColumn()
     createdAt: Date;
 
-    @UpdateDateColumn({ nullable: true })
+    @UpdateDateColumn()
     updatedAt: Date;
 
     @Column({ type: 'interval' })

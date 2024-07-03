@@ -14,8 +14,6 @@
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.21",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
-    "argon2": "^0.40.3",
-    "jsonwebtoken": "^9.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "styled-components": "^6.1.11"

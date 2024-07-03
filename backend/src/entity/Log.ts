@@ -13,7 +13,7 @@ export class Log extends BaseEntity {
     date: Date;
 
     @Column({ type: 'enum', enum: [0, 1, 2] })
-    status: number;
+    status: number; // 0: Error (red), 1: Warning (orange), 2: Success (green)
 
     @Column({ type: 'int' })
     response_time: number;
