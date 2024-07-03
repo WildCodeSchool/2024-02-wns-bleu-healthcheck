@@ -5,6 +5,7 @@
     "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
     "skipLibCheck": true,
     "sourceMap": true,
+    "rootDirs": ["src"],
     "outDir": "./dist",
     "moduleResolution": "node",
     "removeComments": true,
