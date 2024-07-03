@@ -21,10 +21,10 @@ class QueryResolver {
 
             if (statusCode >= 200 && statusCode < 300 && responseTime < 1000) {
                 status = 2;
-            } else if (statusCode >= 200 && statusCode < 300 && responseTime > 1000) {
+            } else if (statusCode >= 200 && statusCode < 500 && responseTime > 1000) {
                 status = 1;
             }
-            else if (statusCode >= 400 ) {
+            else if (statusCode >= 500 ) {
                 status = 0;
             }
 
