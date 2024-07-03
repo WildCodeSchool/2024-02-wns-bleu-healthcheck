@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import "reflect-metadata";
 import {dataSource} from "./config/db";
 import {buildSchema} from "type-graphql";
