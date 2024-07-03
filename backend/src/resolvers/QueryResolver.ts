@@ -1,6 +1,7 @@
 import { Resolver, Arg, Query } from 'type-graphql';
 import axios from 'axios';
 import { TestUrlResponse } from '../types/TestUrlResponse';
+import { EStatus } from "../types/EStatus";
 
 @Resolver()
 class QueryResolver {
@@ -9,7 +10,7 @@ class QueryResolver {
         @Arg('url') url: string
     ): Promise<TestUrlResponse> {
         const startTime = Date.now();
-        let status = 0;
+        let status = EStatus.Error;
         let statusCode = 0;
         let statusMessage = 'Unknown Error';
 
@@ -20,12 +21,12 @@ class QueryResolver {
             statusMessage = response.statusText;
 
             if (statusCode >= 200 && statusCode < 300 && responseTime < 1000) {
-                status = 2;
+                status = EStatus.Success;
             } else if (statusCode >= 200 && statusCode < 500 && responseTime > 1000) {
-                status = 1;
+                status = EStatus.Warning;
             }
             else if (statusCode >= 500 ) {
-                status = 0;
+                status = EStatus.Error;
             }
 
             return {
