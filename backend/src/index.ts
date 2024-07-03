@@ -1,53 +1,43 @@
 import "reflect-metadata";
+import {dataSource} from "./config/db";
+import {buildSchema} from "type-graphql";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from '@apollo/server/standalone';
-
-const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`;
+import UserResolver from "./resolvers/UserResolver";
+import QueryResolver from "./resolvers/QueryResolver";
+import LogResolver from "./resolvers/LogResolver";
 
 const start = async () => {
-  const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-  ];
 
-  const resolvers = {
-    Query: {
-      books: () => books,
-    },
-  };
+  await dataSource.initialize();
 
-  // The ApolloServer constructor requires two parameters: your schema
-  // definition and your set of resolvers.
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+  const schema = await buildSchema({
+    resolvers: [UserResolver, QueryResolver, LogResolver],
+    // authChecker: ({context}, roles) => {
+    //   // Check user
+    //   if (!context.email) {
+    //     // No user, restrict access
+    //     return false;
+    //   }
+    //
+    //   // Check '@Authorized()'
+    //   if (roles.length === 0) {
+    //     // Only authentication required
+    //     return true;
+    //   }
+    //
+    //   // Check '@Authorized(...)' roles inclues the role of user
+    //   if (roles.includes(context.role)) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
   });
 
+  const server = new ApolloServer({schema});
+
   // Passing an ApolloServer instance to the `startStandaloneServer` function:
-  //  1. creates an Express app
-  //  2. installs your ApolloServer instance as middleware
-  //  3. prepares your app to handle incoming requests
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
   });
