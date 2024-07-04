@@ -1,6 +1,6 @@
 import {DataSource} from "typeorm";
 import {User} from "../entity/User";
-import {Query} from "../entity/Query";
+import {SavedQuery} from "../entity/SavedQuery";
 import {Log} from "../entity/Log";
 
 export const dataSource = new DataSource({
@@ -12,5 +12,5 @@ export const dataSource = new DataSource({
     database: "postgres",
     synchronize: true,
     logging: ["error", "query"],
-    entities: [User, Query, Log],
+    entities: [User, SavedQuery, Log],
 });
