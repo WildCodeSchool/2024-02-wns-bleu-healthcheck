@@ -40,7 +40,7 @@ class SavedQueryResolver {
         const query = SavedQuery.create({
             url: data.url,
             name: data.name,
-            frequency: data.frequency,
+            frequency: parseInt(data.frequency),
             createdAt: new Date(),
             updatedAt: new Date(),
             user: userFromDB,
