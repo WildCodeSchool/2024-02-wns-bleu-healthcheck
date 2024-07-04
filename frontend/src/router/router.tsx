@@ -1,15 +1,26 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Home from "@/pages/home/Home";
-import Header from "@/common/components/header/Header";
 import Dashboard from "@/pages/dashboard/Dashboard";
+import App from "@/App";
 
 const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Header />}>
-      <Route index element={<Home />} />
-      <Route path="dashboard" element={<Dashboard />} />
-    </Route>
-  )
+  [
+    {
+      path: "",
+      element: <App />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+          
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+        }
+      ]
+    }
+  ]
 );
 
-export default router;
+  export default router;

@@ -1,11 +1,10 @@
 import uraliveLogo from '@assets/uralive-logo.png';
 import './Header.scss';
 import { AiOutlineUser } from "react-icons/ai";
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <>
       <header className="navbar">
         {/* TODO: Add a link to the home page */}
         <Link to="/" className="navbar__logo">
@@ -24,8 +23,6 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <Outlet />
-    </>
   );
 }
 
