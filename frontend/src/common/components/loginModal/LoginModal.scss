@@ -1,0 +1,14 @@
+@import "@styles/variables";
+
+.login__modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: $base-font-family;
+  width: 50%;
+  background-color: $light-grey;
+  box-shadow: 24px;
+  padding: 4px;
+  border-radius: $border-radius-sm;
+}
