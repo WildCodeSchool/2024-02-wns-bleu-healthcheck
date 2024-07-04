@@ -1,9 +1,8 @@
 import "dotenv/config";
 
-import { Resolver, Mutation, Arg } from 'type-graphql';
+import {Resolver, Mutation, Arg, Query, Ctx} from 'type-graphql';
 import { User } from '../entity/User';
-import { RegisterInput, LoginInput } from '../types/UserInput';
-import { AuthResponse } from '../types/AuthResponse';
+import { RegisterInput } from '../types/UserInput';
 import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 
@@ -33,27 +32,25 @@ class UserResolver {
         return "User created";
     }
 
-    @Mutation(() => AuthResponse)
-    async login(
-        @Arg('data') data: LoginInput
-    ): Promise<AuthResponse> {
-        const user = await User.findOne({ where: { email: data.email } });
-        if (!user) {
-            throw new Error('User not found');
+    @Query(() => String)
+    async login(@Arg("email") email: string, @Arg("password") password: string, @Ctx() context: any){
+        try {
+
+            if (process.env.JWT_SECRET_KEY === undefined) {
+                throw new Error("NO JWT SECRET KEY DEFINED");
+            }
+
+            const user = await User.findOneByOrFail({email: email});
+            if (await argon2.verify(user.password, password)) {
+                const token = jwt.sign({email: email, role: user.role, id: user._id}, process.env.JWT_SECRET_KEY);
+                context.res.setHeader("Set-Cookie", `token=${token}`);
+                return "Login successful " + token; //TODO : remove token from response, it's here for test purpose
+            } else {
+                throw new Error("Login failed");
+            }
+        } catch (err) {
+            return "Login failed";
         }
-
-        const valid = await argon2.verify(user.password, data.password);
-        if (!valid) {
-            throw new Error('Invalid password');
-        }
-
-        const token = jwt.sign(
-            { userId: user._id, role: user.role, name: user.name, email: user.email},
-            process.env.JWT_SECRET_KEY as string,
-            { expiresIn: '1d' }
-        );
-
-        return { token };
     }
 }
 

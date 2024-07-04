@@ -1,6 +1,7 @@
-import { Request } from 'express';
 
-export interface AppContext {
-    req: Request;
-    payload?: { userId: number };
-}
+export type AppContext = {
+    userId: number,
+    name: string,
+    email: string,
+    role: number,
+};

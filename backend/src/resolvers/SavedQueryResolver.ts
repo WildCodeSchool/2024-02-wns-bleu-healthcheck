@@ -72,21 +72,20 @@ class SavedQueryResolver {
         @Arg('data') data: NewQueryInput,
         @Ctx() ctx: AppContext
     ): Promise<string> {
-        const userId = ctx.payload?.userId; // Extract userId from context
-        if(!userId) {
-            throw new Error('User not authenticated');
-        }
 
-        const user = await User.findOne({ where: { _id: userId } });
-        if (!user) {
-            throw new Error('User not found');
+        // Extract userId from context
+        const userFromDB = await User.findOneByOrFail({ email: ctx.email })
+        if(!userFromDB) {
+            throw new Error('User not authenticated');
         }
 
         const query = SavedQuery.create({
             url: data.url,
             name: data.name,
             frequency: data.frequency,
-            user,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            user: userFromDB,
         });
 
         await query.save();
