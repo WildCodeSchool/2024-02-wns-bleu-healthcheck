@@ -1,0 +1,51 @@
+@import "@styles/variables";
+
+.navbar {
+  display: flex;
+  align-items: center;
+  font-family: $second-font-family;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: $light-grey;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 40px;
+  top: 0;
+  margin: auto;
+
+  .logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .logo-img {
+      height: 90%;
+    }
+
+    .logo-txt {
+      font-weight: $heading-font-weight;
+      font-size: 30px;
+      .green {
+        color: $green;
+      }
+    }
+  }
+
+  .menu {
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .icon {
+      color: $dark-blue;
+      height: 100%;
+    }
+  }
+
+}

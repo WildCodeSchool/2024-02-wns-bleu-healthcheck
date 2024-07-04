@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
+#root {
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  display: block;
+  margin: 0;
+}
+
 // Variables
 // Fonts
 $base-font-family: "Montserrat", sans-serif;
