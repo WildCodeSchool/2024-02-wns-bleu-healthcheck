@@ -1,7 +1,9 @@
+import { RouterProvider } from "react-router-dom";
 import "./App.scss";
-import Header from "./common/components/header/Header.tsx";
-import TestBarUrl from "./common/components/testBarUrl/TestBarUrl.tsx";
+// import Header from "./common/components/header/Header.tsx";
+// import TestBarUrl from "./common/components/testBarUrl/TestBarUrl.tsx";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import router from "./router/router.tsx";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000",
@@ -11,12 +13,8 @@ const client = new ApolloClient({
 function App() {
   return (
     <>
-      <Header />
       <ApolloProvider client={client}>
-        <div className="app">
-          <div className="app__title">Bonjour</div>
-          <TestBarUrl />
-        </div>
+        <RouterProvider router={router} />
       </ApolloProvider>
     </>
   );
