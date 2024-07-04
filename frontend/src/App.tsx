@@ -1,7 +1,8 @@
 import "./App.scss";
+import Card from "./common/components/Cards/Card";
 
 function App() {
-  return <div>Test</div>;
+  return <Card />;
 }
 
 export default App;
