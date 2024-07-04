@@ -5,6 +5,7 @@ import {User} from "../entity/User";
 import { SavedQuery } from '../entity/SavedQuery';
 import { AppContext } from '../types/AppContext';
 import { RequestTester } from '../helpers/RequestTester';
+import { startNewQueryWorker } from '../workers/savedQueriesWorker';
 
 @Resolver()
 class SavedQueryResolver {
@@ -47,6 +48,10 @@ class SavedQueryResolver {
         });
 
         await query.save();
+
+        // Start the worker for the new query
+        await startNewQueryWorker(query);
+
         return "Query saved";
     }
 }

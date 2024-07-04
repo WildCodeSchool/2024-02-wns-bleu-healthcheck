@@ -35,3 +35,11 @@ export const startSavedQueriesWorker = async () => {
         scheduleQuery(savedQuery);
     }
 };
+
+/**
+ * Start the worker for a new saved query
+ */
+export const startNewQueryWorker = async (savedQuery: SavedQuery) => {
+    await executeQuery(savedQuery);
+    scheduleQuery(savedQuery);
+}
