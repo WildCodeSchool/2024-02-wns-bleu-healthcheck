@@ -16,21 +16,21 @@
   top: 0;
   margin: auto;
 
-  .logo {
+  .navbar__logo {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
 
-    .logo-img {
+    .navbar__logo-img {
       height: 90%;
     }
 
-    .logo-txt {
+    .navbar__logo-txt {
       font-weight: $heading-font-weight;
       font-size: 30px;
-      .green {
+      .navbar__green {
         color: $green;
       }
     }
