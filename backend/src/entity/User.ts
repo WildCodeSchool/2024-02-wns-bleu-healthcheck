@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity} from 'typeorm';
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Query } from './Query';
+import { SavedQuery } from './SavedQuery';
 
 @ObjectType()
 @Entity()
@@ -25,6 +25,6 @@ export class User extends BaseEntity {
     @Column({ type: 'enum', enum: [0, 1, 2] })
     role: number;
 
-    @OneToMany(() => Query, query => query.user)
-    queries: Query[];
+    @OneToMany(() => SavedQuery, query => query.user)
+    queries: SavedQuery[];
 }

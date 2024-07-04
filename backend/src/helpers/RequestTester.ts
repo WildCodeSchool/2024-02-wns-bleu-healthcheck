@@ -1,14 +1,8 @@
-import { Resolver, Arg, Query } from 'type-graphql';
-import axios from 'axios';
-import { TestUrlResponse } from '../types/TestUrlResponse';
-import { EStatus } from "../types/EStatus";
+import axios from "axios";
+import {EStatus} from "../types/EStatus";
 
-@Resolver()
-class QueryResolver {
-    @Query(() => TestUrlResponse)
-    async testUrl(
-        @Arg('url') url: string
-    ): Promise<TestUrlResponse> {
+export class RequestTester {
+    static testRequest = async (url: string) => {
         const startTime = Date.now();
         let status = EStatus.Error;
         let statusCode = 0;
@@ -54,4 +48,4 @@ class QueryResolver {
     }
 }
 
-export default QueryResolver;
+

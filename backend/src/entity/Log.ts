@@ -1,13 +1,13 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, BaseEntity} from 'typeorm';
-import { Query } from './Query';
+import { SavedQuery } from './SavedQuery';
 
 @Entity()
 export class Log extends BaseEntity {
     @PrimaryGeneratedColumn()
     _id: number;
 
-    @ManyToOne(() => Query, query => query.logs)
-    query: Query;
+    @ManyToOne(() => SavedQuery, query => query.logs)
+    query: SavedQuery;
 
     @CreateDateColumn()
     date: Date;
