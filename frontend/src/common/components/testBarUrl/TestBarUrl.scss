@@ -4,13 +4,13 @@ body {
   font-family: $base-font-family;
 }
 
-.test__bar__url {
+.test__bar {
   display: flex;
   width: 100%;
   box-shadow: $base-shadow;
   border-radius: 8px;
 
-  input {
+  .test__bar-input {
     flex: 1 0 80%;
     padding: $space-xs;
     border: none;
@@ -30,7 +30,7 @@ body {
     color: $grey;
     font-style: italic;
   }
-  .test__bar__button {
+  .test__bar-button {
     width: 15%;
     button {
       width: 100%;

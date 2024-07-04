@@ -20,15 +20,15 @@ const TestBarUrl = () => {
 
   return (
     <>
-      <div className="test__bar__url">
+      <div className="test__bar">
         <input
           name="test__bar"
           placeholder="Tester une URL..."
           value={url}
           onChange={handleInputChange}
-          className="test__bar__input"
+          className="test__bar-input"
         />
-        <div className="test__bar__button">
+        <div className="test__bar-button">
           <button onClick={handleSubmit}>
             <AiOutlineGlobal />
           </button>
