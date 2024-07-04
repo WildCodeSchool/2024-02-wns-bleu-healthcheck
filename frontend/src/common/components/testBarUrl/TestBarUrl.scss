@@ -1,0 +1,44 @@
+@import "../../../App.scss";
+
+body {
+  font-family: $base-font-family;
+}
+
+.test__bar__url {
+  display: flex;
+  width: 100%;
+  box-shadow: $base-shadow;
+  border-radius: 8px;
+
+  input {
+    flex: 1 0 80%;
+    padding: $space-xs;
+    border: none;
+    border-radius: 8px 0 0 8px;
+    font-size: $base-font-size;
+    font-weight: $body-font-weight;
+    color: $dark-blue;
+
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+  input:placeholder-shown {
+    text-align: left;
+    font-weight: 200;
+    color: $grey;
+    font-style: italic;
+  }
+  .test__bar__button {
+    width: 15%;
+    button {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+      background-color: $green;
+    }
+  }
+}
