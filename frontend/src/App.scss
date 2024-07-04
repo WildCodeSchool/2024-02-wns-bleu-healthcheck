@@ -13,6 +13,19 @@ body {
 
 a {
   text-decoration: none;
+  color: inherit;
+  
+  :visited {
+    color: inherit;
+  }
+
+  :hover {
+    color: inherit;
+  }
+
+  :active {
+    color: inherit;
+  }
 }
 
 // Variables
