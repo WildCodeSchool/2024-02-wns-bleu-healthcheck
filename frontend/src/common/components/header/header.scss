@@ -36,13 +36,13 @@
     }
   }
 
-  .menu {
-    .menu-item {
+  .navbar__menu {
+    .navbar__menu-item {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .icon {
+    .navbar__icon {
       color: $dark-blue;
       height: 100%;
     }
