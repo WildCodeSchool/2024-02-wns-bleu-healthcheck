@@ -1,13 +1,13 @@
 import { InputType, Field } from 'type-graphql';
 
 @InputType()
-export class RegisterInput {
+export class NewQueryInput {
     @Field()
-    email: string;
+    url: string;
 
     @Field()
     name: string;
 
     @Field()
-    password: string;
+    frequency: string;
 }
