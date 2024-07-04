@@ -1,10 +1,8 @@
 import uraliveLogo from '@assets/uralive-logo.png';
-import './header.scss';
-import { useState } from 'react';
+import './Header.scss';
 import { AiOutlineUser } from "react-icons/ai";
 
 const Header = () => {
-  const { userLoggedIn, setUserLoggedIn } = useState(false);
   return (
     <header className="navbar">
       {/* TODO: Add a link to the home page */}
