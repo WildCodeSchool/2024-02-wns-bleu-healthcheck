@@ -10,7 +10,7 @@ export interface UrlData {
   frequency?: number;
   name?: string;
   lastStatus: {
-    date: Date;
+    date: string;
     response_time: number;
     status: number;
     status_code: number;
@@ -34,7 +34,7 @@ function UrlCard({ urlData }: { urlData: UrlData }) {
             <span className="card__icon"><GoSync /></span>Fréquence : {urlData.frequency}
           </li>)}
         </ul>
-        <p className="card__lastquery">Dernière requête : {urlData.lastStatus.date.toDateString()}</p>
+        <p className="card__lastquery">Dernière requête : {urlData.lastStatus.date}</p>
       </div>
     </div>
   );
