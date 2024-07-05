@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
 import "./App.scss";
 import Header from "./common/components/header/Header.tsx";
+import AuthContextProvider from "./common/providers/AuthContextProvider.tsx";
 
 function App() {
   return (
     <>
-      <Header />
-      <Outlet />
+      <AuthContextProvider>
+        <Header />
+        <Outlet />
+      </AuthContextProvider>
     </>
   );
 }
