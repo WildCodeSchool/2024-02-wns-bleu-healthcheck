@@ -1,19 +1,30 @@
 import { ObjectType, Field, Int } from 'type-graphql';
 
 @ObjectType()
-export class TestUrlResponse {
+class LastStatusResponse {
+
     @Field()
-    url: string;
+    date: Date;
 
     @Field(() => Int)
     status: number; // 0: Error (red), 1: Warning (orange), 2: Success (green)
 
     @Field(() => Int)
-    responseTime: number;
+    response_time: number;
 
     @Field(() => Int)
-    statusCode: number;
+    status_code: number;
 
     @Field()
-    statusMessage: string;
+    status_message: string;
+}
+
+
+@ObjectType()
+export class TestUrlResponse {
+    @Field()
+    url: string;
+
+    @Field()
+    lastStatus: LastStatusResponse;
 }

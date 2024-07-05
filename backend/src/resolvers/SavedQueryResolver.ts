@@ -1,11 +1,13 @@
-import {Resolver, Arg, Query, Mutation, Ctx} from 'type-graphql';
-import { TestUrlResponse } from '../types/TestUrlResponse';
-import { NewQueryInput } from "../types/NewQueryInput";
+import {Arg, Ctx, Mutation, Query, Resolver} from 'type-graphql';
+import {TestUrlResponse} from '../types/TestUrlResponse';
+import {NewQueryInput} from "../types/NewQueryInput";
 import {User} from "../entity/User";
-import { SavedQuery } from '../entity/SavedQuery';
-import { AppContext } from '../types/AppContext';
-import { RequestTester } from '../helpers/RequestTester';
-import { startNewQueryWorker } from '../workers/savedQueriesWorker';
+import {SavedQuery} from '../entity/SavedQuery';
+import {AppContext} from '../types/AppContext';
+import {RequestTester} from '../helpers/RequestTester';
+import {startNewQueryWorker} from '../workers/savedQueriesWorker';
+import {SavedQueryWithLastStatus} from '../types/SavedQueryWithLastStatus';
+import {Log} from '../entity/Log';
 
 @Resolver()
 class SavedQueryResolver {
@@ -54,6 +56,36 @@ class SavedQueryResolver {
 
         return "Query saved";
     }
+
+    /**
+     * Get all queries for the current user
+     */
+    @Query(() => [SavedQueryWithLastStatus])
+    async getSavedQueries(
+        @Ctx() ctx: AppContext
+    ): Promise<SavedQueryWithLastStatus[]> {
+        const userFromDB = await User.findOneOrFail({ where: { email: ctx.email } });
+
+        if (!userFromDB) {
+            throw new Error('User not authenticated');
+        }
+
+        const savedQueries = await SavedQuery.find({ where: { user: userFromDB } });
+
+        return await Promise.all(savedQueries.map(async (query) => {
+            const lastLog = await Log.findOne({
+                where: {query: query},
+                order: {date: "DESC"}
+            });
+
+            return {
+                ...query,
+                lastStatus: lastLog || null
+            } as SavedQueryWithLastStatus;
+        }));
+    }
+
+
 }
 
 export default SavedQueryResolver;

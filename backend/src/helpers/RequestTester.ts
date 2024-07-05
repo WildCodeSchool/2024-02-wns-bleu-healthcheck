@@ -3,46 +3,53 @@ import {EStatus} from "../types/EStatus";
 
 export class RequestTester {
     static testRequest = async (url: string) => {
+        const date = new Date();
         const startTime = Date.now();
         let status = EStatus.Error;
-        let statusCode = 0;
-        let statusMessage = 'Unknown Error';
+        let status_code = 0;
+        let status_message = 'Unknown Error';
 
         try {
             const response = await axios.get(url);
-            const responseTime = Date.now() - startTime;
-            statusCode = response.status;
-            statusMessage = response.statusText;
+            const response_time = Date.now() - startTime;
+            status_code = response.status;
+            status_message = response.statusText;
 
-            if (statusCode >= 200 && statusCode < 300 && responseTime < 1000) {
+            if (status_code >= 200 && status_code < 300 && response_time < 1000) {
                 status = EStatus.Success;
-            } else if (statusCode >= 200 && statusCode < 500 && responseTime > 1000) {
+            } else if (status_code >= 200 && status_code < 500 && response_time > 1000) {
                 status = EStatus.Warning;
             }
-            else if (statusCode >= 500 ) {
+            else if (status_code >= 500 ) {
                 status = EStatus.Error;
             }
 
             return {
                 url,
-                status,
-                responseTime,
-                statusCode,
-                statusMessage,
+                lastStatus: {
+                    date,
+                    status,
+                    response_time,
+                    status_code,
+                    status_message,
+                }
             };
         } catch (error) {
-            const responseTime = Date.now() - startTime;
+            const response_time = Date.now() - startTime;
             if (axios.isAxiosError(error)) {
-                statusCode = error.response?.status || 500;
-                statusMessage = error.message;
+                status_code = error.response?.status || 500;
+                status_message = error.message;
             }
 
             return {
                 url,
-                status,
-                responseTime,
-                statusCode,
-                statusMessage,
+                lastStatus: {
+                    date,
+                    status,
+                    response_time,
+                    status_code,
+                    status_message,
+                }
             };
         }
     }
