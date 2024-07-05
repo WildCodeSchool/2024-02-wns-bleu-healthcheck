@@ -1,8 +1,9 @@
 import axios from "axios";
 import {EStatus} from "../types/EStatus";
+import {TestUrlResponse} from "../types/TestUrlResponse";
 
 export class RequestTester {
-    static testRequest = async (url: string) => {
+    static testRequest = async (url: string) : Promise<TestUrlResponse> => {
         const date = new Date();
         const startTime = Date.now();
         let status = EStatus.Error;
