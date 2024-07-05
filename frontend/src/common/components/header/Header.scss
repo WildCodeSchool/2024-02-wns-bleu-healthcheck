@@ -40,7 +40,14 @@
     .navbar__menu-item {
       display: flex;
       align-items: center;
-      gap: 10px;
+      :hover {
+        color: $light-blue;
+      }
+      .navbar__menu-button {
+        color: $dark-blue;
+        gap: 10px;
+        padding-right: 10px;
+      }
     }
 
     .navbar__icon {
@@ -48,5 +55,4 @@
       height: 100%;
     }
   }
-
 }
