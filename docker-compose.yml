@@ -9,6 +9,7 @@ services:
             test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'' || exit 1'
             interval: 1s
             timeout: 2s
+            retries: 30
         depends_on:
             db:
                 condition: service_healthy
@@ -25,6 +26,7 @@ services:
             test: "curl --fail --request GET --url 'http://localhost:5173' || exit 1"
             interval: 1s
             timeout: 2s
+            retries: 30
         ports:
             - 5173:5173
     db:
@@ -33,6 +35,7 @@ services:
             test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
             interval: 1s
             timeout: 2s
+            retries: 30
         environment:
             POSTGRES_PASSWORD: password
     adminer:
