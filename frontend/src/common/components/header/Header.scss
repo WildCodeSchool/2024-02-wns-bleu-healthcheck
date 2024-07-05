@@ -5,12 +5,11 @@
   align-items: center;
   font-family: $second-font-family;
   justify-content: space-between;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background-color: $grey;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: transparent;
   height: 40px;
   top: 0;
   margin: auto;
@@ -29,7 +28,7 @@
     .navbar__logo-txt {
       font-weight: $heading-font-weight;
       font-size: 30px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      // text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
       .navbar__green {
         color: $green;
