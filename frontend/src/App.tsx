@@ -1,6 +1,5 @@
 import "./App.scss";
-import Header from "./common/components/header/Header.tsx";
-import TestBarUrl from "./common/components/testBarUrl/TestBarUrl.tsx";
+import Card from "./common/components/Card/Card";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
@@ -11,11 +10,10 @@ const client = new ApolloClient({
 function App() {
   return (
     <>
-      <Header />
       <ApolloProvider client={client}>
         <div className="app">
           <div className="app__title">Bonjour</div>
-          <TestBarUrl />
+          <Card />
         </div>
       </ApolloProvider>
     </>
