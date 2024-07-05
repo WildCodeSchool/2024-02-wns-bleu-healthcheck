@@ -1,5 +1,6 @@
 import { BsCalendar } from "react-icons/bs";
-import { GoLink, GoSync } from "react-icons/go";
+import { GoLink, GoSync, GoCode } from "react-icons/go";
+import { CiTimer } from "react-icons/ci";
 import "./_urlCard.scss"
 
 export interface UrlData {
@@ -26,6 +27,12 @@ function UrlCard({ urlData }: { urlData: UrlData }) {
         <ul className="card__list">
           <li className="card__url card__element">
             <span className="card__icon"><GoLink /></span>URL : {urlData.url}
+          </li>
+          <li className="card__url card__element">
+            <span className="card__icon"><GoCode /></span>Code de retour : {urlData.lastStatus.status_code}
+          </li>
+          <li className="card__url card__element">
+            <span className="card__icon"><CiTimer/></span>Temps de réponse : {urlData.lastStatus.response_time} ms
           </li>
           <li className="card__statut card__element">
             <span className="card__icon"><BsCalendar /></span>Statut : {urlData.lastStatus.status}

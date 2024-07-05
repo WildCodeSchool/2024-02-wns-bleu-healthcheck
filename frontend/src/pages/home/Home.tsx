@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     if (data !== undefined) {
-      const { date, response_time, status, status_code, status_message } = data.testUrl;
+      const { date, response_time, status, status_code, status_message } = data.testUrl.lastStatus;
       setUrlData({
         url: data.testUrl.url,
         lastStatus: {
