@@ -10,6 +10,7 @@ import SavedQueryResolver from "./resolvers/SavedQueryResolver";
 import LogResolver from "./resolvers/LogResolver";
 import jwt from "jsonwebtoken";
 import setCookieParser from "set-cookie-parser";
+import { startSavedQueriesWorker } from './workers/savedQueriesWorker';
 
 const start = async () => {
 
@@ -60,6 +61,9 @@ const start = async () => {
       return { res: res };
     },
   });
+
+  // Start the saved queries worker
+  await startSavedQueriesWorker();
 
   console.log(`🚀  Server ready at: ${url}`);
 }

@@ -39,8 +39,8 @@ export class SavedQuery extends BaseEntity {
     updatedAt: Date;
 
     @Field()
-    @Column({ type: 'interval' })
-    frequency: string;
+    @Column()
+    frequency: number;
 
     @OneToMany(() => Log, log => log.query)
     logs: Log[];

@@ -5,6 +5,7 @@ import {User} from "../entity/User";
 import { SavedQuery } from '../entity/SavedQuery';
 import { AppContext } from '../types/AppContext';
 import { RequestTester } from '../helpers/RequestTester';
+import { startNewQueryWorker } from '../workers/savedQueriesWorker';
 
 @Resolver()
 class SavedQueryResolver {
@@ -40,13 +41,17 @@ class SavedQueryResolver {
         const query = SavedQuery.create({
             url: data.url,
             name: data.name,
-            frequency: data.frequency,
+            frequency: parseInt(data.frequency),
             createdAt: new Date(),
             updatedAt: new Date(),
             user: userFromDB,
         });
 
         await query.save();
+
+        // Start the worker for the new query
+        await startNewQueryWorker(query);
+
         return "Query saved";
     }
 }
