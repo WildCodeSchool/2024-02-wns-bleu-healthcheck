@@ -3,6 +3,7 @@ import "./App.scss";
 import Header from "./common/components/header/Header.tsx";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
+import AuthContextProvider from "./common/providers/AuthContextProvider.tsx";
 
 const theme = createTheme({
   palette: {
@@ -25,8 +26,10 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Header />
-        <Outlet />
+        <AuthContextProvider>
+          <Header />
+          <Outlet />
+        </AuthContextProvider>
       </ThemeProvider>
     </>
   );

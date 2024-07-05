@@ -1,0 +1,48 @@
+@import "@styles/variables";
+
+.home__content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 40px);
+  width: 100%;
+  background-color: $light-grey;
+}
+
+.home__content {
+  height: 50%;
+  width : 50%;
+  min-width: 500px;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-md;
+}
+
+.home__main-title {
+  font-size: 3.5rem;
+  color: $dark-blue;
+}
+
+@media screen and (max-width: $breakpoint-sm) and (min-width: $breakpoint-xs){
+  .home__content {
+    width: 90%;
+    min-width: 300px;
+  }
+
+  .home__main-title {
+    font-size: $h1-font-size;
+  }
+}
+
+@media screen and (max-width: $breakpoint-xs) {
+  .home__content {
+    width: 90%;
+    min-width: 300px;
+  }
+
+  .home__main-title {
+    font-size: $h2-font-size;
+  }
+}

@@ -1,29 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; // Prevent scrollbars on the whole page
+}
+
 #root {
   width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
+  min-height: 100vh; // Adjust based on navbar height if necessary
+  overflow: hidden; // Prevent scrollbars within #root
 }
 
 body {
   display: block;
-  margin: 0;
+  max-height: 100vh; // This ensures the body doesn't exceed the viewport height
 }
 
 a {
   text-decoration: none;
   color: inherit;
 
-  :visited {
-    color: inherit;
-  }
-
-  :hover {
-    color: inherit;
-  }
-
-  :active {
+  &:visited,
+  &:hover,
+  &:active {
     color: inherit;
   }
 }
