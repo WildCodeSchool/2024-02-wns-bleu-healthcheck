@@ -54,6 +54,22 @@ class SavedQueryResolver {
 
         return "Query saved";
     }
+
+    /**
+     * Get all queries for the current user
+     */
+    @Query(() => [SavedQuery])
+    async getSavedQueries(
+        @Ctx() ctx: AppContext
+    ): Promise<SavedQuery[]> {
+        // Extract userId from context
+        const userFromDB = await User.findOneByOrFail({email: ctx.email})
+        if (!userFromDB) {
+            throw new Error('User not authenticated');
+        }
+
+        return SavedQuery.find({where: {user: userFromDB}});
+    }
 }
 
 export default SavedQueryResolver;
