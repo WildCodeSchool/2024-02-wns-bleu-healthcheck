@@ -32,17 +32,17 @@ services:
             POSTGRES_PASSWORD: password
     adminer:
         image: adminer
-#    apigateway:
-#        image: nginx
-#        volumes:
-#            - ./nginx.conf:/etc/nginx/nginx.conf
-#        depends_on:
-#            backend:
-#                condition: service_healthy
-#            frontend:
-#                condition: service_healthy
-#        ports:
-#            - 7001:80
+    apigateway:
+        image: nginx
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            backend:
+                condition: service_healthy
+            frontend:
+                condition: service_healthy
+        ports:
+            - 7001:80
     e2e:
         build: ./e2e
         volumes:
