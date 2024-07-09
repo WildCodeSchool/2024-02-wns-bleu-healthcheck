@@ -1,8 +1,6 @@
 services:
     backend:
         build: ./backend
-        volumes:
-            - ./backend/src:/app/src
         env_file:
             - .env
         healthcheck:
@@ -15,8 +13,6 @@ services:
                 condition: service_healthy
     frontend:
         build: ./frontend
-        volumes:
-            - ./frontend/src:/app/src
         depends_on:
             backend:
                 condition: service_healthy
@@ -36,14 +32,21 @@ services:
             POSTGRES_PASSWORD: password
     adminer:
         image: adminer
-    apigateway:
-        image: nginx
+#    apigateway:
+#        image: nginx
+#        volumes:
+#            - ./nginx.conf:/etc/nginx/nginx.conf
+#        depends_on:
+#            backend:
+#                condition: service_healthy
+#            frontend:
+#                condition: service_healthy
+#        ports:
+#            - 7001:80
+    e2e:
+        build: ./e2e
         volumes:
-            - ./nginx.conf:/etc/nginx/nginx.conf
+            - ./e2e/playwright-report:/app/playwright-report
+            - ./e2e/test-results:/app/test-results
         depends_on:
-            backend:
-                condition: service_healthy
-            frontend:
-                condition: service_healthy
-        ports:
-            - 7001:80
+            - apigateway
