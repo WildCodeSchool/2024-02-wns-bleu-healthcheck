@@ -1,8 +1,6 @@
 services:
     backend:
         build: ./backend
-        volumes:
-            - ./backend/src:/app/src
         env_file:
             - .env
         healthcheck:
@@ -15,8 +13,6 @@ services:
                 condition: service_healthy
     frontend:
         build: ./frontend
-        volumes:
-            - ./frontend/src:/app/src
         depends_on:
             backend:
                 condition: service_healthy
@@ -47,3 +43,10 @@ services:
                 condition: service_healthy
         ports:
             - 7001:80
+    e2e:
+        build: ./e2e
+        volumes:
+            - ./e2e/playwright-report:/app/playwright-report
+            - ./e2e/test-results:/app/test-results
+        depends_on:
+            - apigateway
