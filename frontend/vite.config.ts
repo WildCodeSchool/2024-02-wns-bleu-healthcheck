@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import { UserConfig } from "vitest/config";
 
-// https://vitejs.dev/config/
-export default defineConfig({
+const config: UserConfig = {
   plugins: [react()],
   server: {
     host: true,
@@ -17,5 +17,10 @@ export default defineConfig({
       "@styles": path.resolve(__dirname, "./src/common/styles"),
     },
   },
-});
+  test: {
+    globals: true,
+    environment: "jsdom",
+  },
+};
 
+export default defineConfig(config);
