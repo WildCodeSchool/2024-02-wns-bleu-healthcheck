@@ -1,13 +1,17 @@
 import { createContext } from "react";
-import { User } from "../models/User";
+import { Role } from "../models/User";
+import { ApolloError } from "@apollo/client/errors";
 
 type AuthContextType = {
-  user: User | null;
-  token: string | null;
-  login: (login: string, password: string) => void;
-  logout: () => void;
-  register: (email: string, username: string, password: string) => void;
-  isLoggedIn: () => boolean;
+  userInfos: {
+    isLoggedIn: boolean,
+    email: string | null,
+    name: string | null,
+    role: Role | null,
+  },
+  loading: boolean,
+  error: ApolloError | undefined,
+  refetch: () => void,
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
