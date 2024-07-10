@@ -20,7 +20,7 @@ export interface UrlData {
 }
 
 function UrlCard({ urlData }: { urlData: UrlData }) {  return (
-    <div className={`card ${urlData.lastStatus.status === 2 ? "warning" : urlData.lastStatus.status === 1 ? "warning" : "error"}`}>
+    <div className={`card ${urlData.lastStatus.status === 2 ? "success" : urlData.lastStatus.status === 1 ? "warning" : "error"}`}>
       {urlData.name && (<p className="card__name">{urlData.name}</p>)}
       <div className="card__content">
         <ul className="card__list">
