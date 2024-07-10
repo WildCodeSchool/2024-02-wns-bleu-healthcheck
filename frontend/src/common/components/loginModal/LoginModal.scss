@@ -16,7 +16,11 @@
 
   .login__modal-avatar,
   .login__modal-button {
-    background-color: $dark-blue;
+    background-color: $green;
+  }
+
+  .login__modal-button:hover {
+    background-color: $green;
   }
 
   @include flex-column-center;

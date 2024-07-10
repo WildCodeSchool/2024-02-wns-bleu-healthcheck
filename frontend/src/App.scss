@@ -20,7 +20,12 @@ body {
   display: block;
   max-height: 100vh; // This ensures the body doesn't exceed the viewport height
   background: rgb(108, 240, 105);
-  background: radial-gradient(ellipse at 50% 50%, rgb(193, 224, 247) 0%, rgb(250, 250, 250) 89%)
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgb(193, 224, 247) 0%,
+    rgb(250, 250, 250) 89%
+  );
+  box-sizing: unset;
 }
 
 a {

@@ -4,6 +4,10 @@
 .register {
   .register-avatar,
   .register-button {
-    background-color: $dark-blue;
+    background-color: $green;
+  }
+
+  .register-button:hover {
+    background-color: $green;
   }
 }

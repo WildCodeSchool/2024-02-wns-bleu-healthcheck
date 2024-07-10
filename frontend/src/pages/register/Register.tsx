@@ -10,6 +10,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import LoginModal from "@/common/components/loginModal/LoginModal";
 
 const defaultTheme = createTheme();
 
@@ -23,8 +25,14 @@ const Register = () => {
     });
   };
 
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const handleClose = () => setIsLoginModalOpen(false);
+
   return (
     <div className="register">
+      {isLoginModalOpen && (
+        <LoginModal open={isLoginModalOpen} handleClose={handleClose} />
+      )}
       <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -92,9 +100,13 @@ const Register = () => {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/" variant="body2">
+                  <Button
+                    onClick={() => setIsLoginModalOpen(true)}
+                    variant="text"
+                    color="primary"
+                  >
                     Vous avez déjà un compte ? Se connecter
-                  </Link>
+                  </Button>
                 </Grid>
               </Grid>
             </Box>
