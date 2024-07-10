@@ -1,14 +1,12 @@
 @import "@styles/variables";
 .card {
     margin: 10px;
-    background-color: $backgroundGreen;
     width: fit-content;
     border-radius: $border-radius-md;
     padding: 10px 10px 0;
     display: flex;
     flex-direction: column;
     min-width: 300px;
-    border-left: solid $green 10px;
     box-shadow: $base-shadow;
     font-family: $base-font-family;
 
@@ -44,7 +42,22 @@
         justify-content: flex-end;
         color: $dark-blue;
         opacity: 50%;
-        font-size: 0.5rem;
+        font-size: 0.65rem;
         font-weight: $heading-font-weight;
     }
+}
+
+.success {
+    background-color: $backgroundGreen;
+    border-left: solid $green 10px;
+}
+
+.error {
+    background-color: $backgroundRed;
+    border-left: solid $red 10px;
+}
+
+.warning {
+    background-color: $backgroundOrange;
+    border-left: solid $orange 10px;
 }
