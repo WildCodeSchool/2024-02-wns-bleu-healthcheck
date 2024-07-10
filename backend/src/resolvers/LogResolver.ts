@@ -1,4 +1,4 @@
-import { Resolver } from 'type-graphql';
+import {Resolver} from 'type-graphql';
 import {SavedQuery} from "../entity/SavedQuery";
 import {RequestTester} from "../helpers/RequestTester";
 import {Log} from "../entity/Log";
@@ -8,7 +8,7 @@ class LogResolver {
     /**
      * Function called by the QueryResolver to test an url and store the result in the database
      */
-    static logUrlTest = async (query:SavedQuery) => {
+    static logUrlTest = async (query: SavedQuery) => {
 
         const testResult = await RequestTester.testRequest(query.url);
 
@@ -24,6 +24,7 @@ class LogResolver {
         await Log.save(log);
         return log;
     }
+
 }
 
 export default LogResolver;
