@@ -85,6 +85,23 @@ class SavedQueryResolver {
         }));
     }
 
+    /**
+     * Get the last 50 logs for a query by query ID
+     */
+    @Query(() => [Log])
+    async getLogsForSavedQuery(
+        @Arg('queryId') queryId: number,
+    ): Promise<Log[]> {
+        // Check if the query exists
+        const query = await SavedQuery.findOneOrFail({where: {_id: queryId}});
+
+        // If not, return an empty array (shouldn't happen)
+        if(!query) return [];
+
+        // There should always be logs for a query, as we create one when the query is created
+        return await Log.find({where: {query: query}, take: 50, order: {date: 'DESC'}});
+    }
+
 
 }
 
