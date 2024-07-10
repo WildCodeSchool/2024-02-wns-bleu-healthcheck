@@ -39,7 +39,7 @@ const start = async () => {
   const server = new ApolloServer({schema});
 
   // Passing an ApolloServer instance to the `startStandaloneServer` function:
-  const { url } = await startStandaloneServer(server, {
+  await startStandaloneServer(server, {
     listen: { port: 4000 },
     context: async ({ req, res }) => {
       if (process.env.JWT_SECRET_KEY === undefined) {
@@ -65,7 +65,7 @@ const start = async () => {
   // Start the saved queries worker
   await startSavedQueriesWorker();
 
-  console.log(`🚀  Server ready at: ${url}`);
+  console.log(`🚀  Server ready at: http://localhost:7001/api`);
 }
 
 start();
