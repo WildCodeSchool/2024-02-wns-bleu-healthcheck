@@ -90,7 +90,7 @@ class SavedQueryResolver {
      */
     @Query(() => [Log])
     async getLogsForSavedQuery(
-        @Arg('queryId') queryId: number,
+        @Arg('savedQueryId') queryId: number,
     ): Promise<Log[]> {
         // Check if the query exists
         const query = await SavedQuery.findOneOrFail({where: {_id: queryId}});
@@ -101,7 +101,6 @@ class SavedQueryResolver {
         // There should always be logs for a query, as we create one when the query is created
         return await Log.find({where: {query: query}, take: 50, order: {date: 'DESC'}});
     }
-
 
 }
 
