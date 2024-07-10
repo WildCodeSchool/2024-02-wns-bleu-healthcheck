@@ -43,14 +43,13 @@ export default function LoginModal({ open, handleClose }: LoginModalProps) {
               <CssBaseline />
               <Box
                 sx={{
-                  marginTop: 8,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                  <LockOutlinedIcon />
+                <Avatar sx={{ m: 1 }} className="login__modal-avatar">
+                  <LockOutlinedIcon className="login__modal-lock" />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                   Se connecter
@@ -90,6 +89,7 @@ export default function LoginModal({ open, handleClose }: LoginModalProps) {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    className="login__modal-button"
                   >
                     Se connecter
                   </Button>
@@ -100,8 +100,8 @@ export default function LoginModal({ open, handleClose }: LoginModalProps) {
                       </Link>
                     </Grid>
                     <Grid item>
-                      <Link href="#" variant="body2">
-                        {"Pas de compte ? S'inscrire"}
+                      <Link href="/register" variant="body2">
+                        {"Créer un compte"}
                       </Link>
                     </Grid>
                   </Grid>

@@ -14,13 +14,9 @@
   border-radius: $border-radius-sm;
   color: $dark-blue;
 
-  .login__modal-form-container {
-    .login__modal-form-button {
-      color: $dark-blue;
-    }
-    .login__modal-form {
-      @include flex-column-center;
-    }
+  .login__modal-avatar,
+  .login__modal-button {
+    background-color: $dark-blue;
   }
 
   @include flex-column-center;
