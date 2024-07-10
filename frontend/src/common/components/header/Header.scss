@@ -40,13 +40,14 @@
     .navbar__menu-item {
       display: flex;
       align-items: center;
-      :hover {
-        color: $light-blue;
+      :hover > * {
+        color: $green;
       }
       .navbar__menu-button {
         color: $dark-blue;
         gap: 10px;
         padding-right: 10px;
+        background-color: transparent;
       }
     }
 
