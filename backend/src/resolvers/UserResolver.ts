@@ -52,6 +52,12 @@ class UserResolver {
             return "Login failed";
         }
     }
+
+    @Query(() => String)
+    async logout(@Ctx() context: any) {
+        context.res.setHeader("Set-Cookie", `token=; Secure, Max-Age=0`);
+        return "Logged out";
+    }
 }
 
 export default UserResolver;
