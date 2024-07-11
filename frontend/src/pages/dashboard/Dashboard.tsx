@@ -7,7 +7,9 @@ import SaveQueryBarUrl from "@/common/components/saveQueryBarUrl/SaveQueryBarUrl
 
 const Dashboard = () => {
 
-    const { data, loading, error } = useQuery(GET_SAVED_QUERIES);
+    const { data, loading, error } = useQuery(GET_SAVED_QUERIES, {
+        pollInterval: 60000, // Refetch every 60 seconds
+    });
     const savedQueries:UrlData[] = data?.getSavedQueries;
 
     if(error) {
