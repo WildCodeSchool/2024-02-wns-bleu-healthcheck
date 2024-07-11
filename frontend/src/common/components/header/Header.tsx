@@ -5,11 +5,14 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import LoginModal from "../loginModal/LoginModal";
 import { Link } from "react-router-dom";
+import useAuth from "@/common/hooks/useAuth";
 
 const Header = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const handleOpen = () => setIsLoginModalOpen(true);
   const handleClose = () => setIsLoginModalOpen(false);
+
+  const {userInfos} = useAuth();
 
   return (
     <>
@@ -26,9 +29,10 @@ const Header = () => {
         {/* Prévoir un composant menu qui s'adapte en fonction de la connexion utilisateur (ou pas) */}
         <div className="navbar__menu">
           <div className="navbar__menu-item">
+            <span>Bienvenue, {userInfos.name}</span>
             <Button onClick={handleOpen} className="navbar__menu-button">
               <span>Login</span>
-              <AiOutlineUser className="navbar__icon" size={20} />
+              <AiOutlineUser className="navbar__icon" size={20}/>
             </Button>
           </div>
         </div>

@@ -50,15 +50,11 @@ const start = async () => {
         map: true,
       });
 
-      console.log('cookies', cookies)
-
       if (cookies.token && cookies.token.value) {
         const payload = jwt.verify(
             cookies.token.value,
             process.env.JWT_SECRET_KEY
         ) as jwt.JwtPayload;
-
-        console.log('payload', payload)
 
         if (payload) {
           return { ...payload, res: res };
