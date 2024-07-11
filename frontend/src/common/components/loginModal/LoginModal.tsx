@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useLazyQuery } from "@apollo/client";
 import { LOGIN } from "@/common/graphql/queries";
+import useAuth from "@/common/hooks/useAuth";
 
 interface LoginModalProps {
   open: boolean;
@@ -22,20 +23,18 @@ const defaultTheme = createTheme();
 
 const LoginModal = ({ open, handleClose }: LoginModalProps) => {
 
+  const { refetch } = useAuth();
   const [loginQuery] = useLazyQuery(LOGIN);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    loginQuery({
+    await loginQuery({
       variables: {
         email: data.get("email"),
         password: data.get("password"),
       },
     });
+    refetch();
   };
   return (
     <div className="login__modal">

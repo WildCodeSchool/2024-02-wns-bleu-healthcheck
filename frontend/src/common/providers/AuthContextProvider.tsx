@@ -4,6 +4,7 @@ import { WHO_AM_I } from "../graphql/queries";
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { data, loading, error, refetch } = useQuery(WHO_AM_I);
+
   const contextValue = {
     userInfos: {
       isLoggedIn: data?.whoAmI.isLoggedIn ?? false,

@@ -9,11 +9,10 @@ const TestBarUrl = ({ execute }: { execute: LazyQueryExecFunction<any, Operation
   const [url, setUrl] = useState("");
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
-    console.log(e.target.value);
   };
 
+
   const handleSubmit = () => {
-    console.log("first test");
     execute({ variables: { url } });
   };
 
