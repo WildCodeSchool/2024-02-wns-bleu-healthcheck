@@ -34,7 +34,7 @@ function UrlCard({ urlData }: { urlData: UrlData }) {  return (
             <span className="card__icon"><CiTimer/></span>Temps de réponse : {urlData.lastStatus?.response_time ? `${urlData.lastStatus?.response_time} ms` : ""}
           </li>
           {urlData.frequency && (<li className="card__frequence card__element">
-            <span className="card__icon"><GoSync /></span>Fréquence : {urlData.frequency}
+            <span className="card__icon"><GoSync /></span>Fréquence : {urlData.frequency} min
           </li>)}
         </ul>
         <p className="card__lastquery">Dernière requête : {urlData.lastStatus?.date ? moment(urlData.lastStatus?.date).fromNow() : "en cours" }</p>
