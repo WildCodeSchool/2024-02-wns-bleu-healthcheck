@@ -7,7 +7,9 @@ import { TEST_URL } from "@/common/graphql/queries";
 
 const Home = () => {
   const [urlData, setUrlData] = useState<UrlData>();
-  const [executeQuery, { data }] = useLazyQuery(TEST_URL);
+  const [executeQuery, { data }] = useLazyQuery(TEST_URL, {
+    fetchPolicy: "network-only",
+  });
   useEffect(() => {
     if (data !== undefined) {
       const { date, response_time, status, status_code, status_message } =
