@@ -24,7 +24,7 @@ function UrlCard({ urlData }: { urlData: UrlData }) {  return (
       {urlData.name && (<p className="card__name">{urlData.name}</p>)}
       <div className="card__content">
         <ul className="card__list">
-          <li className="card__url card__element">
+          <li className="card__url card__element card__text">
             <span className="card__icon"><GoLink /></span>URL : {urlData.url}
           </li>
           <li className="card__url card__element">
