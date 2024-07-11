@@ -28,7 +28,7 @@ return (
       />
       <div className="test__bar-button">
         <button onClick={handleSubmit}>
-          <AiOutlineGlobal />
+          <AiOutlineGlobal size={22}/>
         </button>
       </div>
     </div>
