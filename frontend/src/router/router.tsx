@@ -3,6 +3,7 @@ import Home from "@/pages/home/Home";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Register from "@/pages/register/Register";
 import App from "@/App";
+import AccountSettings from "@/pages/account-settings/AccountSettings";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/settings",
+        element: <AccountSettings />,
       },
       {
         path: "/register",

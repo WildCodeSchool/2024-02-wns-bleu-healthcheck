@@ -17,6 +17,8 @@
   .login__modal-avatar,
   .login__modal-button {
     background-color: $green;
+    min-width: unset;
+    min-height: unset;
   }
 
   .login__modal-button:hover {

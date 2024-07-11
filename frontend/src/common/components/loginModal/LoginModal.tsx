@@ -14,6 +14,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useLazyQuery } from "@apollo/client";
 import { LOGIN } from "@/common/graphql/queries";
 import useAuth from "@/common/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+import { useCallback } from "react";
 
 interface LoginModalProps {
   open: boolean;
@@ -22,21 +25,28 @@ interface LoginModalProps {
 const defaultTheme = createTheme();
 
 const LoginModal = ({ open, handleClose }: LoginModalProps) => {
-
+  const navigate = useNavigate();
   const { refetch } = useAuth();
-  const [loginQuery] = useLazyQuery(LOGIN);
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const [login, { loading }] = useLazyQuery(LOGIN, {
+    fetchPolicy: 'no-cache',
+    onCompleted: () => {
+      refetch();
+      navigate("/dashboard");
+      handleClose();
+    }});
+
+  const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    await loginQuery({
+    await login({
       variables: {
         email: data.get("email"),
         password: data.get("password"),
       },
     });
-    refetch();
-    // handleClose();
-  };
+
+  }, [login]);
+
   return (
     <div className="login__modal">
       <Modal
@@ -96,7 +106,14 @@ const LoginModal = ({ open, handleClose }: LoginModalProps) => {
                     sx={{ mt: 3, mb: 2 }}
                     className="login__modal-button"
                   >
-                    Se connecter
+                    {loading ? (
+                      <CircularProgress
+                        color="inherit"
+                        size={25}
+                      />
+                    ) : (
+                      "Se connecter"
+                    )}
                   </Button>
                   <Grid container>
                     <Grid item>
