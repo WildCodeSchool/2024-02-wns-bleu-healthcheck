@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import {gql} from "@apollo/client";
 
 export const TEST_URL = gql`
 query TestUrl($url: String!) {
@@ -35,4 +35,28 @@ export const CREATE_USER = gql`
   mutation CreateUser($email: String!, $name: String!, $password: String!,) {
     createUser(email: $email, name: $name, password: $password)
   }
+`;
+
+export const CREATE_SAVED_QUERY = gql`
+    mutation CreateSavedQuery($data: NewQueryInput!) {
+        addQuery(data: $data)
+    }
+`;
+
+export const GET_SAVED_QUERIES = gql`
+    query GetSavedQueries {
+        getSavedQueries {
+        _id
+        name
+        url
+        frequency
+        lastStatus {
+            date
+            status
+            response_time
+            status_code
+            status_message
+        }
+        }
+    }
 `;
