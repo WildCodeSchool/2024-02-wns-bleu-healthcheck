@@ -1,4 +1,4 @@
-import {Arg, Ctx, Mutation, Query, Resolver} from 'type-graphql';
+import {Arg, Authorized, Ctx, Mutation, Query, Resolver} from 'type-graphql';
 import {TestUrlResponse} from '../types/TestUrlResponse';
 import {NewQueryInput} from "../types/NewQueryInput";
 import {User} from "../entity/User";
@@ -60,13 +60,15 @@ class SavedQueryResolver {
     /**
      * Get all queries for the current user
      */
+    @Authorized()
     @Query(() => [SavedQueryWithLastStatus])
     async getSavedQueries(
         @Ctx() ctx: AppContext
     ): Promise<SavedQueryWithLastStatus[]> {
-        const userFromDB = await User.findOneOrFail({ where: { email: ctx.email } });
 
-        if (!userFromDB) {
+        const userFromDB = await User.findOneByOrFail({ email: ctx.email } );
+
+        if (userFromDB === undefined) {
             throw new Error('User not authenticated');
         }
 

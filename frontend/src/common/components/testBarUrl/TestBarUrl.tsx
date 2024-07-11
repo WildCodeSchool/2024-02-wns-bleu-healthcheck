@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./TestBarUrl.scss";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { LazyQueryExecFunction, OperationVariables } from "@apollo/client";
+import useAuth from "@/common/hooks/useAuth.tsx";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TestBarUrl = ({ execute }: { execute: LazyQueryExecFunction<any, OperationVariables> }) => {
@@ -12,8 +13,11 @@ const TestBarUrl = ({ execute }: { execute: LazyQueryExecFunction<any, Operation
     console.log(e.target.value);
   };
 
+  const authContext = useAuth();
+
   const handleSubmit = () => {
-    console.log("first test");
+
+    console.log(authContext.userInfos);
     execute({ variables: { url } });
   };
 

@@ -16,8 +16,13 @@ export class RegisterInput {
 export class UserInfo {
     @Field()
     isLoggedIn: boolean;
+
     @Field({ nullable: true })
     email: string;
+
     @Field({ nullable: true })
     role: string;
+
+    @Field({ nullable: true })
+    name: string;
 }

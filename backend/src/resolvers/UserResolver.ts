@@ -43,7 +43,7 @@ class UserResolver {
 
             const user = await User.findOneByOrFail({ email: email });
             if (await argon2.verify(user.password, password)) {
-                const token = jwt.sign({ email: email, role: user.role, id: user._id }, process.env.JWT_SECRET_KEY);
+                const token = jwt.sign({ email: email, role: user.role, userId: user._id }, process.env.JWT_SECRET_KEY);
                 context.res.setHeader("Set-Cookie", `token=${token}`);
                 return "Login successful " + token; //TODO : remove token from response, it's here for test purpose
             } else {

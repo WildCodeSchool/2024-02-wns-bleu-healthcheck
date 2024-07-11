@@ -45,15 +45,21 @@ const start = async () => {
       if (process.env.JWT_SECRET_KEY === undefined) {
         throw new Error("NO JWT SECRET KEY CONFIGURED");
       }
+
       const cookies = setCookieParser.parse(req.headers.cookie ?? "", {
         map: true,
       });
+
+      console.log('cookies', cookies)
 
       if (cookies.token && cookies.token.value) {
         const payload = jwt.verify(
             cookies.token.value,
             process.env.JWT_SECRET_KEY
         ) as jwt.JwtPayload;
+
+        console.log('payload', payload)
+
         if (payload) {
           return { ...payload, res: res };
         }
