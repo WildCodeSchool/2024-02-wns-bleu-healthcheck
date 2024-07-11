@@ -33,8 +33,8 @@ const Home = () => {
       <div className="home__content">
         <h1 className="home__main-title">LA NOUVELLE ÈRE DU DASHBOARDING</h1>
         <TestBarUrl execute={executeQuery} />
-        {urlData && <UrlCard urlData={urlData} />}
       </div>
+      {urlData && <UrlCard urlData={urlData} />}
     </div>
   );
 };
