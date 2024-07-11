@@ -11,7 +11,7 @@ type AuthContextType = {
   },
   loading: boolean,
   error: ApolloError | undefined,
-  refetch: () => Promise<void>,
+  refetch: () => void,
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
