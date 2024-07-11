@@ -1,0 +1,29 @@
+@import "@styles/variables";
+
+.header__menu {
+
+  font-family: $base-font-family;
+
+  .header__menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    :hover > * {
+      color: $green;
+    }
+
+    .header__menu-button {
+      color: $dark-blue;
+      gap: 10px;
+      padding-right: 10px;
+      padding-left: 10px;
+      background-color: transparent;
+    }
+  }
+
+  .header__menu-icon {
+    color: $dark-blue;
+    height: 100%;
+  }
+}

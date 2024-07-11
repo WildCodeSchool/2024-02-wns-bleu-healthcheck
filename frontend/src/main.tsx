@@ -2,11 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import router from "./router/router.tsx";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
 
-const client = new ApolloClient({
-  uri: "/api",
+const link = createHttpLink({
+  uri: '/api',
+  credentials: 'same-origin'
+});
+
+export const client = new ApolloClient({
   cache: new InMemoryCache(),
+  link,
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
