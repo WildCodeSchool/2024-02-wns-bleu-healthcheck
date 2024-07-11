@@ -1,38 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useContext, useState } from "react";
-import AuthContext from "../contexts/AuthContext";
-import { User } from "../models/User";
+import { useQuery } from "@apollo/client"
+import AuthContext from "../contexts/AuthContext"
+import { WHO_AM_I } from "../graphql/queries";
 
-const AuthProvider = ({ children } : { children : React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-
-  const login = (_login: string, _password: string) => {
-    // implementation
-  };
-
-  const logout = () => {
-    // implementation
-  };
-
-  const register = (_email: string, _username: string, _password: string) => {
-    // implementation
-  };
-
-  const isLoggedIn = () => {
-    // implementation
-    return false;
-  };
-
+const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const { data, loading, error, refetch } = useQuery(WHO_AM_I);
   const contextValue = {
-    user,
-    token,
-    login,
-    logout,
-    register,
-    isLoggedIn
-  };
-
+    userInfos: {
+      isLoggedIn: data?.whoAmI.isLoggedIn ?? false,
+      email: data?.whoAmI.email ?? null,
+      name: data?.whoAmI.name ?? null,
+      role: data?.whoAmI.role ?? null,
+    },
+    loading: loading,
+    error: error,
+    refetch: refetch,
+  }
   return (
     <AuthContext.Provider value={contextValue}>
       {children}
@@ -40,4 +22,4 @@ const AuthProvider = ({ children } : { children : React.ReactNode }) => {
   )
 };
 
-export default AuthProvider;
+export default AuthContextProvider

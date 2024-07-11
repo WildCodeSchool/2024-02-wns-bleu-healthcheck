@@ -1,11 +1,16 @@
 export type User = {
-  id: string;
   name: string;
   email: string;
   role: Role;
 }
 
-enum Role {
+export type UserRegisterInput = {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export enum Role {
   USER,
   PREMIUM,
   ADMIN

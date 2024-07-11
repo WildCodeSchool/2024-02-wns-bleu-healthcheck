@@ -3,7 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -12,17 +11,21 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import LoginModal from "@/common/components/loginModal/LoginModal";
+import { CREATE_USER } from "@/common/graphql/queries";
+import { useMutation } from "@apollo/client";
 
 const defaultTheme = createTheme();
 
 const Register = () => {
+  const [registerQuery] = useMutation(CREATE_USER);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    registerQuery({ variables: {
       email: data.get("email"),
+      name: data.get("nom"),
       password: data.get("password"),
-    });
+    } });
   };
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
