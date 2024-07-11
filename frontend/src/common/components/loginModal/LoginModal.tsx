@@ -35,6 +35,7 @@ const LoginModal = ({ open, handleClose }: LoginModalProps) => {
       },
     });
     refetch();
+    // handleClose();
   };
   return (
     <div className="login__modal">
