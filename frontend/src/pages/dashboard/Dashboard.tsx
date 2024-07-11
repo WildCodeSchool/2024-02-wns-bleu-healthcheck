@@ -2,12 +2,13 @@ import "./Dashboard.scss"
 import {GET_SAVED_QUERIES} from "@/common/graphql/queries.ts";
 import { useQuery} from "@apollo/client";
 import UrlCard, {UrlData} from "../../common/components/UrlCard/UrlCard.tsx";
+import {CircularProgress} from "@mui/material";
+import SaveQueryBarUrl from "@/common/components/saveQueryBarUrl/SaveQueryBarUrl.tsx";
 
 const Dashboard = () => {
 
     const { data, loading, error } = useQuery(GET_SAVED_QUERIES);
     const savedQueries:UrlData[] = data?.getSavedQueries;
-
 
     if(error) {
         return <p>Error: {error.message}</p>
@@ -15,13 +16,14 @@ const Dashboard = () => {
     return (
         <div className="dashboard__wrapper">
             <div className="dashboard_header">
-                Add stuff here (header)
-
+                <div className="dashboard__search-bar">
+                    <SaveQueryBarUrl />
+                </div>
             </div>
             <div className="dashboard__body">
                 {loading &&
                     <div className="dashboard__loading">
-                        Loading...
+                        <CircularProgress />
                     </div>
                 }
 

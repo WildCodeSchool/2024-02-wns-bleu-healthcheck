@@ -8,9 +8,14 @@
 
 .dashboard_header {
   height: 60px;
+  margin : 0 16px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+}
+
+.dashboard__search-bar {
+  width : 50%;
 }
 
 .dashboard__body {
@@ -25,7 +30,6 @@
   padding: 8px;
   border-radius: 16px;
   background-color: $light-grey;
-
   box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
 }
 
@@ -36,3 +40,5 @@
     height: 100%;
     width: 100%;
 }
+
+
