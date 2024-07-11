@@ -1,7 +1,7 @@
 @import "@styles/variables";
 .card {
     margin: 10px;
-    width: fit-content;
+    width: 330px;
     border-radius: $border-radius-md;
     padding: 10px 10px 0;
     display: flex;
@@ -9,7 +9,7 @@
     min-width: 300px;
     box-shadow: $base-shadow;
     font-family: $base-font-family;
-
+    max-height: 190px;
 
     &__name{
         font-weight: $heading-font-weight;

@@ -1,0 +1,38 @@
+@import "@styles/variables";
+
+.dashboard__wrapper {
+  height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard_header {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard__body {
+  width: calc(100% - 48px); //Minus double margin
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+
+  margin: 0 16px 16px;
+  padding: 8px;
+  border-radius: 16px;
+  background-color: $light-grey;
+
+  box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
+}
+
+.dashboard__loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
