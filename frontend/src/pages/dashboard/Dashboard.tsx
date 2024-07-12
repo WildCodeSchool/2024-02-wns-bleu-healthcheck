@@ -57,7 +57,6 @@ const Dashboard = () => {
             </div>
 
             <LogsModal open={isModalOpen} handleClose={handleCloseModal} urlData={selectedQuery} />
-
         </div>
     );
 };
