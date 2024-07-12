@@ -10,6 +10,15 @@ interface LogModalProps {
     urlData: UrlData | null;
 }
 
+interface Log {
+    _id: string;
+    date: string;
+    response_time: number;
+    status: number;
+    status_code: number;
+    status_message: string;
+}
+
 const LogsModal: React.FC<LogModalProps> = ({open, handleClose, urlData}) => {
 
     const {data, loading, error} = useQuery(GET_LOGS, {
@@ -41,7 +50,7 @@ const LogsModal: React.FC<LogModalProps> = ({open, handleClose, urlData}) => {
                         <span>Message</span>
                     </div>
                     {data && data.getLogsForSavedQuery && (
-                        data.getLogsForSavedQuery.map((log: any) => (
+                        data.getLogsForSavedQuery.map((log: Log) => (
                             <div key={log._id} className={`logsmodal__item ${log.status === 2 ? "logsmodal__success" : log.status === 1 ? "logsmodal__warning" : "logsmodal__error"}`}>
                                 <span>{log.date.substring(0,10)}</span>
                                 <span>{log.date.substring(11,16)}</span>

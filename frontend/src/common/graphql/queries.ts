@@ -70,6 +70,7 @@ export const GET_SAVED_QUERIES = gql`
 export const GET_LOGS = gql`
     query GetLogs($savedQueryId: Float!) {
         getLogsForSavedQuery(savedQueryId: $savedQueryId) {
+            _id
             date
             response_time
             status
