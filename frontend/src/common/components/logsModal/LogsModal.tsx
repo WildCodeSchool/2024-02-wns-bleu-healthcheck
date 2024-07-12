@@ -1,8 +1,8 @@
 import "./LogsModal.scss"
-import {CircularProgress, Dialog, DialogContent, DialogTitle} from "@mui/material";
-import {UrlData} from "@/common/components/UrlCard/UrlCard.tsx";
-import {useQuery} from "@apollo/client";
-import {GET_LOGS} from "@/common/graphql/queries.ts";
+import { CircularProgress, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { UrlData } from "@/common/components/UrlCard/UrlCard.tsx";
+import { useQuery } from "@apollo/client";
+import { GET_LOGS } from "@/common/graphql/queries.ts";
 
 interface LogModalProps {
     open: boolean;
@@ -19,10 +19,10 @@ interface Log {
     status_message: string;
 }
 
-const LogsModal: React.FC<LogModalProps> = ({open, handleClose, urlData}) => {
+const LogsModal: React.FC<LogModalProps> = ({ open, handleClose, urlData }) => {
 
-    const {data, loading, error} = useQuery(GET_LOGS, {
-        variables: {savedQueryId: urlData?._id},
+    const { data, loading, error } = useQuery(GET_LOGS, {
+        variables: { savedQueryId: urlData?._id },
         skip: !urlData?._id,
     });
 
@@ -50,15 +50,23 @@ const LogsModal: React.FC<LogModalProps> = ({open, handleClose, urlData}) => {
                         <span>Message</span>
                     </div>
                     {data && data.getLogsForSavedQuery && (
-                        data.getLogsForSavedQuery.map((log: Log) => (
-                            <div key={log._id} className={`logsmodal__item ${log.status === 2 ? "logsmodal__success" : log.status === 1 ? "logsmodal__warning" : "logsmodal__error"}`}>
-                                <span>{log.date.substring(0,10)}</span>
-                                <span>{log.date.substring(11,16)}</span>
-                                <span>{log.response_time} ms</span>
-                                <span>{log.status_code}</span>
-                                <span>{log.status_message}</span>
-                            </div>
-                        ))
+                        data.getLogsForSavedQuery.map((log: Log) => {
+                            const localeDate = new Date(log.date);
+                            return (
+                                <div key={log._id} className={`logsmodal__item ${log.status === 2 ? "logsmodal__success" : log.status === 1 ? "logsmodal__warning" : "logsmodal__error"}`}>
+                                    <span>{localeDate.toLocaleDateString("fr-FR")}</span>
+                                    <span>
+                                        {localeDate.toLocaleTimeString("fr-FR", {
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}
+                                    </span>
+                                    <span>{log.response_time} ms</span>
+                                    <span>{log.status_code}</span>
+                                    <span>{log.status_message}</span>
+                                </div>
+                            );
+                        })
                     )}
                 </div>
 
