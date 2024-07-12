@@ -5,10 +5,13 @@ import UrlCard, {UrlData} from "../../common/components/UrlCard/UrlCard.tsx";
 import {CircularProgress} from "@mui/material";
 import SaveQueryBarUrl from "@/common/components/saveQueryBarUrl/SaveQueryBarUrl.tsx";
 import {useState, useEffect} from "react";
+import LogsModal from "@/common/components/logsModal/LogsModal.tsx";
 
 const Dashboard = () => {
 
     const [savedQueries, setSavedQueries] = useState<UrlData[]>([]);
+    const [selectedQuery, setSelectedQuery] = useState<UrlData | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const {data, loading, error} = useQuery(GET_SAVED_QUERIES, {
         pollInterval: 60000, // Refetch every 60 seconds
@@ -20,6 +23,16 @@ const Dashboard = () => {
             setSavedQueries(data.getSavedQueries);
         }
     }, [data]);
+
+    const handleCardClick = (query: UrlData) => {
+        setSelectedQuery(query);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedQuery(null);
+    };
 
     if (error) {
         return <p>Error: {error.message}</p>
@@ -39,10 +52,11 @@ const Dashboard = () => {
                 }
 
                 {savedQueries && savedQueries.map((query: UrlData) => {
-                    return <UrlCard urlData={query} key={query._id}/>
+                    return <UrlCard urlData={query} key={query._id} onClick={() => handleCardClick(query)}/>
                 })}
             </div>
 
+            <LogsModal open={isModalOpen} handleClose={handleCloseModal} urlData={selectedQuery} />
         </div>
     );
 };
