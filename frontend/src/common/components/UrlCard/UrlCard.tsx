@@ -19,8 +19,16 @@ export interface UrlData {
   };
 }
 
-function UrlCard({ urlData }: { urlData: UrlData }) {  return (
-    <div className={`card ${urlData.lastStatus?.status === 2 ? "success" : urlData.lastStatus?.status === 1 ? "warning" : "error"}`}>
+interface UrlCardProps {
+  urlData: UrlData;
+  onClick?: () => void; // Optional onClick prop
+}
+
+function UrlCard({ urlData, onClick }: UrlCardProps) {  return (
+    <div
+        className={`card ${urlData.lastStatus?.status === 2 ? "success" : urlData.lastStatus?.status === 1 ? "warning" : "error"} ${onClick ? "clickable" : ""}`}
+        onClick={onClick}
+    >
       {urlData.name && (<p className="card__name">{urlData.name}</p>)}
       <div className="card__content">
         <ul className="card__list">
