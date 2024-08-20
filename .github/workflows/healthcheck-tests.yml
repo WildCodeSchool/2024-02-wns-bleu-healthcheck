@@ -1,3 +1,7 @@
+name: frontend-tests-workflow
+
+on: pull_request
+
 jobs:
   test-frontend:
     runs-on: ubuntu-latest
