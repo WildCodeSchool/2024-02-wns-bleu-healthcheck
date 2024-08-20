@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { TEST_URL } from "@/common/graphql/queries";
 
+//TODO : Remove useless comment to test CI
+
 const Home = () => {
   const [urlData, setUrlData] = useState<UrlData>();
   const [executeQuery, { data }] = useLazyQuery(TEST_URL, {
