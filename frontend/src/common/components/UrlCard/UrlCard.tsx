@@ -52,7 +52,6 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
     e.stopPropagation();
     try {
       await deleteQuery({ variables: { queryId: urlData._id } });
-      console.log("Deleted query with id", urlData._id);
       setIsDeleteDialogOpen(false);
     } catch (error) {
       console.error("Error deleting query:", error);
