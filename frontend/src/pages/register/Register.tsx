@@ -8,13 +8,11 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import LoginModal from "@/common/components/loginModal/LoginModal";
 import { CREATE_USER } from "@/common/graphql/queries";
 import { useMutation } from "@apollo/client";
 
-const defaultTheme = createTheme();
 
 const Register = () => {
   const [registerQuery] = useMutation(CREATE_USER);
@@ -36,7 +34,6 @@ const Register = () => {
       {isLoginModalOpen && (
         <LoginModal open={isLoginModalOpen} handleClose={handleClose} />
       )}
-      <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -97,7 +94,7 @@ const Register = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                className="register-button"
+                color="secondary"
               >
                 Créer un compte
               </Button>
@@ -115,7 +112,6 @@ const Register = () => {
             </Box>
           </Box>
         </Container>
-      </ThemeProvider>
     </div>
   );
 };

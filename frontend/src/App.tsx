@@ -16,13 +16,19 @@ const theme = createTheme({
       light: "#C1E0F7",
       main: "#011936",
       dark: "#000000",
-      contrastText: "#000",
+      contrastText: "#f1f1f1",
     },
     secondary: {
       light: "#CBF0CA",
       main: "#6CF069",
       dark: "#CBF0CA",
       contrastText: "#000",
+    },
+    warning: {
+      light: "#CBF0CA",
+      main: "#ee3e3b",
+      dark: "#CBF0CA",
+      contrastText: "#fff",
     },
   },
 });
