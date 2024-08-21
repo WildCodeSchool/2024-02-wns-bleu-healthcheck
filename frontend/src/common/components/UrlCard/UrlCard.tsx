@@ -83,15 +83,27 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
         <p className="card__lastquery">Dernière requête : {urlData.lastStatus?.date ? moment(urlData.lastStatus?.date).fromNow() : "en cours" }</p>
       </div>
 
-      {/*Delete button in the top right corner*/}
-      <div className="card__delete">
-        <Button
-            sx={{borderRadius: "50%", height: "32px", minHeight: "32px", width: "32px" , minWidth: "32px", display: "flex", justifyContent: "center", alignItems: "center"}}
-            onClick={handleOpenDeleteDialog}
-        >
-          <FaTrash />
-        </Button>
-      </div>
+      {/*Delete button in the top right corner, if this is a saved query*/}
+      {urlData._id &&
+        <div className="card__delete">
+          <Button
+              sx={{
+                borderRadius: "50%",
+                height: "32px",
+                minHeight: "32px",
+                width: "32px",
+                minWidth: "32px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+              onClick={handleOpenDeleteDialog}
+          >
+            <FaTrash/>
+          </Button>
+        </div>
+      }
+
 
       {/* Confirmation dialog */}
       <Dialog open={isDeleteDialogOpen} onClose={handleCloseDeleteDialog}>
@@ -99,7 +111,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
         <DialogContent>
           <DialogContentText>
             Êtes-vous sûr de vouloir supprimer la requête "{urlData.name}" ?
-            <br />
+            <br/>
             L'historique sera également supprimé, cette action est irréversible.
           </DialogContentText>
         </DialogContent>
