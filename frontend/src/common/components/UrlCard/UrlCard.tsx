@@ -5,6 +5,8 @@ import "./_urlCard.scss";
 import moment from "moment"
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material"
 import {useState} from "react";
+import {DELETE_SAVED_QUERY, GET_SAVED_QUERIES} from "@/common/graphql/queries.ts";
+import {useMutation} from "@apollo/client";
 
 export interface UrlData {
   url: string;
@@ -31,7 +33,10 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
 
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  //const [deleteQuery] = useMutation(DELETE_SAVED_QUERY);
+  const [deleteQuery] = useMutation(DELETE_SAVED_QUERY, {
+    refetchQueries: [{ query: GET_SAVED_QUERIES }],
+    awaitRefetchQueries: true,
+  });
 
   const handleOpenDeleteDialog = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -46,7 +51,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
   const handleConfirmDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      //await deleteQuery({ variables: { id: urlData._id } });
+      await deleteQuery({ variables: { queryId: urlData._id } });
       console.log("Deleted query with id", urlData._id);
       setIsDeleteDialogOpen(false);
     } catch (error) {
@@ -94,6 +99,8 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
         <DialogContent>
           <DialogContentText>
             Êtes-vous sûr de vouloir supprimer la requête "{urlData.name}" ?
+            <br />
+            L'historique sera également supprimé, cette action est irréversible.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
