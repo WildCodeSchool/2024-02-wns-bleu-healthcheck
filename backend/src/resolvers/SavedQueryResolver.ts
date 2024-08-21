@@ -5,7 +5,7 @@ import {User} from "../entity/User";
 import {SavedQuery} from '../entity/SavedQuery';
 import {AppContext} from '../types/AppContext';
 import {RequestTester} from '../helpers/RequestTester';
-import {startNewQueryWorker} from '../workers/savedQueriesWorker';
+import {startNewQueryWorker, stopQueryWorker} from '../workers/savedQueriesWorker';
 import {SavedQueryWithLastStatus} from '../types/SavedQueryWithLastStatus';
 import {Log} from '../entity/Log';
 
@@ -102,6 +102,27 @@ class SavedQueryResolver {
 
         // There should always be logs for a query, as we create one when the query is created
         return await Log.find({where: {query: query}, take: 50, order: {date: 'DESC'}});
+    }
+
+    /**
+     * Delete a query by ID
+     * @param queryId
+     */
+    @Mutation(() => String)
+    async deleteQuery(
+        @Arg('queryId') queryId: number
+    ): Promise<string> {
+        const query = await SavedQuery.findOneOrFail({where: {_id: queryId}});
+        if (!query) return "Query not found";
+
+        // Remove the worker associated to the query
+        stopQueryWorker(queryId);
+
+        // Remove the logs associated to the query before deleting it
+        await Log.delete({query: query });
+
+        await query.remove();
+        return "Query deleted";
     }
 
 }

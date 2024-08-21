@@ -3,6 +3,9 @@ import { dataSource} from "../config/db";
 import { SavedQuery } from '../entity/SavedQuery';
 import LogResolver from "../resolvers/LogResolver";
 
+// Map to store jobs by query ID
+const jobMap = new Map<number, CronJob>();
+
 /**
  * Execute a saved query
  * @param savedQuery
@@ -21,6 +24,7 @@ export const scheduleQuery = (savedQuery: SavedQuery) => {
         executeQuery(savedQuery);
     });
     job.start();
+    jobMap.set(savedQuery._id, job);
 };
 
 /**
@@ -42,4 +46,16 @@ export const startSavedQueriesWorker = async () => {
 export const startNewQueryWorker = async (savedQuery: SavedQuery) => {
     await executeQuery(savedQuery);
     scheduleQuery(savedQuery);
+}
+
+/**
+ * Stop the worker for a saved query (by query ID)
+ * Useful when deleting a query, or changing its frequency
+ */
+export const stopQueryWorker = (queryId: number) => {
+    const job = jobMap.get(queryId);
+    if (job) {
+        job.stop();
+        jobMap.delete(queryId);
+    }
 }

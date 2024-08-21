@@ -67,6 +67,12 @@ export const GET_SAVED_QUERIES = gql`
     }
 `;
 
+export const DELETE_SAVED_QUERY = gql`
+    mutation Mutation($queryId: Float!) {
+      deleteQuery(queryId: $queryId)
+    }
+`;
+
 export const GET_LOGS = gql`
     query GetLogs($savedQueryId: Float!) {
         getLogsForSavedQuery(savedQueryId: $savedQueryId) {
