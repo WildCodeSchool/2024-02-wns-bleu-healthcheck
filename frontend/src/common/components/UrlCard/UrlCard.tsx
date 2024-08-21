@@ -1,7 +1,9 @@
 import { GoLink, GoSync, GoCode } from "react-icons/go";
+import { FaTrash } from "react-icons/fa";
 import { CiTimer } from "react-icons/ci";
 import "./_urlCard.scss";
 import moment from "moment"
+import { Button } from "@mui/material"
 
 export interface UrlData {
   url: string;
@@ -47,6 +49,20 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {  return (
         </ul>
         <p className="card__lastquery">Dernière requête : {urlData.lastStatus?.date ? moment(urlData.lastStatus?.date).fromNow() : "en cours" }</p>
       </div>
+
+      {/*Delete button in the top right corner*/}
+      <div className="card__delete">
+        <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log("Delete button clicked for card with id", urlData._id);
+            }}
+            sx={{borderRadius: "50%", height: "32px", minHeight: "32px", width: "32px" , minWidth: "32px", display: "flex", justifyContent: "center", alignItems: "center"}}
+        >
+          <FaTrash />
+        </Button>
+      </div>
+
     </div>
   );
 }
