@@ -17,6 +17,7 @@ import useAuth from "@/common/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { useCallback } from "react";
+import { toast } from "react-toastify";
 
 interface LoginModalProps {
   open: boolean;
@@ -28,25 +29,35 @@ const LoginModal = ({ open, handleClose }: LoginModalProps) => {
   const navigate = useNavigate();
   const { refetch } = useAuth();
   const [login, { loading }] = useLazyQuery(LOGIN, {
-    fetchPolicy: 'no-cache',
-    onCompleted: () => {
-      refetch();
-      navigate("/dashboard");
-      handleClose();
-    }});
+    fetchPolicy: "no-cache",
+    onCompleted: (queryData) => {
+      if (queryData?.login === "Login successful") {
+        handleClose();
+        navigate("/dashboard");
+        refetch();
+      } else {
+        toast.error("Identifiants incorrects.");
+      }
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Erreur lors de la connexion.");
+    },
+  });
 
-  const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    await login({
-      variables: {
-        email: data.get("email"),
-        password: data.get("password"),
-      },
-    });
-
-  }, [login]);
-
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      await login({
+        variables: {
+          email: data.get("email"),
+          password: data.get("password"),
+        },
+      });
+    },
+    [login]
+  );
   return (
     <div className="login__modal">
       <Modal
@@ -107,10 +118,7 @@ const LoginModal = ({ open, handleClose }: LoginModalProps) => {
                     className="login__modal-button"
                   >
                     {loading ? (
-                      <CircularProgress
-                        color="inherit"
-                        size={25}
-                      />
+                      <CircularProgress color="inherit" size={25} />
                     ) : (
                       "Se connecter"
                     )}
