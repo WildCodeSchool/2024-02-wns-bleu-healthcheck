@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./SaveQueryBarUrl.scss";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
-import { CREATE_SAVED_QUERY } from "@/common/graphql/queries";
+import {CREATE_SAVED_QUERY, GET_SAVED_QUERIES} from "@/common/graphql/queries";
 import Tooltip from "@mui/material/Tooltip";
 import useValidateUrl from "@/common/hooks/useValidateUrl";
 
@@ -15,7 +15,10 @@ const SaveQueryBarUrl = () => {
     const inputUrl = e.target.value;
     setUrl(inputUrl);
   };
-  const [createSavedQuery] = useMutation(CREATE_SAVED_QUERY);
+  const [createSavedQuery] = useMutation(CREATE_SAVED_QUERY, {
+    refetchQueries: [{ query: GET_SAVED_QUERIES }],
+    awaitRefetchQueries: true,
+  });
 
   const handleSubmit = () => {
     // Remove the protocol and "www." prefix if they exist
