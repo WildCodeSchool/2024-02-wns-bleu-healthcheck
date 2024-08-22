@@ -116,7 +116,7 @@ class SavedQueryResolver {
         @Ctx() ctx: AppContext
     ): Promise<string> {
 
-        const userFromDB = await User.findOneByOrFail({ email: ctx.email });
+        const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
 
         if (!userFromDB) {
             throw new Error("User not authenticated");
@@ -139,6 +139,49 @@ class SavedQueryResolver {
 
         await query.remove();
         return "Query deleted";
+    }
+
+    /**
+     * Edit a query by ID
+     */
+    @Authorized()
+    @Mutation(() => String)
+    async editQuery(
+        @Arg('queryId') queryId: number,
+        @Arg('name') name: string,
+        @Arg('frequency') frequency: number,
+        @Ctx() ctx: AppContext
+    ): Promise<string> {
+
+        console.log('Edit query', queryId, name, frequency);
+
+        const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
+
+        if (!userFromDB) {
+            throw new Error("User not authenticated");
+        }
+
+        // Find the query and check if it belongs to the authenticated user
+        const query = await SavedQuery.findOne({
+            where: { _id: queryId, user: userFromDB }
+        });
+
+        if (!query) {
+            return "Query not found or not authorized to update";
+        }
+        query.name = name;
+        query.frequency = frequency;
+        query.updatedAt = new Date();
+
+        await query.save();
+
+        // Remove the worker associated to the query
+        stopQueryWorker(queryId);
+
+        // Start the worker for the updated query
+        await startNewQueryWorker(query);
+
+        return "Query updated";
     }
 
 }
