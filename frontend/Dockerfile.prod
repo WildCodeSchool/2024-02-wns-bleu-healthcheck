@@ -1,0 +1,30 @@
+FROM node:lts-alpine as builder
+
+WORKDIR /app
+
+COPY public public
+COPY index.html index.html
+
+COPY tsconfig.json tsconfig.json
+COPY tsconfig.app.json tsconfig.app.json
+COPY tsconfig.node.json tsconfig.node.json
+COPY vite.config.ts vite.config.ts
+
+COPY package.json package.json
+RUN npm install
+
+COPY src src
+
+RUN npm run build
+
+FROM node:lts-alpine
+
+RUN apk --no-cache add curl
+
+WORKDIR /app
+
+COPY --from=builder /app/dist /app/dist
+
+RUN npm install -g http-server
+
+CMD http-server -p 5173 /app/dist
