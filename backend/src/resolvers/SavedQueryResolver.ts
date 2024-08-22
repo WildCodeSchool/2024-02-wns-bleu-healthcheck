@@ -107,13 +107,28 @@ class SavedQueryResolver {
     /**
      * Delete a query by ID
      * @param queryId
+     * @param ctx
      */
     @Mutation(() => String)
     async deleteQuery(
-        @Arg('queryId') queryId: number
+        @Arg('queryId') queryId: number,
+        @Ctx() ctx: AppContext
     ): Promise<string> {
-        const query = await SavedQuery.findOneOrFail({where: {_id: queryId}});
-        if (!query) return "Query not found";
+
+        const userFromDB = await User.findOneByOrFail({ email: ctx.email });
+
+        if (!userFromDB) {
+            throw new Error("User not authenticated");
+        }
+
+        // Find the query and check if it belongs to the authenticated user
+        const query = await SavedQuery.findOne({
+            where: { _id: queryId, user: userFromDB }
+        });
+
+        if (!query) {
+            return "Query not found or not authorized to delete";
+        }
 
         // Remove the worker associated to the query
         stopQueryWorker(queryId);
