@@ -44,8 +44,8 @@ export const CREATE_USER = gql`
 `;
 
 export const EDIT_USER = gql`
-  mutation EditUser($email: String!, $newEmail: String!, $name: String!) {
-    editUser(email: $email, newEmail: $newEmail, name: $name)
+  mutation EditUser($newEmail: String!, $name: String!) {
+    editUser(newEmail: $newEmail, name: $name)
   }
 `;
 

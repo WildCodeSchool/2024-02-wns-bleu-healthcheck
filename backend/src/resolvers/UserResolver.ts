@@ -36,10 +36,17 @@ class UserResolver {
 
   @Mutation(() => String)
   async editUser(
-    @Arg("email") email: string, @Arg("newEmail") newEmail: string, @Arg("name") name: string,
+    @Ctx() context: AppContext, @Arg("newEmail") newEmail: string, @Arg("name") name: string,
   ): Promise<String> {
     try {
-      const user = await User.findOneOrFail({ where: { email: email } });
+      if (context.userId === undefined) {
+        throw new Error("Not authenticated");
+      }
+      const user = await User.findOneByOrFail({ _id: context.userId });
+      const newEmailExists = await User.findOne({ where: { email: newEmail } });
+      if (newEmailExists) {
+        throw new Error("Email already used");
+      }
       user.email = newEmail;
       user.name = name;
       await user.save();

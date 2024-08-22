@@ -38,7 +38,6 @@ const AccountSettings = () => {
     } else {
       editUserMutation({
         variables: {
-          email: userInfos.email,
           newEmail: email,
           name: name,
         },
