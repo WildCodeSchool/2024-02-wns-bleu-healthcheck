@@ -9,7 +9,7 @@ import UserResolver from "./resolvers/UserResolver";
 import SavedQueryResolver from "./resolvers/SavedQueryResolver";
 import LogResolver from "./resolvers/LogResolver";
 import jwt from "jsonwebtoken";
-import setCookieParser from "set-cookie-parser";
+import cookie from "cookie";
 import { startSavedQueriesWorker } from './workers/savedQueriesWorker';
 
 const start = async () => {
@@ -46,13 +46,11 @@ const start = async () => {
         throw new Error("NO JWT SECRET KEY CONFIGURED");
       }
 
-      const cookies = setCookieParser.parse(req.headers.cookie ?? "", {
-        map: true,
-      });
+      const cookies = cookie.parse(req.headers.cookie || "");
 
-      if (cookies.token && cookies.token.value) {
+      if (cookies.token) {
         const payload = jwt.verify(
-            cookies.token.value,
+            cookies.token,
             process.env.JWT_SECRET_KEY
         ) as jwt.JwtPayload;
 
