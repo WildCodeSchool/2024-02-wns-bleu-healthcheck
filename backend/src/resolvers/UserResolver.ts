@@ -30,24 +30,24 @@ class UserResolver {
       role: 0, // Default role : free user
     });
 
-        await user.save();
-        return "User created";
-    }
+    await user.save();
+    return "User created";
+  }
 
-    @Mutation(() => String)
-    async editUser(
-        @Arg("email") email: string, @Arg("newEmail") newEmail: string, @Arg("name") name: string,
-    ): Promise<String> {
-        try {
-            const user = await User.findOneOrFail({ where: { email: email } });
-            user.email = newEmail;
-            user.name = name;
-            await user.save();
-            return "User edited";
-        } catch (err) {
-            throw new Error("Failed to edit user");
-        }
-    }   
+  @Mutation(() => String)
+  async editUser(
+    @Arg("email") email: string, @Arg("newEmail") newEmail: string, @Arg("name") name: string,
+  ): Promise<String> {
+    try {
+      const user = await User.findOneOrFail({ where: { email: email } });
+      user.email = newEmail;
+      user.name = name;
+      await user.save();
+      return "User edited";
+    } catch (err) {
+      throw new Error("Failed to edit user");
+    }
+  }
 
   @Query(() => String)
   async login(
