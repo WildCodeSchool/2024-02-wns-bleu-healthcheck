@@ -1,5 +1,6 @@
 @import "@styles/variables";
 .card {
+  position: relative;
   margin: 10px;
   border-radius: $border-radius-md;
   padding: 10px 10px 0;
@@ -70,4 +71,24 @@
 
 .clickable {
   cursor: pointer;
+}
+
+.card:hover .card__delete {
+  display: block;
+}
+
+.card__delete {
+  display : none;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.card__delete > button {
+  color: inherit;
+  transition: color 0.3s ease-in-out;
+}
+
+.card__delete:hover > button {
+  color: $red;
 }
