@@ -44,7 +44,7 @@ class UserResolver {
       }
       const user = await User.findOneByOrFail({ _id: context.userId });
       const newEmailExists = await User.findOne({ where: { email: newEmail } });
-      if (newEmailExists) {
+      if (newEmailExists && newEmailExists._id !== user._id) {
         throw new Error("Email already used");
       }
       user.email = newEmail;
