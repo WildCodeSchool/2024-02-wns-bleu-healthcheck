@@ -10,7 +10,7 @@ import useValidateEmail from "@/common/hooks/useValidateEmail";
 import { toast } from "react-toastify";
 
 const AccountSettings = () => {
-  const { userInfos, loading } = useContext(AuthContext);
+  const { userInfos, loading, refetch } = useContext(AuthContext);
   const [editUserMutation] = useMutation(EDIT_USER);
   const [isEditMode, setIsEditMode] = useState(false);
   const [name, setName] = useState(userInfos.name ?? "");
@@ -45,6 +45,7 @@ const AccountSettings = () => {
         onCompleted: () => {
           setIsEditMode(false);
           toast.success("Vos informations ont été mises à jour.");
+          refetch();
         },
         onError: () => {
           toast.error("Une erreur s'est produite lors de la mise à jour de vos informations.");
