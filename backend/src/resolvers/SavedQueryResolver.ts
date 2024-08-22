@@ -109,6 +109,7 @@ class SavedQueryResolver {
      * @param queryId
      * @param ctx
      */
+    @Authorized()
     @Mutation(() => String)
     async deleteQuery(
         @Arg('queryId') queryId: number,
