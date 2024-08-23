@@ -107,13 +107,29 @@ class SavedQueryResolver {
     /**
      * Delete a query by ID
      * @param queryId
+     * @param ctx
      */
+    @Authorized()
     @Mutation(() => String)
     async deleteQuery(
-        @Arg('queryId') queryId: number
+        @Arg('queryId') queryId: number,
+        @Ctx() ctx: AppContext
     ): Promise<string> {
-        const query = await SavedQuery.findOneOrFail({where: {_id: queryId}});
-        if (!query) return "Query not found";
+
+        const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
+
+        if (!userFromDB) {
+            throw new Error("User not authenticated");
+        }
+
+        // Find the query and check if it belongs to the authenticated user
+        const query = await SavedQuery.findOne({
+            where: { _id: queryId, user: userFromDB }
+        });
+
+        if (!query) {
+            return "Query not found or not authorized to delete";
+        }
 
         // Remove the worker associated to the query
         stopQueryWorker(queryId);
@@ -123,6 +139,51 @@ class SavedQueryResolver {
 
         await query.remove();
         return "Query deleted";
+    }
+
+    /**
+     * Edit a query by ID
+     */
+    @Authorized()
+    @Mutation(() => String)
+    async editQuery(
+        @Arg('queryId') queryId: number,
+        @Arg('name') name: string,
+        @Arg('frequency') frequency: number,
+        @Ctx() ctx: AppContext
+    ): Promise<string> {
+
+        if(name.length === 0 || frequency <= 0 || frequency > 60) {
+            throw new Error("Invalid name or frequency");
+        }
+
+        const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
+
+        if (!userFromDB) {
+            throw new Error("User not authenticated");
+        }
+
+        // Find the query and check if it belongs to the authenticated user
+        const query = await SavedQuery.findOne({
+            where: { _id: queryId, user: userFromDB }
+        });
+
+        if (!query) {
+            return "Query not found or not authorized to update";
+        }
+        query.name = name;
+        query.frequency = frequency;
+        query.updatedAt = new Date();
+
+        await query.save();
+
+        // Remove the worker associated to the query
+        stopQueryWorker(queryId);
+
+        // Start the worker for the updated query
+        await startNewQueryWorker(query);
+
+        return "Query updated";
     }
 
 }

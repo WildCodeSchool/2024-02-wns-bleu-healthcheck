@@ -73,22 +73,42 @@
   cursor: pointer;
 }
 
-.card:hover .card__delete {
+.card:hover .card__delete_button, .card:hover .card__edit_button{
   display: block;
 }
 
-.card__delete {
+.card__delete_button {
+  color: #4E4E4E;
   display : none;
   position: absolute;
   top: 4px;
   right: 4px;
 }
 
-.card__delete > button {
+.card__delete_button > button {
   color: inherit;
   transition: color 0.3s ease-in-out;
 }
 
-.card__delete:hover > button {
+.card__delete_button:hover > button {
   color: $red;
+}
+
+.card__edit_button {
+  color: #4E4E4E;
+  display : none;
+  position: absolute;
+  top: 4px;
+  right: 36px;
+}
+
+.card__edit_button > button {
+  color: inherit;
+}
+
+.card__edit_section {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 24px;
 }

@@ -91,3 +91,9 @@ export const GET_LOGS = gql`
         }
     }
 `;
+
+export const EDIT_SAVED_QUERY = gql`
+    mutation EditSavedQuery($queryId: Float!, $name: String!, $frequency: Float!) {
+        editQuery(queryId: $queryId, name: $name, frequency: $frequency)
+    }
+`;
