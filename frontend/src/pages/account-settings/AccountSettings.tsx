@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { EDIT_USER } from "@/common/graphql/queries";
 import useValidateEmail from "@/common/hooks/useValidateEmail";
 import { toast } from "react-toastify";
+import { MdModeEdit, MdOutlineCancel, MdOutlineSave } from "react-icons/md";
 
 const AccountSettings = () => {
   const { userInfos, loading, refetch } = useContext(AuthContext);
@@ -65,8 +66,21 @@ const AccountSettings = () => {
       maxWidth="sm"
       sx={{ minHeight: `calc(100vh - 40px)`, mt: 2, pt: 16, pb: 2 }}
     >
-      <Typography variant="h4" sx={{ display: "flex", justifyContent: "center" }}>Informations</Typography>
       <form onSubmit={handleSubmit}>
+        <Grid container spacing={2} direction={"row"} display={"flex"} justifyContent={"space-between"}>
+          <Grid sm={8}>
+            <Typography variant="h4" sx={{ display: "flex", justifyContent: "center" }}>Paramètres du compte</Typography>
+          </Grid>
+          <Grid sm={4} sx={{ display: "flex", justifyContent: "end", gap: 2 }}>
+            {isEditMode &&
+              <Button onClick={() => handleCancel()} variant="text" color="warning" size="small">
+                <MdOutlineCancel size={20} />
+              </Button>}
+            <Button type="submit" variant="text" color="primary">
+              {isEditMode ? <MdOutlineSave size={20} /> : <MdModeEdit size={20} />}
+            </Button>
+          </Grid>
+        </Grid>
         <Grid container spacing={2} columns={1} sx={{ mt: 2 }}>
           <Grid item xs={6}>
             <TextField
@@ -91,18 +105,9 @@ const AccountSettings = () => {
               onChange={handleEmailChange}
             />
           </Grid>
-          <Grid item xs={6} sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 2 }}>
-            {isEditMode &&
-              <Button onClick={() => handleCancel()} variant="outlined" color="warning">
-                Annuler
-              </Button>}
-            <Button type="submit" variant="contained" color={isEditMode ? "secondary" : "primary"}>
-              {isEditMode ? "Confirmer" : "Modifier"}
-            </Button>
-          </Grid>
         </Grid>
       </form>
-    </Container>
+    </Container >
   );
 };
 
