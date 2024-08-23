@@ -106,6 +106,8 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
   };
 
 
+
+
   return (
       <div
           className={`card ${urlData.lastStatus?.status === 2 ? "success" : urlData.lastStatus?.status === 1 ? "warning" : "error"} ${onClick ? "clickable" : ""}`}
@@ -204,6 +206,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
                   id="outlined-basic"
                   label="Nom"
                   variant="outlined"
+                  color={editedName.length > 0 ? "secondary" : "warning"}
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
               />
@@ -211,8 +214,9 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
                   id="outlined-basic"
                   label="Fréquence (min)"
                   variant="outlined"
-                  value={editedFrequency}
-                  onChange={(e) => setEditedFrequency(parseInt(e.target.value))}
+                  color={parseInt(editedFrequency) >= 1 && parseInt(editedFrequency) <= 60 ? "secondary" : "warning"}
+                  value={editedFrequency || ""}
+                  onChange={(e) => setEditedFrequency(parseInt(e.target.value) || 0)}
               />
             </div>
           </DialogContent>
@@ -224,6 +228,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
                 onClick={handleConfirmEdit}
                 variant="contained"
                 color="secondary"
+                disabled = {editedName.length === 0 || editedFrequency < 1 || editedFrequency > 60}
             >
               Enregistrer
             </Button>

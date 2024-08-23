@@ -153,7 +153,9 @@ class SavedQueryResolver {
         @Ctx() ctx: AppContext
     ): Promise<string> {
 
-        console.log('Edit query', queryId, name, frequency);
+        if(name.length === 0 || frequency <= 0 || frequency > 60) {
+            throw new Error("Invalid name or frequency");
+        }
 
         const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
 
