@@ -12,6 +12,7 @@ const Home = () => {
   const [executeQuery, { data }] = useLazyQuery(TEST_URL, {
     fetchPolicy: "network-only",
   });
+  const text = "Créez-vous un compte ";
   const { userInfos } = useAuth();
   useEffect(() => {
     if (data !== undefined) {
@@ -46,27 +47,9 @@ const Home = () => {
               <h2>
                 Vous voulez enregistrer cette URL?{" "}
                 <Link to="/register" className="home__redirect-link">
-                  <span>C</span>
-                  <span>r</span>
-                  <span>é</span>
-                  <span>e</span>
-                  <span>z</span>
-                  <span>-</span>
-                  <span>v</span>
-                  <span>o</span>
-                  <span>u</span>
-                  <span>s</span>
-                  <span> </span>
-                  <span>u</span>
-                  <span>n</span>
-                  <span> </span>
-                  <span>c</span>
-                  <span>o</span>
-                  <span>m</span>
-                  <span>p</span>
-                  <span>t</span>
-                  <span>e</span>
-                  <span> </span>
+                  {text.split("").map((char, index) => (
+                    <span key={index}>{char}</span>
+                  ))}
                 </Link>
                 et profitez d'un dashboard complet !
               </h2>
