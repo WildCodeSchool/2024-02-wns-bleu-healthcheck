@@ -66,7 +66,7 @@ class SavedQueryResolver {
         @Ctx() ctx: AppContext
     ): Promise<SavedQueryWithLastStatus[]> {
 
-        const userFromDB = await User.findOneByOrFail({ email: ctx.email } );
+        const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
 
         if (userFromDB === undefined) {
             throw new Error('User not authenticated');
