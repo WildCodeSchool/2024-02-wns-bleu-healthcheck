@@ -43,6 +43,12 @@ export const CREATE_USER = gql`
   }
 `;
 
+export const EDIT_USER = gql`
+  mutation EditUser($newEmail: String!, $name: String!) {
+    editUser(newEmail: $newEmail, name: $name)
+  }
+`;
+
 export const CREATE_SAVED_QUERY = gql`
     mutation CreateSavedQuery($data: NewQueryInput!) {
         addQuery(data: $data)

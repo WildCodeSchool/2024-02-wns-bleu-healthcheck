@@ -6,16 +6,16 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Container from "@mui/material/Container";
 import { useState } from "react";
 import { CREATE_USER } from "@/common/graphql/queries";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import LoginModal from "@/common/components/loginModal/LoginModal";
-import { Container, CssBaseline } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const defaultTheme = createTheme();
+
 const Register = () => {
   const navigate = useNavigate();
   const [registerQuery, { error }] = useMutation(CREATE_USER);
@@ -83,7 +83,6 @@ const Register = () => {
       {isLoginModalOpen && (
         <LoginModal open={isLoginModalOpen} handleClose={handleClose} />
       )}
-      <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -150,7 +149,7 @@ const Register = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                className="register-button"
+                color="secondary"
               >
                 Créer un compte
               </Button>
@@ -168,7 +167,6 @@ const Register = () => {
             </Box>
           </Box>
         </Container>
-      </ThemeProvider>
     </div>
   );
 };
