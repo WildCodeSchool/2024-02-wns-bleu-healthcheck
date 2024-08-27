@@ -4,7 +4,7 @@ name: Compile and push backend image
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  merge:
+  push:
     branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
