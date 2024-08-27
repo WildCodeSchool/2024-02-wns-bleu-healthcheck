@@ -1,0 +1,29 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.login__modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: $base-font-family;
+  width: 50%;
+  background-color: $light-grey;
+  box-shadow: 24px;
+  padding: $space-md;
+  border-radius: $border-radius-sm;
+  color: $dark-blue;
+
+  .login__modal-avatar,
+  .login__modal-button {
+    background-color: $green;
+    min-width: unset;
+    min-height: unset;
+  }
+
+  .login__modal-button:hover {
+    background-color: $green;
+  }
+
+  @include flex-column-center;
+}

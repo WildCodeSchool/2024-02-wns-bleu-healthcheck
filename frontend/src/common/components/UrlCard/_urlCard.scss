@@ -1,0 +1,114 @@
+@import "@styles/variables";
+.card {
+  position: relative;
+  margin: 10px;
+  border-radius: $border-radius-md;
+  padding: 10px 10px 0;
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  max-height: 190px;
+  box-shadow: $base-shadow;
+  font-family: $base-font-family;
+
+  &__name {
+    font-weight: $heading-font-weight;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 5px 0 10px;
+    color: $dark-blue;
+  }
+
+  &__list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    color: $dark-blue;
+    font-weight: $heading-font-weight;
+  }
+
+  &__element {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+  }
+  &__icon {
+    padding-right: 10px;
+  }
+
+  &__lastquery {
+    display: flex;
+    justify-content: flex-end;
+    color: $dark-blue;
+    opacity: 50%;
+    font-size: 0.65rem;
+    font-weight: $heading-font-weight;
+  }
+  &__text {
+    width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.success {
+  background-color: $backgroundGreen;
+  border-left: solid $green 10px;
+}
+
+.error {
+  background-color: $backgroundRed;
+  border-left: solid $red 10px;
+}
+
+.warning {
+  background-color: $backgroundOrange;
+  border-left: solid $orange 10px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.card:hover .card__delete_button, .card:hover .card__edit_button{
+  display: block;
+}
+
+.card__delete_button {
+  color: #4E4E4E;
+  display : none;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.card__delete_button > button {
+  color: inherit;
+  transition: color 0.3s ease-in-out;
+}
+
+.card__delete_button:hover > button {
+  color: $red;
+}
+
+.card__edit_button {
+  color: #4E4E4E;
+  display : none;
+  position: absolute;
+  top: 4px;
+  right: 36px;
+}
+
+.card__edit_button > button {
+  color: inherit;
+}
+
+.card__edit_section {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 24px;
+}

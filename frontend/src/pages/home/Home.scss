@@ -1,0 +1,187 @@
+@import "@styles/variables";
+
+.home__content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: calc(100vh - 40px);
+  width: 100%;
+  background-color: transparent;
+  padding-top: 7%;
+  gap: 2rem;
+}
+
+.home__content {
+  height: 50%;
+  min-width: 500px;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-md;
+}
+
+.home__main-title {
+  font-size: 3.5rem;
+  color: $dark-blue;
+  text-align: center;
+}
+
+@media screen and (max-width: $breakpoint-sm) and (min-width: $breakpoint-xs) {
+  .home__content {
+    width: 90%;
+    min-width: 300px;
+  }
+
+  .home__main-title {
+    font-size: $h1-font-size;
+  }
+}
+
+@media screen and (max-width: $breakpoint-xs) {
+  .home__content {
+    width: 90%;
+    min-width: 300px;
+  }
+
+  .home__main-title {
+    font-size: $h2-font-size;
+  }
+}
+
+.home__redirect {
+  font-size: 0.7rem;
+
+  span {
+    animation: color-change 3s forwards cubic-bezier(0.11, 0, 0.5, 0) infinite;
+  }
+
+  span:nth-child(1) {
+    animation: color-change 3s 0.1s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(2) {
+    animation: color-change 3s 0.2s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(3) {
+    animation: color-change 3s 0.3s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(4) {
+    animation: color-change 3s 0.4s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(5) {
+    animation: color-change 3s 0.5s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(6) {
+    animation: color-change 3s 0.6s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(7) {
+    animation: color-change 3s 0.7s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(8) {
+    animation: color-change 3s 0.8s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(9) {
+    animation: color-change 3s 0.9s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(10) {
+    animation: color-change 3s 1s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(11) {
+    animation: color-change 3s 1.1s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(12) {
+    animation: color-change 3s 1.2s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(13) {
+    animation: color-change 3s 1.3s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(14) {
+    animation: color-change 3s 1.4s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(15) {
+    animation: color-change 3s 1.5s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(16) {
+    animation: color-change 3s 1.6s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(17) {
+    animation: color-change 3s 1.7s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(18) {
+    animation: color-change 3s 1.8s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(19) {
+    animation: color-change 3s 1.9s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(20) {
+    animation: color-change 3s 2s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+
+  span:nth-child(21) {
+    animation: color-change 3s 2.1s forwards cubic-bezier(0.11, 0, 0.5, 0)
+      infinite;
+  }
+  @keyframes color-change {
+    0% {
+      color: $dark-blue;
+    }
+    50% {
+      color: $green;
+    }
+    100% {
+      color: $dark-blue;
+    }
+  }
+  .home__redirect-link {
+    transition: color 0.3s;
+
+    &:hover {
+      color: $green;
+
+      span {
+        animation: none;
+        color: $green;
+      }
+    }
+  }
+}

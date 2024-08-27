@@ -1,3 +1,3 @@
 ### HEALTH CHECK PROJECT
 
-Pierre Castro - Alexandre Nicoud - Ghislain Pellicano - William Podetti
+Pierre Castro - Ghislain Pellicano - William Podetti

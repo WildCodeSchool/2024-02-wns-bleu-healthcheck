@@ -1,0 +1,85 @@
+@import "@styles/variables";
+
+body {
+  font-family: $base-font-family;
+}
+
+.savequery__bar {
+  display: flex;
+  width: 100%;
+  box-shadow: $base-shadow;
+  border-radius: 14px;
+
+  .savequery__bar-input {
+    flex: 1 0 80%;
+    padding: $space-xs;
+    border: none;
+    border-radius: 14px 0 0 14px;
+    font-size: $base-font-size;
+    font-weight: $body-font-weight;
+    color: $dark-blue;
+
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+  input:placeholder-shown {
+    padding-left: 1rem;
+    text-align: left;
+    font-weight: 200;
+    color: $grey;
+    font-style: italic;
+  }
+  input:focus::placeholder {
+    color: transparent;
+  }
+
+  $transition-duration: 0.3s;
+
+  .savequery__bar-button-valid,
+  .savequery__bar-button-invalid {
+    width: 15%;
+    button {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0 14px 14px 0;
+      cursor: pointer;
+      position: relative;
+      z-index: 0;
+      transition: background-color $transition-duration ease-in-out,
+        box-shadow $transition-duration ease-in-out;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        z-index: -1;
+        background: inherit;
+        filter: blur(5px);
+        opacity: 0;
+        transition: opacity $transition-duration ease-in-out 0.1s;
+      }
+    }
+  }
+
+  .savequery__bar-button-valid button {
+    background-color: $green;
+    &:before {
+      opacity: 1;
+      transition: opacity $transition-duration ease-in-out 0.1s;
+    }
+  }
+
+  .savequery__bar-button-invalid button {
+    background-color: $grey;
+    &:before {
+      opacity: 0;
+      transition: opacity $transition-duration ease-in-out 0.1s;
+    }
+  }
+}

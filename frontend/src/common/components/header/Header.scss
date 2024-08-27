@@ -1,0 +1,59 @@
+@import "@styles/variables";
+
+.navbar {
+  display: flex;
+  align-items: center;
+  font-family: $second-font-family;
+  justify-content: space-between;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: transparent;
+  height: 40px;
+  top: 0;
+  margin: auto;
+
+  .navbar__logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .navbar__logo-img {
+      height: 90%;
+    }
+
+    .navbar__logo-txt {
+      font-weight: $heading-font-weight;
+      font-size: 30px;
+      // text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+
+      .navbar__green {
+        color: $green;
+      }
+    }
+  }
+
+  .navbar__menu {
+    .navbar__menu-item {
+      display: flex;
+      align-items: center;
+      :hover > * {
+        color: $green;
+      }
+      .navbar__menu-button {
+        color: $dark-blue;
+        gap: 10px;
+        padding-right: 10px;
+        background-color: transparent;
+      }
+    }
+
+    .navbar__icon {
+      color: $dark-blue;
+      height: 100%;
+    }
+  }
+}

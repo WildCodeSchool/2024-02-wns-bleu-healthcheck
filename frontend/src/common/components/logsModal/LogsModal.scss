@@ -1,0 +1,46 @@
+@import "@styles/variables";
+
+.logsmodal__wrapper {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 8px);
+    gap: 4px;
+}
+
+.logsmodal__wrapper span {
+    font-family: $base-font-family;
+    color: $dark-blue;
+}
+
+.logsmodal__header, .logsmodal__item {
+    display: grid;
+    grid-template-columns: 100px 50px 100px 80px 90px;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+    padding: 8px;
+}
+
+.logsmodal__item {
+    border-radius: $border-radius-sm;
+}
+
+.logsmodal__header {
+    font-weight: $heading-font-weight;
+    margin: 0;
+    color: $dark-blue;
+}
+
+.logsmodal__success {
+    background-color: $backgroundGreen;
+}
+
+.logsmodal__warning {
+    background-color: $backgroundOrange;
+}
+
+.logsmodal__error {
+    background-color: $backgroundRed;
+}
+
+
