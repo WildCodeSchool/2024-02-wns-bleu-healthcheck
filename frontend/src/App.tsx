@@ -6,7 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import AuthContextProvider from "./common/providers/AuthContextProvider.tsx";
 import moment from 'moment';
 import 'moment/dist/locale/fr';
-
+// QWEQWEQWEQWEQWEQWEQWE
 // Set the moment locale globally to French
 moment.locale("fr");
 
