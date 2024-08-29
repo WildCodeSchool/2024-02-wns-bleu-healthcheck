@@ -214,7 +214,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
                   id="outlined-basic"
                   label="Fréquence (min)"
                   variant="outlined"
-                  color={parseInt(editedFrequency) >= 1 && parseInt(editedFrequency) <= 60 ? "secondary" : "warning"}
+                  color={editedFrequency >= 1 && editedFrequency <= 60 ? "secondary" : "warning"}
                   value={editedFrequency || ""}
                   onChange={(e) => setEditedFrequency(parseInt(e.target.value) || 0)}
               />
