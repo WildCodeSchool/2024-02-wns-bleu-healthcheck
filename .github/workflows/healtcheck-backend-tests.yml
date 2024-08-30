@@ -1,6 +1,6 @@
 name: backend-tests-workflow
 
-on: pull_request
+on: push
 
 jobs:
   test-backend:
