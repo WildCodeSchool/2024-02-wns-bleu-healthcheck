@@ -1,0 +1,12 @@
+name: backend-tests-workflow
+
+on: pull_request
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Run backend tests
+        run: npm run e2e_backend
