@@ -8,5 +8,7 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+      - name: add env file
+        run: cp .env.example .env
       - name: Run backend tests
         run: npm run e2e_backend
