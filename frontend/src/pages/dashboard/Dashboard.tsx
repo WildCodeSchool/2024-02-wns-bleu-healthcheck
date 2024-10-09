@@ -60,6 +60,12 @@ const Dashboard = () => {
                 {savedQueries && savedQueries.map((query: UrlData) => {
                     return <UrlCard urlData={query} key={query._id} onClick={() => handleCardClick(query)}/>
                 })}
+
+                {savedQueries && savedQueries.length === 0 && !loading &&
+                    <div className="dashboard__no-queries">
+                        <p>Ce dashboard est vide.</p>
+                    </div>
+                }
             </div>
 
             <LogsModal open={isModalOpen} handleClose={handleCloseModal} urlData={selectedQuery} logs={selectedQuery?.logs || []} />
