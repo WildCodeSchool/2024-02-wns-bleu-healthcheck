@@ -2,7 +2,7 @@ import useAuth from "@/common/hooks/useAuth";
 import "./HeaderMenu.scss";
 import { Button } from "@mui/material"
 import { AiOutlineUser } from "react-icons/ai"
-import { TbActivityHeartbeat } from "react-icons/tb";
+import { TbActivityHeartbeat, TbStar } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
@@ -31,6 +31,13 @@ const HeaderMenu = ({ handleOpen }: IHeaderMenu) => {
         {userInfos.isLoggedIn
           ? (
             <>
+              {userInfos.role && userInfos.role < 1 && (
+                  <Button component={Link} to="/premium" className="header__menu-button">
+                    <span>Premium</span>
+                    <TbStar className="header__menu-icon" size={20} />
+                  </Button>
+                )
+              }
               <Button component={Link} to="/dashboard" className="header__menu-button">
                 <span>Dashboard</span>
                 <TbActivityHeartbeat className="header__menu-icon" size={20} />

@@ -1,7 +1,6 @@
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import "./AccountSettings.scss"
 
-import "./AccountSettings.scss";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "@/common/contexts/AuthContext";
 import { useMutation } from "@apollo/client";
@@ -9,6 +8,7 @@ import { EDIT_USER } from "@/common/graphql/queries";
 import useValidateEmail from "@/common/hooks/useValidateEmail";
 import { toast } from "react-toastify";
 import { MdModeEdit, MdOutlineCancel, MdOutlineSave } from "react-icons/md";
+import { REMOVE_PREMIUM_ROLE } from "@/common/graphql/queries";
 
 const AccountSettings = () => {
   const { userInfos, loading, refetch } = useContext(AuthContext);
@@ -53,6 +53,14 @@ const AccountSettings = () => {
       });
     }
   };
+
+  const [removePremiumRole] = useMutation(REMOVE_PREMIUM_ROLE, {
+    fetchPolicy: 'no-cache',
+    onCompleted: async () => {
+      toast.success("Votre abonnement premium a été résilié.");
+      refetch();
+    }
+  })
 
   useEffect(() => {
     if (!loading) {
@@ -107,6 +115,17 @@ const AccountSettings = () => {
           </Grid>
         </Grid>
       </form>
+      {userInfos.role == 1 && (
+          <div className="account-settings__remove-premium-role">
+            <Button
+                color="error"
+                onClick={() => removePremiumRole()}
+            >
+              Résilier l'abonnement premium
+            </Button>
+          </div>
+        )
+      }
     </Container >
   );
 };
