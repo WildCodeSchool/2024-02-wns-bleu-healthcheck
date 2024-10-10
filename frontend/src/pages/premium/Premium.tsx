@@ -1,13 +1,34 @@
 import "./Premium.scss";
 import Button from "@mui/material/Button";
+import {useMutation} from "@apollo/client";
+//import {toast} from "react-toastify";
+import {ADD_PREMIUM_ROLE} from "@/common/graphql/queries.ts";
+import {useNavigate} from "react-router-dom";
+import useAuth from "@/common/hooks/useAuth.tsx";
+import {toast} from "react-toastify";
 
 const Premium = () => {
 
     const premiumOptionTitle = "Premium"
 
-    const handleSubscribe = () => {
-        console.log("Subscribe")
+    const navigate = useNavigate();
+
+    const { userInfos } = useAuth();
+    const { refetch } = useAuth();
+
+    // Redirect if user is already premium
+    if(userInfos.role && userInfos.role == 1) {
+        navigate("/");
     }
+
+    const [addPremiumRole] = useMutation(ADD_PREMIUM_ROLE, {
+        fetchPolicy: 'no-cache',
+        onCompleted: async () => {
+            toast.success("Vous êtes désormais membre premium !");
+            refetch();
+            navigate("/dashboard");
+        }
+    });
 
     return (
         <div className="premium__wrapper">
@@ -48,7 +69,7 @@ const Premium = () => {
                         <Button
                             variant="contained"
                             color="secondary"
-                            onClick={() => handleSubscribe()}
+                            onClick={() => addPremiumRole()}
                         >
                             S'abonner
                         </Button>

@@ -113,6 +113,10 @@ class UserResolver {
         throw new Error("User not found");
       }
 
+      if(user.role === 2) {
+          throw new Error("User is admin");
+      }
+
       user.role = 1;
       await user.save();
       return "Premium role added";
