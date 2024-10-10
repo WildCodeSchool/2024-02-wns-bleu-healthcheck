@@ -50,7 +50,7 @@ class SavedQueryResolver {
 
     const savedQuery = await query.save();
 
-    savedQuery.order = savedQuery._id;
+    savedQuery.queryOrder = savedQuery._id;
 
     await savedQuery.save();
     // Start the worker for the new query

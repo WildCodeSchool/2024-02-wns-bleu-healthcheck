@@ -34,7 +34,7 @@ export interface UrlData {
   updatedAt?: string;
   frequency?: number;
   name?: string;
-  order?: number;
+  queryOrder?: number;
   lastStatus?: {
     date: string;
     response_time: number;

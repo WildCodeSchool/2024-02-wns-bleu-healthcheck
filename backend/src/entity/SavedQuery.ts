@@ -44,7 +44,7 @@ export class SavedQuery extends BaseEntity {
 
   @Field()
   @Column({ default: 1 })
-  order: number;
+  queryOrder: number;
 
   @OneToMany(() => Log, (log) => log.query)
   logs: Log[];

@@ -63,7 +63,7 @@ export const GET_SAVED_QUERIES = gql`
       name
       url
       frequency
-      order
+      queryOrder
       lastStatus {
         date
         status
