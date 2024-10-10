@@ -33,10 +33,6 @@ interface UrlCardProps {
   onClick?: () => void; // Optional onClick prop
 }
 
-moment.updateLocale("fr", {
-  invalidDate : "",
-});
-
 function UrlCard({ urlData, onClick }: UrlCardProps) {
   const { data: logsData, loading, error } = useQuery(GET_LOGS, {
     variables: { savedQueryId: urlData._id },
@@ -156,7 +152,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
           {!loading && !error && logs.map((log: Log) => (
             <Tooltip
               key={log._id}
-              title={moment(log.date).format("DD/MM/y HH:mm")}
+              title={log.date !== "" ? `${moment(log.date).format("DD/MM/y HH:mm")} - ${log.status_code} - ${log.response_time}ms` : ""}
               arrow
               placement="bottom"
             >
