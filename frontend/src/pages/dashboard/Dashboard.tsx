@@ -35,6 +35,7 @@ const Dashboard = () => {
       setSavedQueries(data.getSavedQueries);
     }
   }, [data]);
+  console.log("savedQueries", savedQueries);
   const handleCardClick = async (query: UrlData) => {
     const { data } = await refetch({ savedQueryId: query._id });
     setSelectedQuery({ ...query, logs: data?.getLogsForSavedQuery || [] });
