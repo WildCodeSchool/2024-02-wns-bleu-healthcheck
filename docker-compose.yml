@@ -14,7 +14,7 @@ services:
             timeout: 2s
             retries: 30
         depends_on:
-            db:
+            db_staging:
                 condition: service_healthy
     frontend:
         build: ./frontend
@@ -22,7 +22,7 @@ services:
             - ./frontend/src:/app/src
             - /app/node_modules
         environment:
-            - CHOKIDAR_USEPOLLING=true            
+            - CHOKIDAR_USEPOLLING=true
         depends_on:
             backend:
                 condition: service_healthy
@@ -31,7 +31,7 @@ services:
             interval: 1s
             timeout: 2s
             retries: 30
-    db:
+    db_staging:
         image: postgres
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
