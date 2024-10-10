@@ -33,7 +33,7 @@ interface UrlCardProps {
   onClick?: () => void; // Optional onClick prop
 }
 
-moment.updateLocale("code_langue", {
+moment.updateLocale("fr", {
   invalidDate : "",
 });
 
