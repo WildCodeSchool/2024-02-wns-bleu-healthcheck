@@ -4,8 +4,8 @@ import Header from "./common/components/header/Header.tsx";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import AuthContextProvider from "./common/providers/AuthContextProvider.tsx";
-import moment from 'moment';
-import 'moment/dist/locale/fr';
+import moment from "moment";
+import "moment/dist/locale/fr";
 
 // Set the moment locale globally to French
 moment.locale("fr");
