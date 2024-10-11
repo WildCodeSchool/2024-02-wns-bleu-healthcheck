@@ -29,7 +29,6 @@ const Home = () => {
         },
       });
     }
-    console.log(data);
   }, [data]);
 
   return (

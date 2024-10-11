@@ -29,24 +29,15 @@ import { CSS } from "@dnd-kit/utilities";
 
 export interface UrlData {
   url: string;
-  _id?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  _id?: number;
   frequency?: number;
   name?: string;
-  queryOrder?: number;
-  lastStatus?: {
-    date: string;
-    response_time: number;
-    status: number;
-    status_code: number;
-    status_message: string;
-  };
+  queryOrder: number;
 }
 
 interface UrlCardProps {
   urlData: UrlData;
-  onClick?: () => void; // Optional onClick prop
+  onClick?: (logs: Log[], name: string) => void; // Optional onClick prop
 }
 
 function UrlCard({ urlData, onClick }: UrlCardProps) {
@@ -89,7 +80,9 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
     }
     return l;
   }, [logsData]);
-console.log('logs', logs[0])
+
+  const lastLog = logs[0];
+
   const [editQuery] = useMutation(EDIT_SAVED_QUERY, {
     refetchQueries: [{ query: GET_SAVED_QUERIES }],
     awaitRefetchQueries: true,
@@ -160,13 +153,13 @@ console.log('logs', logs[0])
   return (
     <div
       className={`card ${
-        urlData.lastStatus?.status === 2
+        lastLog.status === 2
           ? "success"
-          : urlData.lastStatus?.status === 1
+          : lastLog.status === 1
           ? "warning"
           : "error"
       } ${onClick ? "clickable" : ""}`}
-      onClick={onClick}
+      onClick={() => onClick && onClick(logs, urlData.name || "")}
       ref={setNodeRef}
       {...attributes}
       {...listeners}
@@ -185,16 +178,14 @@ console.log('logs', logs[0])
             <span className="card__icon">
               <GoCode />
             </span>
-            Code de retour : {urlData.lastStatus?.status_code}
+            Code de retour : {lastLog.status_code}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
               <CiTimer />
             </span>
             Temps de réponse :{" "}
-            {urlData.lastStatus?.response_time
-              ? `${urlData.lastStatus?.response_time} ms`
-              : ""}
+            {lastLog.response_time ? `${lastLog.response_time} ms` : ""}
           </li>
           {urlData.frequency && (
             <li className="card__frequence card__element">

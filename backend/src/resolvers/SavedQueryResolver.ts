@@ -83,18 +83,16 @@ class SavedQueryResolver {
   ): Promise<Log[]> {
     // Check if the query exists
     const query = await SavedQuery.findOneOrFail({ where: { _id: queryId } });
-    console.log("query", query);
     // If not, return an empty array (shouldn't happen)
     if (!query) return [];
 
     // There should always be logs for a query, as we create one when the query is created
-    const logs = await Log.find({
-      where: { query: query },
+    return await Log.find({
+      relations: ["query"],
+      where: { query: { _id: queryId } },
       take: 50,
       order: { date: "DESC" },
     });
-    console.log("logs", logs);
-    return logs;
   }
 
   /**
@@ -127,7 +125,7 @@ class SavedQueryResolver {
     stopQueryWorker(queryId);
 
     // Remove the logs associated to the query before deleting it
-    await Log.delete({ query: query });
+    await Log.delete({ query: { _id: queryId } });
 
     await query.remove();
     return "Query deleted";
@@ -175,6 +173,32 @@ class SavedQueryResolver {
     await startNewQueryWorker(query);
 
     return "Query updated";
+  }
+
+  @Authorized()
+  @Mutation(() => String)
+  async updateQueryOrder(
+    @Arg("queriesId", () => [Number]) queriesId: number[],
+    @Ctx() ctx: AppContext
+  ): Promise<string> {
+    const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
+
+    if (!userFromDB) {
+      throw new Error("User not authenticated");
+    }
+    queriesId.map(async (queryId, index) => {
+      const savedQuery = await SavedQuery.findOne({
+        where: { _id: queryId, user: userFromDB },
+      });
+
+      if (!savedQuery) {
+        throw new Error("Query not found or not authorized to update");
+      }
+      savedQuery.queryOrder = index;
+      await savedQuery.save();
+    });
+
+    return "Query order updated successfully";
   }
 }
 

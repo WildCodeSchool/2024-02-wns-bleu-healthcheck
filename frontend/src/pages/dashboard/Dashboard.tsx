@@ -1,6 +1,10 @@
 import "./Dashboard.scss";
-import { GET_LOGS, GET_SAVED_QUERIES } from "@/common/graphql/queries.ts";
-import { useQuery } from "@apollo/client";
+import {
+  GET_LOGS,
+  GET_SAVED_QUERIES,
+  UPDATE_QUERY_ORDER,
+} from "@/common/graphql/queries.ts";
+import { useMutation, useQuery } from "@apollo/client";
 import UrlCard, { UrlData } from "../../common/components/UrlCard/UrlCard.tsx";
 import { CircularProgress } from "@mui/material";
 import SaveQueryBarUrl from "@/common/components/saveQueryBarUrl/SaveQueryBarUrl.tsx";
@@ -12,56 +16,62 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
-import { DndContext, closestCorners } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, closestCorners } from "@dnd-kit/core";
+import { Log } from "@/common/models/Log.ts";
 
 const Dashboard = () => {
   const [savedQueries, setSavedQueries] = useState<UrlData[]>([]);
-  const [selectedQuery, setSelectedQuery] = useState<UrlDataWithLogs | null>(
-    null
-  );
+  const [queryName, setQueryName] = useState("");
+  const [logs, setLogs] = useState<Log[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { data, loading, error } = useQuery(GET_SAVED_QUERIES, {
-    pollInterval: 60000, // Refetch every 60 seconds
     fetchPolicy: "cache-and-network",
   });
 
-  const { refetch } = useQuery(GET_LOGS, {
-    skip: true, // Don't fetch automatically, the logs will be fetched only when clicking on a card
-  });
+  const [updateQueryOrder] = useMutation(UPDATE_QUERY_ORDER);
 
   useEffect(() => {
     if (data) {
-      setSavedQueries(data.getSavedQueries);
+      const sortedQueries = [...(data.getSavedQueries as UrlData[])].sort(
+        (a, b) => a.queryOrder - b.queryOrder
+      );
+
+      setSavedQueries(sortedQueries);
     }
   }, [data]);
-  console.log("savedQueries", savedQueries);
-  const handleCardClick = async (query: UrlData) => {
-    const { data } = await refetch({ savedQueryId: query._id });
-    setSelectedQuery({ ...query, logs: data?.getLogsForSavedQuery || [] });
+  const handleCardClick = async (logs: Log[], name: string) => {
+    setLogs(logs);
+    setQueryName(name);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedQuery(null);
   };
   const mappedQueries = savedQueries.map((query) => ({
     ...query,
     id: query._id as string,
   }));
-  const getQueryPos = (id: string) => {
+  const getQueryPos = (id: number) => {
     return savedQueries.findIndex((query) => query._id === id);
   };
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    if (!over) return;
     if (active.id === over.id) return;
     setSavedQueries((query) => {
-      const originalPos = getQueryPos(active.id);
-      const newPos = getQueryPos(over.id);
+      const originalPos = getQueryPos(parseInt(active.id.toString()));
+      const newPos = getQueryPos(parseInt(over.id.toString()));
 
-      return arrayMove(query, originalPos, newPos);
+      const sortedCards = arrayMove(query, originalPos, newPos);
+      updateQueryOrder({
+        variables: {
+          queriesId: sortedCards.map((query) => query._id),
+        },
+      });
+
+      return sortedCards;
     });
   };
 
@@ -95,7 +105,7 @@ const Dashboard = () => {
                 <UrlCard
                   urlData={query}
                   key={query._id}
-                  onClick={() => handleCardClick(query)}
+                  onClick={() => handleCardClick}
                 />
               ))}
             </SortableContext>
@@ -112,8 +122,8 @@ const Dashboard = () => {
       <LogsModal
         open={isModalOpen}
         handleClose={handleCloseModal}
-        urlData={selectedQuery}
-        logs={selectedQuery?.logs || []}
+        urlName={queryName}
+        logs={logs}
       />
     </div>
   );

@@ -96,3 +96,9 @@ export const EDIT_SAVED_QUERY = gql`
     editQuery(queryId: $queryId, name: $name, frequency: $frequency)
   }
 `;
+
+export const UPDATE_QUERY_ORDER = gql`
+  mutation Mutation($queriesId: [Float!]!) {
+    updateQueryOrder(queriesId: $queriesId)
+  }
+`;
