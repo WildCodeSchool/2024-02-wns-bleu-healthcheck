@@ -1,6 +1,5 @@
 import "./Dashboard.scss";
 import {
-  GET_LOGS,
   GET_SAVED_QUERIES,
   UPDATE_QUERY_ORDER,
 } from "@/common/graphql/queries.ts";
@@ -10,7 +9,6 @@ import { CircularProgress } from "@mui/material";
 import SaveQueryBarUrl from "@/common/components/saveQueryBarUrl/SaveQueryBarUrl.tsx";
 import { useState, useEffect } from "react";
 import LogsModal from "@/common/components/logsModal/LogsModal.tsx";
-import { UrlDataWithLogs } from "@/common/models/UrlDataWithLogs.ts";
 import {
   arrayMove,
   horizontalListSortingStrategy,

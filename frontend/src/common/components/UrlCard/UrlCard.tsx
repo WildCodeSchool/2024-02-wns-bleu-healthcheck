@@ -196,7 +196,10 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
             </li>
           )}
         </ul>
-        <div className="card__logs" onClick={onClick}>
+        <div
+          className="card__logs"
+          onClick={() => onClick && onClick(logs, urlData.name || "")}
+        >
           {!loading &&
             !error &&
             logs.map((log: Log) => (
