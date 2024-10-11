@@ -89,7 +89,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
     }
     return l;
   }, [logsData]);
-
+console.log('logs', logs[0])
   const [editQuery] = useMutation(EDIT_SAVED_QUERY, {
     refetchQueries: [{ query: GET_SAVED_QUERIES }],
     awaitRefetchQueries: true,

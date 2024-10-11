@@ -9,7 +9,6 @@ import {
   startNewQueryWorker,
   stopQueryWorker,
 } from "../workers/savedQueriesWorker";
-import { SavedQueryWithLastStatus } from "../types/SavedQueryWithLastStatus";
 import { Log } from "../entity/Log";
 
 @Resolver()
@@ -46,7 +45,7 @@ class SavedQueryResolver {
       createdAt: new Date(),
       updatedAt: new Date(),
       user: userFromDB,
-      order: 0,
+      queryOrder: 0,
     });
 
     const savedQuery = await query.save();
@@ -64,10 +63,8 @@ class SavedQueryResolver {
    * Get all queries for the current user
    */
   @Authorized()
-  @Query(() => [SavedQueryWithLastStatus])
-  async getSavedQueries(
-    @Ctx() ctx: AppContext
-  ): Promise<SavedQueryWithLastStatus[]> {
+  @Query(() => [SavedQuery])
+  async getSavedQueries(@Ctx() ctx: AppContext): Promise<SavedQuery[]> {
     const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
 
     if (userFromDB === undefined) {
@@ -86,16 +83,18 @@ class SavedQueryResolver {
   ): Promise<Log[]> {
     // Check if the query exists
     const query = await SavedQuery.findOneOrFail({ where: { _id: queryId } });
-
+    console.log("query", query);
     // If not, return an empty array (shouldn't happen)
     if (!query) return [];
 
     // There should always be logs for a query, as we create one when the query is created
-    return await Log.find({
+    const logs = await Log.find({
       where: { query: query },
       take: 50,
       order: { date: "DESC" },
     });
+    console.log("logs", logs);
+    return logs;
   }
 
   /**
