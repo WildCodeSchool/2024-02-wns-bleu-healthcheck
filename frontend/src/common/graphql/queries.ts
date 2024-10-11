@@ -97,3 +97,15 @@ export const EDIT_SAVED_QUERY = gql`
         editQuery(queryId: $queryId, name: $name, frequency: $frequency)
     }
 `;
+
+export const ADD_PREMIUM_ROLE = gql`
+    mutation addPremiumRole {
+        addPremiumRole
+    }
+`;
+
+export const REMOVE_PREMIUM_ROLE = gql`
+    mutation removePremiumRole {
+        removePremiumRole
+    }
+`;
