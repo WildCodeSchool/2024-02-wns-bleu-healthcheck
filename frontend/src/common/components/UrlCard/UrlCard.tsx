@@ -3,52 +3,65 @@ import { FaTrash } from "react-icons/fa";
 import { CiTimer } from "react-icons/ci";
 import { MdEdit } from "react-icons/md";
 import "./_urlCard.scss";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Tooltip } from "@mui/material"
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Tooltip,
+} from "@mui/material";
 import { useMemo, useState } from "react";
-import { DELETE_SAVED_QUERY, GET_SAVED_QUERIES, EDIT_SAVED_QUERY, GET_LOGS } from "@/common/graphql/queries.ts";
+import {
+  DELETE_SAVED_QUERY,
+  GET_SAVED_QUERIES,
+  EDIT_SAVED_QUERY,
+  GET_LOGS,
+} from "@/common/graphql/queries.ts";
 import { useMutation, useQuery } from "@apollo/client";
 import TextField from "@mui/material/TextField";
 import { toast } from "react-toastify";
 import { Log } from "@/common/models/Log";
 import moment from "moment";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export interface UrlData {
   url: string;
-  _id?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  _id?: number;
   frequency?: number;
   name?: string;
-  lastStatus?: {
-    date: string;
-    response_time: number;
-    status: number;
-    status_code: number;
-    status_message: string;
-  };
+  queryOrder: number;
 }
 
 interface UrlCardProps {
   urlData: UrlData;
-  onClick?: () => void; // Optional onClick prop
+  onClick?: (logs: Log[], name: string) => void; // Optional onClick prop
 }
 
 function UrlCard({ urlData, onClick }: UrlCardProps) {
-  const { data: logsData, loading, error } = useQuery(GET_LOGS, {
+  const {
+    data: logsData,
+    loading,
+    error,
+  } = useQuery(GET_LOGS, {
     variables: { savedQueryId: urlData._id },
     pollInterval: 60000, // Refetch every 60 seconds
-    fetchPolicy: "cache-and-network"
+    fetchPolicy: "cache-and-network",
   });
   const [deleteQuery] = useMutation(DELETE_SAVED_QUERY, {
     refetchQueries: [{ query: GET_SAVED_QUERIES }],
     awaitRefetchQueries: true,
   });
-  
+
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const [editedName, setEditedName] = useState(urlData.name || "");
-  const [editedFrequency, setEditedFrequency] = useState(urlData.frequency || 0);
+  const [editedFrequency, setEditedFrequency] = useState(
+    urlData.frequency || 0
+  );
 
   const logs = useMemo(() => {
     let l = logsData?.getLogsForSavedQuery || [];
@@ -67,6 +80,8 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
     }
     return l;
   }, [logsData]);
+
+  const lastLog = logs[0];
 
   const [editQuery] = useMutation(EDIT_SAVED_QUERY, {
     refetchQueries: [{ query: GET_SAVED_QUERIES }],
@@ -110,14 +125,15 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
     try {
       // Use existing values if no changes were made
       const updatedName = editedName !== undefined ? editedName : urlData.name;
-      const updatedFrequency = editedFrequency !== undefined ? editedFrequency : urlData.frequency;
+      const updatedFrequency =
+        editedFrequency !== undefined ? editedFrequency : urlData.frequency;
 
       await editQuery({
         variables: {
           queryId: urlData._id,
           name: updatedName,
-          frequency: updatedFrequency
-        }
+          frequency: updatedFrequency,
+        },
       });
     } catch (error) {
       toast.error("Erreur lors de la modification de la requête");
@@ -127,57 +143,100 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
     }
   };
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: urlData._id || "default-id" });
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
   return (
     <div
-      className={`card ${urlData.lastStatus?.status === 2 ? "success" : urlData.lastStatus?.status === 1 ? "warning" : "error"} ${onClick ? "clickable" : ""}`}
+      className={`card ${
+        lastLog.status === 2
+          ? "success"
+          : lastLog.status === 1
+          ? "warning"
+          : "error"
+      } ${onClick ? "clickable" : ""}`}
+      onClick={() => onClick && onClick(logs, urlData.name || "")}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
     >
-      {urlData.name && (<p className="card__name">{urlData.name}</p>)}
+      {urlData.name && <p className="card__name">{urlData.name}</p>}
       <div className="card__content">
         <ul className="card__list">
           <li className="card__url card__element card__text">
-            <span className="card__icon"><GoLink /></span>URL : {urlData.url}
+            <span className="card__icon">
+              <GoLink />
+            </span>
+            URL : {urlData.url}
           </li>
           <li className="card__url card__element">
-            <span className="card__icon"><GoCode /></span>Code de retour : {urlData.lastStatus?.status_code}
+            <span className="card__icon">
+              <GoCode />
+            </span>
+            Code de retour : {lastLog.status_code}
           </li>
           <li className="card__url card__element">
-            <span className="card__icon"><CiTimer /></span>Temps de réponse
-            : {urlData.lastStatus?.response_time ? `${urlData.lastStatus?.response_time} ms` : ""}
+            <span className="card__icon">
+              <CiTimer />
+            </span>
+            Temps de réponse :{" "}
+            {lastLog.response_time ? `${lastLog.response_time} ms` : ""}
           </li>
-          {urlData.frequency && (<li className="card__frequence card__element">
-            <span className="card__icon"><GoSync /></span>Fréquence : {urlData.frequency} min
-          </li>)}
+          {urlData.frequency && (
+            <li className="card__frequence card__element">
+              <span className="card__icon">
+                <GoSync />
+              </span>
+              Fréquence : {urlData.frequency} min
+            </li>
+          )}
         </ul>
-        <div className="card__logs" onClick={onClick}>
-          {!loading && !error && logs.map((log: Log) => (
-            <Tooltip
-              key={log._id}
-              title={log.date !== "" ? `${moment(log.date).format("DD/MM/y HH:mm")} - ${log.status_code} - ${log.response_time}ms` : ""}
-              arrow
-              placement="bottom"
-            >
-              <div
-              key={log._id}
-              className="card__log"
-              style={
-                log.status === 3
-                ? { backgroundColor: "#bdbdbd" }
-                : log.status === 2 
-                  ? { backgroundColor: "#4caf50" } 
-                  : log.status === 1 
-                    ? { backgroundColor: "#ffeb3b" } 
-                    : { backgroundColor: "#f44336" }
-              }
+        <div
+          className="card__logs"
+          onClick={() => onClick && onClick(logs, urlData.name || "")}
+        >
+          {!loading &&
+            !error &&
+            logs.map((log: Log) => (
+              <Tooltip
+                key={log._id}
+                title={
+                  log.date !== ""
+                    ? `${moment(log.date).format("DD/MM/y HH:mm")} - ${
+                        log.status_code
+                      } - ${log.response_time}ms`
+                    : ""
+                }
+                arrow
+                placement="bottom"
               >
-              &nbsp;
-              </div>
-            </Tooltip>
-          ))}
+                <div
+                  key={log._id}
+                  className="card__log"
+                  style={
+                    log.status === 3
+                      ? { backgroundColor: "#bdbdbd" }
+                      : log.status === 2
+                      ? { backgroundColor: "#4caf50" }
+                      : log.status === 1
+                      ? { backgroundColor: "#ffeb3b" }
+                      : { backgroundColor: "#f44336" }
+                  }
+                >
+                  &nbsp;
+                </div>
+              </Tooltip>
+            ))}
         </div>
       </div>
 
       {/*Delete button in the top right corner, if this is a saved query*/}
-      {urlData._id &&
+      {urlData._id && (
         <div className="card__delete_button">
           <Tooltip title="Supprimer" arrow placement="top">
             <Button
@@ -189,7 +248,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
                 minWidth: "32px",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
               }}
               onClick={handleOpenDeleteDialog}
             >
@@ -197,8 +256,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
             </Button>
           </Tooltip>
         </div>
-      }
-
+      )}
 
       {/*Delete confirmation dialog */}
       <Dialog open={isDeleteDialogOpen} onClose={handleCloseDeleteDialog}>
@@ -214,14 +272,18 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
           <Button onClick={handleCloseDeleteDialog} color="primary">
             Annuler
           </Button>
-          <Button onClick={handleConfirmDelete} variant="contained" color="error">
+          <Button
+            onClick={handleConfirmDelete}
+            variant="contained"
+            color="error"
+          >
             Supprimer
           </Button>
         </DialogActions>
       </Dialog>
 
       {/*Edit button next to the delete button*/}
-      {urlData._id &&
+      {urlData._id && (
         <div className={"card__edit_button"}>
           <Tooltip title="Modifier" arrow placement="top">
             <Button
@@ -233,7 +295,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
                 minWidth: "32px",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
               }}
               onClick={handleOpenEditDialog}
             >
@@ -241,10 +303,14 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
             </Button>
           </Tooltip>
         </div>
-      }
+      )}
 
       {/*Edit dialog*/}
-      <Dialog open={isEditDialogOpen} onClose={handleCloseEditDialog} onClick={(e) => e.stopPropagation()}>
+      <Dialog
+        open={isEditDialogOpen}
+        onClose={handleCloseEditDialog}
+        onClick={(e) => e.stopPropagation()}
+      >
         <DialogTitle>Modifier la requête "{urlData.name}"</DialogTitle>
         <DialogContent>
           <div className={"card__edit_section"}>
@@ -260,9 +326,15 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
               id="outlined-basic"
               label="Fréquence (min)"
               variant="outlined"
-              color={editedFrequency >= 1 && editedFrequency <= 60 ? "secondary" : "warning"}
+              color={
+                editedFrequency >= 1 && editedFrequency <= 60
+                  ? "secondary"
+                  : "warning"
+              }
               value={editedFrequency || ""}
-              onChange={(e) => setEditedFrequency(parseInt(e.target.value) || 0)}
+              onChange={(e) =>
+                setEditedFrequency(parseInt(e.target.value) || 0)
+              }
             />
           </div>
         </DialogContent>
@@ -274,14 +346,16 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
             onClick={handleConfirmEdit}
             variant="contained"
             color="secondary"
-            disabled={editedName.length === 0 || editedFrequency < 1 || editedFrequency > 60}
+            disabled={
+              editedName.length === 0 ||
+              editedFrequency < 1 ||
+              editedFrequency > 60
+            }
           >
             Enregistrer
           </Button>
         </DialogActions>
       </Dialog>
-
-
     </div>
   );
 }
