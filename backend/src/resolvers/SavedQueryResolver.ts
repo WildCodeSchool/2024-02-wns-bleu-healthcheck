@@ -46,6 +46,7 @@ class SavedQueryResolver {
       createdAt: new Date(),
       updatedAt: new Date(),
       user: userFromDB,
+      order: 0,
     });
 
     const savedQuery = await query.save();
@@ -73,22 +74,7 @@ class SavedQueryResolver {
       throw new Error("User not authenticated");
     }
 
-    const savedQueries = await SavedQuery.find({ where: { user: userFromDB } });
-    console.log("savedQueries", savedQueries);
-    return await Promise.all(
-      savedQueries.map(async (query) => {
-        const lastLog = await Log.findOne({
-          where: { query: query },
-          order: { date: "DESC" },
-        });
-        console.log("lastLog", lastLog);
-
-        return {
-          ...query,
-          lastStatus: lastLog || null,
-        } as SavedQueryWithLastStatus;
-      })
-    );
+    return await SavedQuery.find({ where: { user: userFromDB } });
   }
 
   /**

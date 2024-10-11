@@ -64,13 +64,6 @@ export const GET_SAVED_QUERIES = gql`
       url
       frequency
       order
-      lastStatus {
-        date
-        status
-        response_time
-        status_code
-        status_message
-      }
     }
   }
 `;

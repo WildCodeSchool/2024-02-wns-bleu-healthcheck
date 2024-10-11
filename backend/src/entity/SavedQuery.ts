@@ -43,7 +43,7 @@ export class SavedQuery extends BaseEntity {
   frequency: number;
 
   @Field()
-  @Column({ default: 1 })
+  @Column()
   order: number;
 
   @OneToMany(() => Log, (log) => log.query)
