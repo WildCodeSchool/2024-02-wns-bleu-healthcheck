@@ -15,12 +15,13 @@ const TestBarUrl = ({
   const isValidUrl = useValidateUrl(url);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputUrl = e.target.value;
-    setUrl(inputUrl);
+    setUrl(e.target.value);
   };
 
   const handleSubmit = () => {
-    execute({ variables: { url } });
+    if (isValidUrl) {
+      execute({variables: {url}});
+    }
   };
 
   return (
@@ -32,6 +33,7 @@ const TestBarUrl = ({
           value={url}
           onChange={handleInputChange}
           className="test__bar-input"
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
         />
         <Tooltip title={isValidUrl ? "Tester l'URL !" : "URL invalide"}>
           <div

@@ -4,7 +4,7 @@ export const TEST_URL = gql`
   query TestUrl($url: String!) {
     testUrl(url: $url) {
       url
-      lastStatus {
+      testStatus {
         date
         status
         response_time

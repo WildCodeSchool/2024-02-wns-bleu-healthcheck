@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import {CREATE_SAVED_QUERY, GET_SAVED_QUERIES} from "@/common/graphql/queries";
 import Tooltip from "@mui/material/Tooltip";
 import useValidateUrl from "@/common/hooks/useValidateUrl";
+import Tools from "@/common/helpers/Tools";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SaveQueryBarUrl = () => {
@@ -21,11 +22,8 @@ const SaveQueryBarUrl = () => {
   });
 
   const handleSubmit = () => {
-    // Remove the protocol and "www." prefix if they exist
-    const cleanedUrl = url.replace(/^(https?:\/\/)?(www\.)?/, "");
 
-    // Split by "." and take the first term
-    const name = cleanedUrl.split(".")[0];
+    const name = Tools.getPrettyUrlName(url);
 
     // Set default frequency
     const frequency = "60";
