@@ -6,6 +6,7 @@ import { useLazyQuery } from "@apollo/client";
 import { TEST_URL } from "@/common/graphql/queries";
 import { Link } from "react-router-dom";
 import useAuth from "@/common/hooks/useAuth";
+import Tools from "@/common/helpers/Tools";
 
 const Home = () => {
   const [homepageCardData, setHomepageCardData] = useState<HomepageCardData>();
@@ -17,8 +18,10 @@ const Home = () => {
   useEffect(() => {
     if (data !== undefined) {
       const { date, response_time, status, status_code, status_message } = data.testUrl.testStatus;
+      const cardName = Tools.getPrettyUrlName(data.testUrl.url);
       setHomepageCardData({
         url: data.testUrl.url,
+        name: cardName,
         testStatus: {
           date,
           response_time,

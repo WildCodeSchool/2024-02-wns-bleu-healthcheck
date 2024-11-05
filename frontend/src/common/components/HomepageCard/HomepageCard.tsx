@@ -6,6 +6,7 @@ import "./_homepageCard.scss";
 interface HomepageCardProps {
   data: {
     url: string;
+    name: string;
     testStatus: {
       date: string;
       response_time: number;
@@ -18,6 +19,7 @@ interface HomepageCardProps {
 
 export interface HomepageCardData {
   url: string;
+  name: string;
   testStatus: {
     date: string;
     response_time: number;
@@ -39,6 +41,7 @@ function HomepageCard({ data }: HomepageCardProps) {
           : "error"
       }`}
     >
+      {data.name && <p className="card__name">{data.name}</p>}
       <div className="card__content">
         <ul className="card__list">
           <li className="card__url card__element card__text">
