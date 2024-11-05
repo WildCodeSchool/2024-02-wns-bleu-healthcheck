@@ -37,7 +37,8 @@ const Dashboard = () => {
       setSavedQueries(sortedQueries);
     }
   }, [data]);
-  const handleCardClick = async (logs: Log[], name: string) => {
+
+  const handleLogsClick = async (logs: Log[], name: string) => {
     setLogs(logs);
     setQueryName(name);
     setIsModalOpen(true);
@@ -103,7 +104,7 @@ const Dashboard = () => {
                 <UrlCard
                   urlData={query}
                   key={query._id}
-                  onClick={() => handleCardClick}
+                  onLogsClick={(logs, name) => handleLogsClick(logs, name)}
                 />
               ))}
             </SortableContext>

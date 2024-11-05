@@ -37,10 +37,10 @@ export interface UrlData {
 
 interface UrlCardProps {
   urlData: UrlData;
-  onClick?: (logs: Log[], name: string) => void; // Optional onClick prop
+  onLogsClick?: (logs: Log[], name: string) => void; // Optional onClick prop
 }
 
-function UrlCard({ urlData, onClick }: UrlCardProps) {
+function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
   const {
     data: logsData,
     loading,
@@ -158,8 +158,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
           : lastLog.status === 1
           ? "warning"
           : "error"
-      } ${onClick ? "clickable" : ""}`}
-      onClick={() => onClick && onClick(logs, urlData.name || "")}
+      }`}
       ref={setNodeRef}
       {...attributes}
       {...listeners}
@@ -198,7 +197,8 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
         </ul>
         <div
           className="card__logs"
-          onClick={() => onClick && onClick(logs, urlData.name || "")}
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => onLogsClick && onLogsClick(logs, urlData.name || "")}
         >
           {!loading &&
             !error &&
@@ -250,6 +250,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onPointerDown={(e) => e.stopPropagation()}
               onClick={handleOpenDeleteDialog}
             >
               <FaTrash />
@@ -269,10 +270,14 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDeleteDialog} color="primary">
+          <Button
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={handleCloseDeleteDialog}
+              color="primary">
             Annuler
           </Button>
           <Button
+            onPointerDown={(e) => e.stopPropagation()}
             onClick={handleConfirmDelete}
             variant="contained"
             color="error"
@@ -297,6 +302,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onPointerDown={(e) => e.stopPropagation()}
               onClick={handleOpenEditDialog}
             >
               <MdEdit />
@@ -309,6 +315,7 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseEditDialog}
+        onPointerDown={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
       >
         <DialogTitle>Modifier la requête "{urlData.name}"</DialogTitle>
@@ -339,10 +346,13 @@ function UrlCard({ urlData, onClick }: UrlCardProps) {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseEditDialog} color="primary">
+          <Button
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={handleCloseEditDialog} color="primary">
             Annuler
           </Button>
           <Button
+            onPointerDown={(e) => e.stopPropagation()}
             onClick={handleConfirmEdit}
             variant="contained"
             color="secondary"
