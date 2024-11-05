@@ -39,40 +39,12 @@
     padding-right: 10px;
   }
 
-  &__lastquery {
-    display: flex;
-    justify-content: flex-end;
-    color: $dark-blue;
-    opacity: 50%;
-    font-size: 0.65rem;
-    font-weight: $heading-font-weight;
-  }
-
   &__text {
     width: 100%;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  &__logs {
-    display: flex;
-    gap: 2px;
-    align-items: center;
-    border-radius: 5px;
-    margin-top: 5px;
-  }
-
-  &__log {
-    display: flex;
-    align-items: center;
-    width: 8px;
-    border-radius: 5px;
-    background-color: $green;
-    &:hover {
-      opacity: 0.5;
-    }
   }
 }
 
@@ -89,8 +61,4 @@
 .warning {
   background-color: $backgroundOrange;
   border-left: solid $orange 10px;
-}
-
-.clickable {
-  cursor: pointer;
 }
