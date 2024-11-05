@@ -1,7 +1,7 @@
 import { ObjectType, Field, Int } from 'type-graphql';
 
 @ObjectType()
-class LastStatusResponse {
+class TestStatusResponse {
 
     @Field()
     date: Date;
@@ -26,5 +26,5 @@ export class TestUrlResponse {
     url: string;
 
     @Field()
-    lastStatus: LastStatusResponse;
+    testStatus: TestStatusResponse;
 }
