@@ -348,7 +348,8 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
         <DialogActions>
           <Button
               onPointerDown={(e) => e.stopPropagation()}
-              onClick={handleCloseEditDialog} color="primary">
+              onClick={handleCloseEditDialog}
+              color="primary">
             Annuler
           </Button>
           <Button
