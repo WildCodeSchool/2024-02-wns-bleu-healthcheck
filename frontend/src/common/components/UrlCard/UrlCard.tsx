@@ -180,7 +180,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
           </li>
           <li className="card__element">
             <span className="card__icon">
-              <CodeOutlinedIcon style={{fontSize: "20px"}}/>
+              <CodeOutlinedIcon style={{ fontSize: "20px" }}/>
             </span>
             <span className="card__text">
               Code de retour : {lastLog.status_code}
@@ -195,16 +195,14 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
                 {lastLog.response_time ? `${lastLog.response_time} ms` : ""}
             </span>
           </li>
-          {urlData.frequency && (
-            <li className="card__frequence card__element">
-              <span className="card__icon">
-                <SyncOutlinedIcon />
-              </span>
-              <span className="card__text">
-                Fréquence : {urlData.frequency} min
-              </span>
-            </li>
-          )}
+          <li className="card__frequence card__element">
+            <span className="card__icon">
+              <SyncOutlinedIcon style={{ fontSize: "20px" }} />
+            </span>
+            <span className="card__text">
+              Fréquence : {urlData.frequency} min
+            </span>
+          </li>
         </ul>
         <div
           className="card__logs"

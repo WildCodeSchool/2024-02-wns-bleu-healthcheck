@@ -44,7 +44,7 @@ function HomepageCard({ data }: HomepageCardProps) {
       {data.name && <p className="card__name">{data.name}</p>}
       <div className="card__content">
         <ul className="card__list">
-          <li className="card__url card__element card__text">
+          <li className="card__element card__text">
             <span className="card__icon">
               <InsertLinkOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
@@ -52,7 +52,7 @@ function HomepageCard({ data }: HomepageCardProps) {
               URL : {data.url}
             </span>
           </li>
-          <li className="card__url card__element">
+          <li className="card__element">
             <span className="card__icon">
               <CodeOutlinedIcon style={{fontSize: "20px"}}/>
             </span>
@@ -60,7 +60,7 @@ function HomepageCard({ data }: HomepageCardProps) {
               Code de retour : {data.testStatus.status_code}
             </span>
           </li>
-          <li className="card__url card__element">
+          <li className="card__element">
             <span className="card__icon">
               <TimerOutlinedIcon style={{fontSize: "20px"}}/>
             </span>
