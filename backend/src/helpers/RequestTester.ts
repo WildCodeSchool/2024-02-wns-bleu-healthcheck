@@ -27,7 +27,7 @@ export class RequestTester {
 
             return {
                 url,
-                lastStatus: {
+                testStatus: {
                     date,
                     status,
                     response_time,
@@ -44,7 +44,7 @@ export class RequestTester {
 
             return {
                 url,
-                lastStatus: {
+                testStatus: {
                     date,
                     status,
                     response_time,
