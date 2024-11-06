@@ -29,6 +29,8 @@ import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import SyncOutlinedIcon from "@mui/icons-material/SyncOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import Tools from "@/common/helpers/Tools.ts";
+import useAuth from "@/common/hooks/useAuth.tsx";
 
 export interface UrlData {
   url: string;
@@ -53,10 +55,13 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
     pollInterval: 60000, // Refetch every 60 seconds
     fetchPolicy: "cache-and-network",
   });
+
   const [deleteQuery] = useMutation(DELETE_SAVED_QUERY, {
     refetchQueries: [{ query: GET_SAVED_QUERIES }],
     awaitRefetchQueries: true,
   });
+
+  const { userInfos } = useAuth();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -340,8 +345,9 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
               onChange={(e) => setEditedName(e.target.value)}
             />
             <TextField
+              disabled={!Tools.isUserPremium(userInfos.role)}
               id="outlined-basic"
-              label="Fréquence (min)"
+              label={ Tools.isUserPremium(userInfos.role) ? "Fréquence (min)" : "Fréquence (min) - Premium" }
               variant="outlined"
               color={
                 editedFrequency >= 1 && editedFrequency <= 60

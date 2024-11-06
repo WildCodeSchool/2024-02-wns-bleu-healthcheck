@@ -24,4 +24,11 @@ export default class Tools {
         // For other cases (Admin role or limit not reached), return false
         return false;
     }
+
+    static isUserPremium = (role:Role|null):boolean => {
+        if(role) {
+            return role >= 1;
+        }
+        return false;
+    }
 }
