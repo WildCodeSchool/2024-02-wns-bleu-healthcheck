@@ -10,6 +10,7 @@ import {
   stopQueryWorker,
 } from "../workers/savedQueriesWorker";
 import { Log } from "../entity/Log";
+import Tools from "../helpers/Tools";
 
 @Resolver()
 class SavedQueryResolver {
@@ -36,6 +37,22 @@ class SavedQueryResolver {
     const userFromDB = await User.findOneByOrFail({ email: ctx.email });
     if (!userFromDB) {
       throw new Error("User not authenticated");
+    }
+
+    // Reject if user has reached the limit of saved queries (3 for non-premium users, 100 for premium users)
+    const numberOfQueries = await SavedQuery.count({where: { user: userFromDB }});
+    if (Tools.isRequestLimitReached(userFromDB.role, numberOfQueries)) {
+      throw new Error("Request limit reached");
+    }
+
+    // Reject if frequency is not 60 for non-premium users
+    if (parseInt(data.frequency) !== 60 && userFromDB.role < 1) {
+      throw new Error("Only premium users can set a frequency different from 60");
+    }
+
+    // Reject if frequency is not between 1 and 60
+    if (parseInt(data.frequency) < 1 || parseInt(data.frequency) > 60) {
+      throw new Error("Frequency must be between 1 and 60");
     }
 
     const query = SavedQuery.create({
@@ -150,6 +167,16 @@ class SavedQueryResolver {
 
     if (!userFromDB) {
       throw new Error("User not authenticated");
+    }
+
+    // Reject if frequency is not 60 for non-premium users
+    if (frequency !== 60 && userFromDB.role < 1) {
+      throw new Error("Only premium users can set a frequency different from 60");
+    }
+
+    // Reject if frequency is not between 1 and 60
+    if (frequency < 1 || frequency > 60) {
+      throw new Error("Frequency must be between 1 and 60");
     }
 
     // Find the query and check if it belongs to the authenticated user
