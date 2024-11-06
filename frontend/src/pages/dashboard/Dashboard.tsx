@@ -16,6 +16,8 @@ import {
 } from "@dnd-kit/sortable";
 import {DndContext, DragEndEvent, closestCorners, UniqueIdentifier} from "@dnd-kit/core";
 import { Log } from "@/common/models/Log.ts";
+import useAuth from "@/common/hooks/useAuth.tsx";
+import Tools from "@/common/helpers/Tools.ts";
 
 const Dashboard = () => {
   const [savedQueries, setSavedQueries] = useState<UrlData[]>([]);
@@ -25,6 +27,9 @@ const Dashboard = () => {
   const { data, loading, error } = useQuery(GET_SAVED_QUERIES, {
     fetchPolicy: "cache-and-network",
   });
+
+  const { userInfos } = useAuth();
+  console.log(userInfos);
 
   const [updateQueryOrder] = useMutation(UPDATE_QUERY_ORDER);
 
@@ -47,10 +52,12 @@ const Dashboard = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
   const mappedQueries = savedQueries.map((query) => ({
     ...query,
     id: query._id as UniqueIdentifier,
   }));
+
   const getQueryPos = (id: number) => {
     return savedQueries.findIndex((query) => query._id === id);
   };
@@ -81,18 +88,25 @@ const Dashboard = () => {
     <div className="dashboard__wrapper">
       <div className="dashboard_header">
         <div className="dashboard__search-bar">
-          <SaveQueryBarUrl />
+          <SaveQueryBarUrl limitReached={Tools.isRequestLimitReached(userInfos.role, savedQueries.length)}/>
+        </div>
+        <div>
+          {Tools.isRequestLimitReached(userInfos.role, savedQueries.length) && (
+              <div className="dashboard__limitreached">
+                Maximum de requêtes atteint
+              </div>
+          )}
         </div>
       </div>
       <div className="dashboard__body">
         {loading && (
-          <div className="dashboard__loading">
-            <CircularProgress />
-          </div>
+            <div className="dashboard__loading">
+              <CircularProgress/>
+            </div>
         )}
 
         {savedQueries && (
-          <DndContext
+            <DndContext
             onDragEnd={handleDragEnd}
             collisionDetection={closestCorners}
           >
