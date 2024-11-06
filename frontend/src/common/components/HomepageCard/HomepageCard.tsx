@@ -1,5 +1,8 @@
-import { GoLink, GoCode } from "react-icons/go";
-import { CiTimer } from "react-icons/ci";
+import {
+  InsertLinkOutlined,
+  CodeOutlined,
+  TimerOutlined,
+} from "@mui/icons-material";
 
 import "./_homepageCard.scss";
 
@@ -13,8 +16,8 @@ interface HomepageCardProps {
       status: number;
       status_code: number;
       status_message: string;
-    }
-  }
+    };
+  };
 }
 
 export interface HomepageCardData {
@@ -26,11 +29,10 @@ export interface HomepageCardData {
     status: number;
     status_code: number;
     status_message: string;
-  }
+  };
 }
 
 function HomepageCard({ data }: HomepageCardProps) {
-
   return (
     <div
       className={`card ${
@@ -46,22 +48,24 @@ function HomepageCard({ data }: HomepageCardProps) {
         <ul className="card__list">
           <li className="card__url card__element card__text">
             <span className="card__icon">
-              <GoLink />
+              <InsertLinkOutlined style={{ fontSize: "20px" }} />
             </span>
             URL : {data.url}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <GoCode />
+              <CodeOutlined style={{ fontSize: "20px" }} />
             </span>
             Code de retour : {data.testStatus.status_code}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <CiTimer />
+              <TimerOutlined style={{ fontSize: "20px" }} />
             </span>
             Temps de réponse :{" "}
-            {data.testStatus.response_time ? `${data.testStatus.response_time} ms` : ""}
+            {data.testStatus.response_time
+              ? `${data.testStatus.response_time} ms`
+              : ""}
           </li>
         </ul>
       </div>

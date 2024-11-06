@@ -102,31 +102,31 @@
 }
 
 .card__delete_button {
-  color: #4E4E4E;
+  color: #4e4e4e;
   display: none;
   position: absolute;
   top: 4px;
   right: 4px;
 }
 
-.card__delete_button>button {
+.card__delete_button > button {
   color: inherit;
   transition: color 0.3s ease-in-out;
 }
 
-.card__delete_button:hover>button {
+.card__delete_button:hover > button {
   color: $red;
 }
 
 .card__edit_button {
-  color: #4E4E4E;
+  color: #4e4e4e;
   display: none;
   position: absolute;
   top: 4px;
   right: 36px;
 }
 
-.card__edit_button>button {
+.card__edit_button > button {
   color: inherit;
 }
 
