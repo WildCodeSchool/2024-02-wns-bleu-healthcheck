@@ -77,6 +77,14 @@
   }
 }
 
+.grabbable {
+  cursor: grab;
+}
+
+.grabbable:active {
+  cursor: grabbing;
+}
+
 .success {
   background-color: $backgroundGreen;
   border-left: solid $green 10px;

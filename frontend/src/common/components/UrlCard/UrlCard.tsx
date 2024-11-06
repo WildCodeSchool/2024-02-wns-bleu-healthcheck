@@ -155,7 +155,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
 
   return (
     <div
-      className={`card ${
+      className={`card grabbable ${
         lastLog.status === 2
           ? "success"
           : lastLog.status === 1
