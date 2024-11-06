@@ -14,7 +14,7 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
-import { DndContext, DragEndEvent, closestCorners } from "@dnd-kit/core";
+import {DndContext, DragEndEvent, closestCorners, UniqueIdentifier} from "@dnd-kit/core";
 import { Log } from "@/common/models/Log.ts";
 
 const Dashboard = () => {
@@ -49,7 +49,7 @@ const Dashboard = () => {
   };
   const mappedQueries = savedQueries.map((query) => ({
     ...query,
-    id: query._id as string,
+    id: query._id as UniqueIdentifier,
   }));
   const getQueryPos = (id: number) => {
     return savedQueries.findIndex((query) => query._id === id);
