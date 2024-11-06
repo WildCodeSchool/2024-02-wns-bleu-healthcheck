@@ -1,6 +1,5 @@
 import "./LogsModal.scss";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { UrlData } from "@/common/components/UrlCard/UrlCard.tsx";
 import { Log } from "@/common/models/Log.ts";
 
 interface LogModalProps {
