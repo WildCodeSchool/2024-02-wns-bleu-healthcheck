@@ -5,12 +5,11 @@ import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { LOGOUT } from "@/common/graphql/queries";
-import {
-  AccountCircleOutlined,
-  MonitorHeartOutlined,
-  StarBorderOutlined,
-  LogoutOutlined,
-} from "@mui/icons-material";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import MonitorHeartOutlinedIcon from '@mui/icons-material/MonitorHeartOutlined';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+
 
 interface IHeaderMenu {
   handleOpen: () => void;
@@ -40,7 +39,7 @@ const HeaderMenu = ({ handleOpen }: IHeaderMenu) => {
                 className="header__menu-button"
               >
                 <span>Premium</span>
-                <StarBorderOutlined />
+                <StarBorderOutlinedIcon />
               </Button>
             )}
             <Button
@@ -49,7 +48,7 @@ const HeaderMenu = ({ handleOpen }: IHeaderMenu) => {
               className="header__menu-button"
             >
               <span>Dashboard</span>
-              <MonitorHeartOutlined />
+              <MonitorHeartOutlinedIcon />
             </Button>
             <Button
               component={Link}
@@ -57,17 +56,17 @@ const HeaderMenu = ({ handleOpen }: IHeaderMenu) => {
               className="header__menu-button"
             >
               <span>{userInfos.name}</span>
-              <AccountCircleOutlined />
+              <AccountCircleOutlinedIcon />
             </Button>
             <Button onClick={() => logout()} className="header__menu-button">
               <span>Logout</span>
-              <LogoutOutlined />
+              <LogoutOutlinedIcon />
             </Button>
           </>
         ) : (
           <Button onClick={handleOpen} className="header__menu-button">
             <span>Connexion</span>
-            <AccountCircleOutlined />
+            <AccountCircleOutlinedIcon />
           </Button>
         )}
       </div>

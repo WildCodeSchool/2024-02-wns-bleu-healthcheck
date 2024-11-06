@@ -22,14 +22,14 @@ import { Log } from "@/common/models/Log";
 import moment from "moment";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  InsertLinkOutlined,
-  CodeOutlined,
-  TimerOutlined,
-  SyncOutlined,
-  DeleteOutlined,
-  EditOutlined,
-} from "@mui/icons-material";
+
+import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
+import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
+import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+import SyncOutlinedIcon from "@mui/icons-material/SyncOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+
 export interface UrlData {
   url: string;
   _id?: number;
@@ -172,19 +172,19 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
         <ul className="card__list">
           <li className="card__url card__element card__text">
             <span className="card__icon">
-              <InsertLinkOutlined style={{ fontSize: "20px" }} />
+              <InsertLinkOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
             URL : {urlData.url}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <CodeOutlined style={{ fontSize: "20px" }} />
+              <CodeOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
             Code de retour : {lastLog.status_code}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <TimerOutlined style={{ fontSize: "20px" }} />
+              <TimerOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
             Temps de réponse :{" "}
             {lastLog.response_time ? `${lastLog.response_time} ms` : ""}
@@ -192,7 +192,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
           {urlData.frequency && (
             <li className="card__frequence card__element">
               <span className="card__icon">
-                <SyncOutlined />
+                <SyncOutlinedIcon />
               </span>
               Fréquence : {urlData.frequency} min
             </li>
@@ -256,7 +256,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
               onPointerDown={(e) => e.stopPropagation()}
               onClick={handleOpenDeleteDialog}
             >
-              <DeleteOutlined />
+              <DeleteOutlinedIcon />
             </Button>
           </Tooltip>
         </div>
@@ -309,7 +309,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
               onPointerDown={(e) => e.stopPropagation()}
               onClick={handleOpenEditDialog}
             >
-              <EditOutlined />
+              <EditOutlinedIcon />
             </Button>
           </Tooltip>
         </div>
