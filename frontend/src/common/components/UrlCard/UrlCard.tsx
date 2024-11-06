@@ -155,7 +155,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
 
   return (
     <div
-      className={`card ${
+      className={`card grabbable ${
         lastLog.status === 2
           ? "success"
           : lastLog.status === 1
@@ -170,33 +170,39 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
       {urlData.name && <p className="card__name">{urlData.name}</p>}
       <div className="card__content">
         <ul className="card__list">
-          <li className="card__url card__element card__text">
+          <li className="card__element">
             <span className="card__icon">
               <InsertLinkOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
-            URL : {urlData.url}
-          </li>
-          <li className="card__url card__element">
-            <span className="card__icon">
-              <CodeOutlinedIcon style={{ fontSize: "20px" }} />
+            <span className="card__text">
+              URL : {urlData.url}
             </span>
-            Code de retour : {lastLog.status_code}
           </li>
-          <li className="card__url card__element">
+          <li className="card__element">
+            <span className="card__icon">
+              <CodeOutlinedIcon style={{ fontSize: "20px" }}/>
+            </span>
+            <span className="card__text">
+              Code de retour : {lastLog.status_code}
+            </span>
+          </li>
+          <li className="card__element">
             <span className="card__icon">
               <TimerOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
-            Temps de réponse :{" "}
-            {lastLog.response_time ? `${lastLog.response_time} ms` : ""}
+            <span className="card__text">
+                Temps de réponse :{" "}
+                {lastLog.response_time ? `${lastLog.response_time} ms` : ""}
+            </span>
           </li>
-          {urlData.frequency && (
-            <li className="card__frequence card__element">
-              <span className="card__icon">
-                <SyncOutlinedIcon />
-              </span>
+          <li className="card__frequence card__element">
+            <span className="card__icon">
+              <SyncOutlinedIcon style={{ fontSize: "20px" }} />
+            </span>
+            <span className="card__text">
               Fréquence : {urlData.frequency} min
-            </li>
-          )}
+            </span>
+          </li>
         </ul>
         <div
           className="card__logs"
