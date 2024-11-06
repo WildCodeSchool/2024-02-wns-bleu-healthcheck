@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./TestBarUrl.scss";
-import { AiOutlineGlobal } from "react-icons/ai";
 import { LazyQueryExecFunction, OperationVariables } from "@apollo/client";
 import Tooltip from "@mui/material/Tooltip";
 import useValidateUrl from "@/common/hooks/useValidateUrl";
+import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TestBarUrl = ({
@@ -20,7 +20,7 @@ const TestBarUrl = ({
 
   const handleSubmit = () => {
     if (isValidUrl) {
-      execute({variables: {url}});
+      execute({ variables: { url } });
     }
   };
 
@@ -42,7 +42,7 @@ const TestBarUrl = ({
             }
           >
             <button onClick={handleSubmit} disabled={!isValidUrl}>
-              <AiOutlineGlobal size={22} />
+              <LanguageOutlinedIcon style={{ fontSize: "22" }} />
             </button>
           </div>
         </Tooltip>

@@ -1,7 +1,3 @@
-import { GoLink, GoSync, GoCode } from "react-icons/go";
-import { FaTrash } from "react-icons/fa";
-import { CiTimer } from "react-icons/ci";
-import { MdEdit } from "react-icons/md";
 import "./_urlCard.scss";
 import {
   Button,
@@ -26,7 +22,14 @@ import { Log } from "@/common/models/Log";
 import moment from "moment";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
+import {
+  InsertLinkOutlined,
+  CodeOutlined,
+  TimerOutlined,
+  SyncOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@mui/icons-material";
 export interface UrlData {
   url: string;
   _id?: number;
@@ -169,19 +172,19 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
         <ul className="card__list">
           <li className="card__url card__element card__text">
             <span className="card__icon">
-              <GoLink />
+              <InsertLinkOutlined style={{ fontSize: "20px" }} />
             </span>
             URL : {urlData.url}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <GoCode />
+              <CodeOutlined style={{ fontSize: "20px" }} />
             </span>
             Code de retour : {lastLog.status_code}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <CiTimer />
+              <TimerOutlined style={{ fontSize: "20px" }} />
             </span>
             Temps de réponse :{" "}
             {lastLog.response_time ? `${lastLog.response_time} ms` : ""}
@@ -189,7 +192,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
           {urlData.frequency && (
             <li className="card__frequence card__element">
               <span className="card__icon">
-                <GoSync />
+                <SyncOutlined />
               </span>
               Fréquence : {urlData.frequency} min
             </li>
@@ -253,7 +256,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
               onPointerDown={(e) => e.stopPropagation()}
               onClick={handleOpenDeleteDialog}
             >
-              <FaTrash />
+              <DeleteOutlined />
             </Button>
           </Tooltip>
         </div>
@@ -271,9 +274,10 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
         </DialogContent>
         <DialogActions>
           <Button
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={handleCloseDeleteDialog}
-              color="primary">
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={handleCloseDeleteDialog}
+            color="primary"
+          >
             Annuler
           </Button>
           <Button
@@ -305,7 +309,7 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
               onPointerDown={(e) => e.stopPropagation()}
               onClick={handleOpenEditDialog}
             >
-              <MdEdit />
+              <EditOutlined />
             </Button>
           </Tooltip>
         </div>
@@ -347,9 +351,10 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
         </DialogContent>
         <DialogActions>
           <Button
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={handleCloseEditDialog}
-              color="primary">
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={handleCloseEditDialog}
+            color="primary"
+          >
             Annuler
           </Button>
           <Button
