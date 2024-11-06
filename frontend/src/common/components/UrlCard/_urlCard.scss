@@ -2,9 +2,9 @@
 
 .card {
   position: relative;
-  margin: 10px;
+  margin: 8px;
   border-radius: $border-radius-md;
-  padding: 10px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   width: 330px;
@@ -17,7 +17,7 @@
     display: flex;
     justify-content: center;
     margin: 0;
-    padding: 5px 0 10px;
+    padding: 4px 0 8px;
     color: $dark-blue;
   }
 
@@ -32,11 +32,13 @@
   &__element {
     display: flex;
     align-items: center;
-    padding: 5px 0;
+    padding: 4px 0;
   }
 
   &__icon {
-    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
   }
 
   &__lastquery {
@@ -50,7 +52,6 @@
 
   &__text {
     width: 100%;
-    display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -60,8 +61,7 @@
     display: flex;
     gap: 2px;
     align-items: center;
-    border-radius: 5px;
-    margin-top: 5px;
+    margin-top: 4px;
     cursor: pointer;
   }
 
@@ -69,7 +69,7 @@
     display: flex;
     align-items: center;
     width: 8px;
-    border-radius: 5px;
+    border-radius: 4px;
     background-color: $green;
     &:hover {
       opacity: 0.5;

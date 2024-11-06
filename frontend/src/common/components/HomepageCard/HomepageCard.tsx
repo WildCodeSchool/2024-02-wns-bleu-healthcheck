@@ -2,8 +2,7 @@ import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 import CodeOutlinedIcon  from "@mui/icons-material/CodeOutlined";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 
-
-import "./_homepageCard.scss";
+import "../UrlCard/_urlCard.scss";
 
 interface HomepageCardProps {
   data: {
@@ -49,22 +48,28 @@ function HomepageCard({ data }: HomepageCardProps) {
             <span className="card__icon">
               <InsertLinkOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
-            URL : {data.url}
+            <span className="card__text">
+              URL : {data.url}
+            </span>
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <CodeOutlinedIcon style={{ fontSize: "20px" }} />
+              <CodeOutlinedIcon style={{fontSize: "20px"}}/>
             </span>
-            Code de retour : {data.testStatus.status_code}
+            <span className="card__text">
+              Code de retour : {data.testStatus.status_code}
+            </span>
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <TimerOutlinedIcon style={{ fontSize: "20px" }} />
+              <TimerOutlinedIcon style={{fontSize: "20px"}}/>
             </span>
+            <span className="card__text">
             Temps de réponse :{" "}
-            {data.testStatus.response_time
-              ? `${data.testStatus.response_time} ms`
-              : ""}
+              {data.testStatus.response_time
+                  ? `${data.testStatus.response_time} ms`
+                  : ""}
+            </span>
           </li>
         </ul>
       </div>
