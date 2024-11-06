@@ -8,11 +8,10 @@ import { EDIT_USER } from "@/common/graphql/queries";
 import useValidateEmail from "@/common/hooks/useValidateEmail";
 import { toast } from "react-toastify";
 import { REMOVE_PREMIUM_ROLE } from "@/common/graphql/queries";
-import {
-  EditOutlined,
-  SaveOutlined,
-  CancelOutlined,
-} from "@mui/icons-material";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+
 
 const AccountSettings = () => {
   const { userInfos, loading, refetch } = useContext(AuthContext);
@@ -104,14 +103,14 @@ const AccountSettings = () => {
                 color="warning"
                 size="small"
               >
-                <CancelOutlined style={{ fontSize: "20" }} />
+                <CancelOutlinedIcon style={{ fontSize: "20" }} />
               </Button>
             )}
             <Button type="submit" variant="text" color="primary">
               {isEditMode ? (
-                <SaveOutlined style={{ fontSize: "20" }} />
+                <SaveOutlinedIcon style={{ fontSize: "20" }} />
               ) : (
-                <EditOutlined style={{ fontSize: "20" }} />
+                <EditOutlinedIcon style={{ fontSize: "20" }} />
               )}
             </Button>
           </Grid>

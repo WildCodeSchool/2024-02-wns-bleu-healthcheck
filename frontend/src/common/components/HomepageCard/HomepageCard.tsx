@@ -1,8 +1,7 @@
-import {
-  InsertLinkOutlined,
-  CodeOutlined,
-  TimerOutlined,
-} from "@mui/icons-material";
+import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
+import CodeOutlinedIcon  from "@mui/icons-material/CodeOutlined";
+import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+
 
 import "./_homepageCard.scss";
 
@@ -48,19 +47,19 @@ function HomepageCard({ data }: HomepageCardProps) {
         <ul className="card__list">
           <li className="card__url card__element card__text">
             <span className="card__icon">
-              <InsertLinkOutlined style={{ fontSize: "20px" }} />
+              <InsertLinkOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
             URL : {data.url}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <CodeOutlined style={{ fontSize: "20px" }} />
+              <CodeOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
             Code de retour : {data.testStatus.status_code}
           </li>
           <li className="card__url card__element">
             <span className="card__icon">
-              <TimerOutlined style={{ fontSize: "20px" }} />
+              <TimerOutlinedIcon style={{ fontSize: "20px" }} />
             </span>
             Temps de réponse :{" "}
             {data.testStatus.response_time
