@@ -122,7 +122,7 @@ const Dashboard = () => {
         open={isModalOpen}
         handleClose={handleCloseModal}
         urlName={queryName}
-        logs={logs}
+        logs={logs.filter((log) => log.date)} // Filter out logs without date
       />
     </div>
   );
