@@ -10,7 +10,7 @@ import {CircularProgress} from "@mui/material";
 import Button from "@mui/material/Button";
 import "./PremiumPayment.scss"
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe("pk_test_51QIR5a01iWwnlCLs3pTPq60DZSvlgMll0hh2Ez8Eu7qKVA9jlwpJswEexxVqGfTRnxNRuBEfpiCjVUZf4ExPThBL00JowBFjNI");
 
 const StripePaymentForm: React.FC<{clientSecret: string}> = ({clientSecret}) => {
     const stripe = useStripe();
