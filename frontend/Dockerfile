@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine3.18
 
 RUN apk --no-cache add curl
 
@@ -13,9 +13,9 @@ COPY tsconfig.node.json tsconfig.node.json
 COPY vite.config.ts vite.config.ts
 
 
-COPY package.json package.json
+COPY package*.json ./
 RUN npm install
 
 COPY src src
 
-CMD npm run dev
+CMD ["npm", "run", "dev"]

@@ -11,16 +11,18 @@ import { REMOVE_PREMIUM_ROLE } from "@/common/graphql/queries";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import ChangePasswordModal from "@/common/components/changePasswordModal/changePasswordModal";
 
 
 const AccountSettings = () => {
   const { userInfos, loading, refetch } = useContext(AuthContext);
   const [editUserMutation] = useMutation(EDIT_USER);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [name, setName] = useState(userInfos.name ?? "");
   const [email, setEmail] = useState(userInfos.email ?? "");
   const isValidEmail = useValidateEmail(email);
-
+  const handleModalClose = () => setIsPasswordModalOpen(false);
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -79,6 +81,7 @@ const AccountSettings = () => {
       maxWidth="sm"
       sx={{ minHeight: `calc(100vh - 40px)`, mt: 2, pt: 16, pb: 2 }}
     >
+      <ChangePasswordModal open={isPasswordModalOpen} handleClose={handleModalClose} />
       <form onSubmit={handleSubmit}>
         <Grid
           container
@@ -88,6 +91,7 @@ const AccountSettings = () => {
           justifyContent={"space-between"}
         >
           <Grid sm={8}>
+
             <Typography
               variant="h4"
               sx={{ display: "flex", justifyContent: "center" }}
@@ -141,14 +145,32 @@ const AccountSettings = () => {
           </Grid>
         </Grid>
       </form>
-      {userInfos.role == 1 && (
-        <div className="account-settings__remove-premium-role">
-          <Button color="error" onClick={() => removePremiumRole()}>
-            Résilier l'abonnement premium
-          </Button>
-        </div>
-      )}
-    </Container>
+      <Grid sm={8} mt={8}>
+        <Typography
+          variant="h4"
+          sx={{ display: "flex" }}
+        >
+          Sécurité
+        </Typography>
+      </Grid>
+      <Button
+        sx={{ mt: 2 }}
+        variant="text"
+        onClick={() => setIsPasswordModalOpen(true)}
+        color="warning"
+      >
+        Changer le mot de passe
+      </Button>
+      {
+        userInfos.role == 1 && (
+          <div className="account-settings__remove-premium-role">
+            <Button color="error" onClick={() => removePremiumRole()}>
+              Résilier l'abonnement premium
+            </Button>
+          </div>
+        )
+      }
+    </Container >
   );
 };
 
