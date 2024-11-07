@@ -1,0 +1,26 @@
+@import "@styles/variables";
+
+h1 {
+  margin-top: 0;
+  color: $dark-blue;
+}
+
+.payment__modal {
+  padding: 32px;
+}
+
+.payment__confirm_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.payment__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  min-height: 250px;
+}

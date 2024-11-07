@@ -4,7 +4,6 @@ export default class Tools {
     static isRequestLimitReached = (role:number, numberOfQueries:number):boolean => {
         // Return true if user is not premium and has at least 3 saved queries
         if(role < 1 && numberOfQueries >= 3) {
-            console.log("We should be here")
             return true;
         }
 

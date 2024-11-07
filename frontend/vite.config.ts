@@ -28,6 +28,9 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: "jsdom",
     },
+    optimizeDeps: {
+      include: ["@stripe/stripe-js"],  // Ensure Vite pre-bundles this
+    }
   };
 
   return config;

@@ -29,7 +29,6 @@ const Dashboard = () => {
   });
 
   const { userInfos } = useAuth();
-  console.log(userInfos);
 
   const [updateQueryOrder] = useMutation(UPDATE_QUERY_ORDER);
 

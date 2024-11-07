@@ -114,3 +114,11 @@ export const REMOVE_PREMIUM_ROLE = gql`
         removePremiumRole
     }
 `;
+
+export const CREATE_PAYMENT_INTENT = gql`
+  mutation CreatePaymentIntent($amount: Float!) {
+    createPaymentIntent(amount: $amount) {
+      clientSecret
+    }
+  }
+`;
