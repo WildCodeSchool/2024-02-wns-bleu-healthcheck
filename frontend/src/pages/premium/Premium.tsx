@@ -1,34 +1,33 @@
 import "./Premium.scss";
 import Button from "@mui/material/Button";
-import {useMutation} from "@apollo/client";
-//import {toast} from "react-toastify";
-import {ADD_PREMIUM_ROLE} from "@/common/graphql/queries.ts";
 import {useNavigate} from "react-router-dom";
 import useAuth from "@/common/hooks/useAuth.tsx";
-import {toast} from "react-toastify";
+import Dialog from "@mui/material/Dialog";
+import {useState} from "react";
+import PremiumPayment from "@/common/components/payment/PremiumPayment.tsx";
+
 
 const Premium = () => {
 
     const premiumOptionTitle = "Premium"
 
     const navigate = useNavigate();
-
     const { userInfos } = useAuth();
-    const { refetch } = useAuth();
 
     // Redirect if user is already premium
     if(userInfos.role && userInfos.role == 1) {
         navigate("/");
     }
 
-    const [addPremiumRole] = useMutation(ADD_PREMIUM_ROLE, {
-        fetchPolicy: 'no-cache',
-        onCompleted: async () => {
-            toast.success("Vous êtes désormais membre premium !");
-            refetch();
-            navigate("/dashboard");
-        }
-    });
+    const [openPaymentModal, setOpenPaymentModal] = useState(false);
+
+    const handleOpenPaymentModal = () => {
+        setOpenPaymentModal(true);
+    };
+
+    const handleClosePaymentModal = () => {
+        setOpenPaymentModal(false);
+    };
 
     return (
         <div className="premium__wrapper">
@@ -69,15 +68,20 @@ const Premium = () => {
                         <Button
                             variant="contained"
                             color="secondary"
-                            onClick={() => addPremiumRole()}
+                            onClick={() => handleOpenPaymentModal()}
                         >
                             S'abonner
                         </Button>
                     </div>
                 </div>
             </div>
+            <Dialog open={openPaymentModal} onClose={handleClosePaymentModal} fullWidth maxWidth="md">
+                <PremiumPayment />
+            </Dialog>
         </div>
     )
 }
+
+
 
 export default Premium;

@@ -41,6 +41,9 @@ body {
   .savequery__bar-button-invalid {
     width: 15%;
     button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
       height: 100%;
       border: none;

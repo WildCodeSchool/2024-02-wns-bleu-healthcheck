@@ -10,7 +10,7 @@
   height: 60px;
   margin : 0 16px;
   display: flex;
-  justify-content: space-between;
+  gap: 16px;
   align-items: center;
 }
 
@@ -51,3 +51,7 @@
   font-style: italic;
 }
 
+.dashboard__limitreached {
+  color: $red;
+  font-style: italic;
+}

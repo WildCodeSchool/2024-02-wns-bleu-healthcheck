@@ -23,6 +23,8 @@
     "@mui/icons-material": "^5.16.0",
     "@mui/material": "^5.15.21",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@stripe/react-stripe-js": "^2.8.1",
+    "@stripe/stripe-js": "^4.9.0",
     "@testing-library/react": "^16.0.0",
     "@types/node": "^20.14.10",
     "graphql": "^16.9.0",
@@ -32,7 +34,8 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
     "react-toastify": "^10.0.5",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "vite-plugin-commonjs": "^0.10.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.6",

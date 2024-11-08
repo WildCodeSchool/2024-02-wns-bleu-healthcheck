@@ -72,7 +72,7 @@ describe("SavedQueryResolver", () => {
         data: {
           url: "http://google.com",
           name: "google",
-          frequency: "1",
+          frequency: "60",
         },
       },
     });

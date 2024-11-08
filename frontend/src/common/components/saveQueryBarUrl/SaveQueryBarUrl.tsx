@@ -10,27 +10,35 @@ import useValidateUrl from "@/common/hooks/useValidateUrl";
 import Tools from "@/common/helpers/Tools";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
+interface SavedQueryBarUrlProps {
+  limitReached: boolean;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SaveQueryBarUrl = () => {
+const SaveQueryBarUrl = ({ limitReached }: SavedQueryBarUrlProps) => {
   const [url, setUrl] = useState("");
   const isValidUrl = useValidateUrl(url);
+  const [loading, setLoading] = useState(false); // Loader to avoid multiple clicks
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputUrl = e.target.value;
     setUrl(inputUrl);
   };
+
   const [createSavedQuery] = useMutation(CREATE_SAVED_QUERY, {
     refetchQueries: [{ query: GET_SAVED_QUERIES }],
     awaitRefetchQueries: true,
   });
 
   const handleSubmit = () => {
+    setLoading(true);
     const name = Tools.getPrettyUrlName(url);
 
     // Set default frequency
     const frequency = "60";
 
-    createSavedQuery({ variables: { data: { url, name, frequency } } });
+    createSavedQuery({ variables: { data: { url, name, frequency } } })
+      .then(() => setLoading(false));
   };
 
   return (
@@ -49,12 +57,12 @@ const SaveQueryBarUrl = () => {
         >
           <div
             className={
-              isValidUrl
+              isValidUrl && !limitReached
                 ? "savequery__bar-button-valid"
                 : "savequery__bar-button-invalid"
             }
           >
-            <button onClick={handleSubmit} disabled={!isValidUrl}>
+            <button onClick={handleSubmit} disabled={!isValidUrl || limitReached || loading}>
               <LanguageOutlinedIcon style={{ fontSize: "20px" }} />
             </button>
           </div>
