@@ -5,7 +5,6 @@ import {
   OneToMany,
   BaseEntity,
   ManyToMany,
-  JoinTable,
 } from "typeorm";
 import { ObjectType, Field, Int } from "type-graphql";
 import { SavedQuery } from "./SavedQuery";
@@ -38,6 +37,5 @@ export class User extends BaseEntity {
   queries?: SavedQuery[];
 
   @ManyToMany(() => Group, (group) => group.users)
-  @JoinTable()
   group?: Group[];
 }
