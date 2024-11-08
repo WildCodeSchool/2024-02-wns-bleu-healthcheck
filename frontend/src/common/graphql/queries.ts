@@ -50,6 +50,13 @@ export const EDIT_USER = gql`
   }
 `;
 
+export const EDIT_USER_PASSWORD = gql`
+  mutation editUserPassword($oldPassword: String!, $newPassword: String!) {
+    editUserPassword(oldPassword: $oldPassword, newPassword: $newPassword)
+  }
+`;
+
+
 export const CREATE_SAVED_QUERY = gql`
   mutation CreateSavedQuery($data: NewQueryInput!) {
     addQuery(data: $data)
@@ -114,3 +121,4 @@ export const REMOVE_PREMIUM_ROLE = gql`
         removePremiumRole
     }
 `;
+
