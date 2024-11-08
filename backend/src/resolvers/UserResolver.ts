@@ -56,6 +56,29 @@ class UserResolver {
     }
   }
 
+  @Mutation(() => String)
+  async editUserPassword(
+    @Ctx() context: AppContext, @Arg("oldPassword") oldPassword: string, @Arg("newPassword") newPassword: string
+  ): Promise<String> {
+    try {
+      if (context.userId === undefined) {
+        throw new Error("Vous n'êtes pas authentifié");
+      }
+      const user = await User.findOneByOrFail({ _id: context.userId });
+      if (!await argon2.verify(user.password, oldPassword)) {
+        throw new Error("Le mot de passe est incorrect");
+      }
+      if (await argon2.verify(user.password, newPassword)) {
+        throw new Error("Le nouveau mot de passe doit être différent de l'ancien");
+      }
+      user.password = await argon2.hash(newPassword);
+      await user.save();
+      return "Password edited";
+    } catch (err) {
+      throw err;
+    }
+  }
+
   @Query(() => String)
   async login(
     @Arg("email") email: string,
@@ -101,6 +124,50 @@ class UserResolver {
       };
     } else {
       return { isLoggedIn: false };
+    }
+  }
+
+  @Mutation(() => String)
+  async addPremiumRole(@Ctx() context: AppContext) {
+    try {
+      const user = await User.findOneBy({ _id: context.userId });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      if (user.role === 2) {
+        throw new Error("User is admin");
+      }
+
+      user.role = 1;
+      await user.save();
+      return "Premium role added";
+
+    } catch (err) {
+      throw new Error("Failed to update role");
+    }
+  }
+
+  @Mutation(() => String)
+  async removePremiumRole(@Ctx() context: AppContext) {
+    try {
+      const user = await User.findOneBy({ _id: context.userId });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      if (user.role !== 1) {
+        throw new Error("User does not have premium role");
+      }
+
+      user.role = 0;
+      await user.save();
+      return "Premium role removed";
+
+    } catch (err) {
+      throw new Error("Failed to update role");
     }
   }
 }

@@ -10,7 +10,7 @@
   height: 60px;
   margin : 0 16px;
   display: flex;
-  justify-content: space-between;
+  gap: 16px;
   align-items: center;
 }
 
@@ -41,4 +41,17 @@
     width: 100%;
 }
 
+.dashboard__no-queries {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: lightgray;
+  font-style: italic;
+}
 
+.dashboard__limitreached {
+  color: $red;
+  font-style: italic;
+}

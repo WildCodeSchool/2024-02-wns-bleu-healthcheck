@@ -8,6 +8,7 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import UserResolver from "./resolvers/UserResolver";
 import SavedQueryResolver from "./resolvers/SavedQueryResolver";
 import LogResolver from "./resolvers/LogResolver";
+import PaymentResolver from "./resolvers/PaymentResolver";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
 import { startSavedQueriesWorker } from './workers/savedQueriesWorker';
@@ -17,7 +18,7 @@ const start = async () => {
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, SavedQueryResolver, LogResolver],
+    resolvers: [UserResolver, SavedQueryResolver, LogResolver, PaymentResolver],
     authChecker: ({context}, roles) => {
       // Check user
       if (!context.email) {

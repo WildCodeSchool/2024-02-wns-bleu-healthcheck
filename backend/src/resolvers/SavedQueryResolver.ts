@@ -1,191 +1,232 @@
-import {Arg, Authorized, Ctx, Mutation, Query, Resolver} from 'type-graphql';
-import {TestUrlResponse} from '../types/TestUrlResponse';
-import {NewQueryInput} from "../types/NewQueryInput";
-import {User} from "../entity/User";
-import {SavedQuery} from '../entity/SavedQuery';
-import {AppContext} from '../types/AppContext';
-import {RequestTester} from '../helpers/RequestTester';
-import {startNewQueryWorker, stopQueryWorker} from '../workers/savedQueriesWorker';
-import {SavedQueryWithLastStatus} from '../types/SavedQueryWithLastStatus';
-import {Log} from '../entity/Log';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { TestUrlResponse } from "../types/TestUrlResponse";
+import { NewQueryInput } from "../types/NewQueryInput";
+import { User } from "../entity/User";
+import { SavedQuery } from "../entity/SavedQuery";
+import { AppContext } from "../types/AppContext";
+import { RequestTester } from "../helpers/RequestTester";
+import {
+  startNewQueryWorker,
+  stopQueryWorker,
+} from "../workers/savedQueriesWorker";
+import { Log } from "../entity/Log";
+import Tools from "../helpers/Tools";
 
 @Resolver()
 class SavedQueryResolver {
+  /**
+   * Test a URL
+   * @param url
+   */
+  @Query(() => TestUrlResponse)
+  async testUrl(@Arg("url") url: string): Promise<TestUrlResponse> {
+    return RequestTester.testRequest(url);
+  }
 
-    /**
-     * Test a URL
-     * @param url
-     */
-    @Query(() => TestUrlResponse)
-    async testUrl(
-        @Arg('url') url: string
-    ): Promise<TestUrlResponse> {
-        return RequestTester.testRequest(url);
+  /**
+   * Add a new query
+   * @param data
+   * @param ctx
+   */
+  @Mutation(() => String)
+  async addQuery(
+    @Arg("data") data: NewQueryInput,
+    @Ctx() ctx: AppContext
+  ): Promise<string> {
+    // Extract userId from context
+    const userFromDB = await User.findOneByOrFail({ email: ctx.email });
+    if (!userFromDB) {
+      throw new Error("User not authenticated");
     }
 
-    /**
-     * Add a new query
-     * @param data
-     * @param ctx
-     */
-    @Mutation(() => String)
-    async addQuery(
-        @Arg('data') data: NewQueryInput,
-        @Ctx() ctx: AppContext
-    ): Promise<string> {
-
-        // Extract userId from context
-        const userFromDB = await User.findOneByOrFail({ email: ctx.email })
-        if(!userFromDB) {
-            throw new Error('User not authenticated');
-        }
-
-        const query = SavedQuery.create({
-            url: data.url,
-            name: data.name,
-            frequency: parseInt(data.frequency),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            user: userFromDB,
-        });
-
-        await query.save();
-
-        // Start the worker for the new query
-        await startNewQueryWorker(query);
-
-        return "Query saved";
+    // Reject if user has reached the limit of saved queries (3 for non-premium users, 100 for premium users)
+    const numberOfQueries = await SavedQuery.count({where: { user: userFromDB }});
+    if (Tools.isRequestLimitReached(userFromDB.role, numberOfQueries)) {
+      throw new Error("Request limit reached");
     }
 
-    /**
-     * Get all queries for the current user
-     */
-    @Authorized()
-    @Query(() => [SavedQueryWithLastStatus])
-    async getSavedQueries(
-        @Ctx() ctx: AppContext
-    ): Promise<SavedQueryWithLastStatus[]> {
-
-        const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
-
-        if (userFromDB === undefined) {
-            throw new Error('User not authenticated');
-        }
-
-        const savedQueries = await SavedQuery.find({ where: { user: userFromDB } });
-
-        return await Promise.all(savedQueries.map(async (query) => {
-            const lastLog = await Log.findOne({
-                where: {query: query},
-                order: {date: "DESC"}
-            });
-
-            return {
-                ...query,
-                lastStatus: lastLog || null
-            } as SavedQueryWithLastStatus;
-        }));
+    // Reject if frequency is not 60 for non-premium users
+    if (parseInt(data.frequency) !== 60 && userFromDB.role < 1) {
+      throw new Error("Only premium users can set a frequency different from 60");
     }
 
-    /**
-     * Get the last 50 logs for a query by query ID
-     */
-    @Query(() => [Log])
-    async getLogsForSavedQuery(
-        @Arg('savedQueryId') queryId: number,
-    ): Promise<Log[]> {
-        // Check if the query exists
-        const query = await SavedQuery.findOneOrFail({where: {_id: queryId}});
-
-        // If not, return an empty array (shouldn't happen)
-        if(!query) return [];
-
-        // There should always be logs for a query, as we create one when the query is created
-        return await Log.find({where: {query: query}, take: 50, order: {date: 'DESC'}});
+    // Reject if frequency is not between 1 and 60
+    if (parseInt(data.frequency) < 1 || parseInt(data.frequency) > 60) {
+      throw new Error("Frequency must be between 1 and 60");
     }
 
-    /**
-     * Delete a query by ID
-     * @param queryId
-     * @param ctx
-     */
-    @Authorized()
-    @Mutation(() => String)
-    async deleteQuery(
-        @Arg('queryId') queryId: number,
-        @Ctx() ctx: AppContext
-    ): Promise<string> {
+    const query = SavedQuery.create({
+      url: data.url,
+      name: data.name,
+      frequency: parseInt(data.frequency),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user: userFromDB,
+      queryOrder: 0,
+    });
 
-        const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
+    const savedQuery = await query.save();
 
-        if (!userFromDB) {
-            throw new Error("User not authenticated");
-        }
+    savedQuery.queryOrder = savedQuery._id;
 
-        // Find the query and check if it belongs to the authenticated user
-        const query = await SavedQuery.findOne({
-            where: { _id: queryId, user: userFromDB }
-        });
+    await savedQuery.save();
+    // Start the worker for the new query
+    await startNewQueryWorker(query);
 
-        if (!query) {
-            return "Query not found or not authorized to delete";
-        }
+    return "Query saved";
+  }
 
-        // Remove the worker associated to the query
-        stopQueryWorker(queryId);
+  /**
+   * Get all queries for the current user
+   */
+  @Authorized()
+  @Query(() => [SavedQuery])
+  async getSavedQueries(@Ctx() ctx: AppContext): Promise<SavedQuery[]> {
+    const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
 
-        // Remove the logs associated to the query before deleting it
-        await Log.delete({query: query });
-
-        await query.remove();
-        return "Query deleted";
+    if (userFromDB === undefined) {
+      throw new Error("User not authenticated");
     }
 
-    /**
-     * Edit a query by ID
-     */
-    @Authorized()
-    @Mutation(() => String)
-    async editQuery(
-        @Arg('queryId') queryId: number,
-        @Arg('name') name: string,
-        @Arg('frequency') frequency: number,
-        @Ctx() ctx: AppContext
-    ): Promise<string> {
+    return await SavedQuery.find({ where: { user: userFromDB } });
+  }
 
-        if(name.length === 0 || frequency <= 0 || frequency > 60) {
-            throw new Error("Invalid name or frequency");
-        }
+  /**
+   * Get the last 50 logs for a query by query ID
+   */
+  @Query(() => [Log])
+  async getLogsForSavedQuery(
+    @Arg("savedQueryId") queryId: number
+  ): Promise<Log[]> {
+    // Check if the query exists
+    const query = await SavedQuery.findOneOrFail({ where: { _id: queryId } });
+    // If not, return an empty array (shouldn't happen)
+    if (!query) return [];
 
-        const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
+    // There should always be logs for a query, as we create one when the query is created
+    return await Log.find({
+      relations: ["query"],
+      where: { query: { _id: queryId } },
+      take: 50,
+      order: { date: "DESC" },
+    });
+  }
 
-        if (!userFromDB) {
-            throw new Error("User not authenticated");
-        }
+  /**
+   * Delete a query by ID
+   * @param queryId
+   * @param ctx
+   */
+  @Authorized()
+  @Mutation(() => String)
+  async deleteQuery(
+    @Arg("queryId") queryId: number,
+    @Ctx() ctx: AppContext
+  ): Promise<string> {
+    const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
 
-        // Find the query and check if it belongs to the authenticated user
-        const query = await SavedQuery.findOne({
-            where: { _id: queryId, user: userFromDB }
-        });
-
-        if (!query) {
-            return "Query not found or not authorized to update";
-        }
-        query.name = name;
-        query.frequency = frequency;
-        query.updatedAt = new Date();
-
-        await query.save();
-
-        // Remove the worker associated to the query
-        stopQueryWorker(queryId);
-
-        // Start the worker for the updated query
-        await startNewQueryWorker(query);
-
-        return "Query updated";
+    if (!userFromDB) {
+      throw new Error("User not authenticated");
     }
 
+    // Find the query and check if it belongs to the authenticated user
+    const query = await SavedQuery.findOne({
+      where: { _id: queryId, user: userFromDB },
+    });
+
+    if (!query) {
+      return "Query not found or not authorized to delete";
+    }
+
+    // Remove the worker associated to the query
+    stopQueryWorker(queryId);
+
+    // Remove the logs associated to the query before deleting it
+    await Log.delete({ query: { _id: queryId } });
+
+    await query.remove();
+    return "Query deleted";
+  }
+
+  /**
+   * Edit a query by ID
+   */
+  @Authorized()
+  @Mutation(() => String)
+  async editQuery(
+    @Arg("queryId") queryId: number,
+    @Arg("name") name: string,
+    @Arg("frequency") frequency: number,
+    @Ctx() ctx: AppContext
+  ): Promise<string> {
+    if (name.length === 0 || frequency <= 0 || frequency > 60) {
+      throw new Error("Invalid name or frequency");
+    }
+
+    const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
+
+    if (!userFromDB) {
+      throw new Error("User not authenticated");
+    }
+
+    // Reject if frequency is not 60 for non-premium users
+    if (frequency !== 60 && userFromDB.role < 1) {
+      throw new Error("Only premium users can set a frequency different from 60");
+    }
+
+    // Reject if frequency is not between 1 and 60
+    if (frequency < 1 || frequency > 60) {
+      throw new Error("Frequency must be between 1 and 60");
+    }
+
+    // Find the query and check if it belongs to the authenticated user
+    const query = await SavedQuery.findOne({
+      where: { _id: queryId, user: userFromDB },
+    });
+
+    if (!query) {
+      return "Query not found or not authorized to update";
+    }
+    query.name = name;
+    query.frequency = frequency;
+    query.updatedAt = new Date();
+
+    await query.save();
+
+    // Remove the worker associated to the query
+    stopQueryWorker(queryId);
+
+    // Start the worker for the updated query
+    await startNewQueryWorker(query);
+
+    return "Query updated";
+  }
+
+  @Authorized()
+  @Mutation(() => String)
+  async updateQueryOrder(
+    @Arg("queriesId", () => [Number]) queriesId: number[],
+    @Ctx() ctx: AppContext
+  ): Promise<string> {
+    const userFromDB = await User.findOneByOrFail({ _id: ctx.userId });
+
+    if (!userFromDB) {
+      throw new Error("User not authenticated");
+    }
+    queriesId.map(async (queryId, index) => {
+      const savedQuery = await SavedQuery.findOne({
+        where: { _id: queryId, user: userFromDB },
+      });
+
+      if (!savedQuery) {
+        throw new Error("Query not found or not authorized to update");
+      }
+      savedQuery.queryOrder = index;
+      await savedQuery.save();
+    });
+
+    return "Query order updated successfully";
+  }
 }
 
 export default SavedQueryResolver;
