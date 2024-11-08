@@ -1,14 +1,13 @@
 @import "@styles/variables";
-
 .card {
   position: relative;
   margin: 10px;
   border-radius: $border-radius-md;
-  padding: 10px;
+  padding: 10px 10px 0;
   display: flex;
   flex-direction: column;
   width: 330px;
-  max-height: 210px;
+  max-height: 190px;
   box-shadow: $base-shadow;
   font-family: $base-font-family;
 
@@ -34,7 +33,6 @@
     align-items: center;
     padding: 5px 0;
   }
-
   &__icon {
     padding-right: 10px;
   }
@@ -47,33 +45,12 @@
     font-size: 0.65rem;
     font-weight: $heading-font-weight;
   }
-
   &__text {
     width: 100%;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  &__logs {
-    display: flex;
-    gap: 2px;
-    align-items: center;
-    border-radius: 5px;
-    margin-top: 5px;
-    cursor: pointer;
-  }
-
-  &__log {
-    display: flex;
-    align-items: center;
-    width: 8px;
-    border-radius: 5px;
-    background-color: $green;
-    &:hover {
-      opacity: 0.5;
-    }
   }
 }
 
@@ -96,14 +73,13 @@
   cursor: pointer;
 }
 
-.card:hover .card__delete_button,
-.card:hover .card__edit_button {
+.card:hover .card__delete_button, .card:hover .card__edit_button{
   display: block;
 }
 
 .card__delete_button {
-  color: #4e4e4e;
-  display: none;
+  color: #4E4E4E;
+  display : none;
   position: absolute;
   top: 4px;
   right: 4px;
@@ -119,8 +95,8 @@
 }
 
 .card__edit_button {
-  color: #4e4e4e;
-  display: none;
+  color: #4E4E4E;
+  display : none;
   position: absolute;
   top: 4px;
   right: 36px;

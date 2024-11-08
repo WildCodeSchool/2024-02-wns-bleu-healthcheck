@@ -15,10 +15,10 @@ class LogResolver {
         const log = Log.create({
             query: query,
             date: new Date(),
-            status: testResult.testStatus.status,
-            response_time: testResult.testStatus.response_time,
-            status_code: testResult.testStatus.status_code,
-            status_message: testResult.testStatus.status_message,
+            status: testResult.lastStatus.status,
+            response_time: testResult.lastStatus.response_time,
+            status_code: testResult.lastStatus.status_code,
+            status_message: testResult.lastStatus.status_message,
         });
 
         await Log.save(log);

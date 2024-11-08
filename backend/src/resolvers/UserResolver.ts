@@ -103,50 +103,6 @@ class UserResolver {
       return { isLoggedIn: false };
     }
   }
-
-  @Mutation(() => String)
-  async addPremiumRole(@Ctx() context: AppContext) {
-    try {
-      const user = await User.findOneBy({_id: context.userId});
-
-      if (!user) {
-        throw new Error("User not found");
-      }
-
-      if(user.role === 2) {
-          throw new Error("User is admin");
-      }
-
-      user.role = 1;
-      await user.save();
-      return "Premium role added";
-
-    } catch (err) {
-      throw new Error("Failed to update role");
-    }
-  }
-
-  @Mutation(() => String)
-  async removePremiumRole(@Ctx() context: AppContext) {
-    try {
-      const user = await User.findOneBy({_id: context.userId});
-
-      if (!user) {
-        throw new Error("User not found");
-      }
-
-      if(user.role !== 1) {
-        throw new Error("User does not have premium role");
-      }
-
-      user.role = 0;
-      await user.save();
-      return "Premium role removed";
-
-    } catch (err) {
-      throw new Error("Failed to update role");
-    }
-  }
 }
 
 export default UserResolver;

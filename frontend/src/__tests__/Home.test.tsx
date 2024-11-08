@@ -16,7 +16,7 @@ const mocks = [
       data: {
         testUrl: {
           url: "http://example.com",
-          testStatus: {
+          lastStatus: {
             date: "2024-01-01",
             response_time: 200,
             status: 2,

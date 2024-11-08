@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import "./SaveQueryBarUrl.scss";
+import { AiOutlineGlobal } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
-import {
-  CREATE_SAVED_QUERY,
-  GET_SAVED_QUERIES,
-} from "@/common/graphql/queries";
+import {CREATE_SAVED_QUERY, GET_SAVED_QUERIES} from "@/common/graphql/queries";
 import Tooltip from "@mui/material/Tooltip";
 import useValidateUrl from "@/common/hooks/useValidateUrl";
-import Tools from "@/common/helpers/Tools";
-import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SaveQueryBarUrl = () => {
@@ -25,7 +21,11 @@ const SaveQueryBarUrl = () => {
   });
 
   const handleSubmit = () => {
-    const name = Tools.getPrettyUrlName(url);
+    // Remove the protocol and "www." prefix if they exist
+    const cleanedUrl = url.replace(/^(https?:\/\/)?(www\.)?/, "");
+
+    // Split by "." and take the first term
+    const name = cleanedUrl.split(".")[0];
 
     // Set default frequency
     const frequency = "60";
@@ -55,7 +55,7 @@ const SaveQueryBarUrl = () => {
             }
           >
             <button onClick={handleSubmit} disabled={!isValidUrl}>
-              <LanguageOutlinedIcon style={{ fontSize: "20px" }} />
+              <AiOutlineGlobal />
             </button>
           </div>
         </Tooltip>
