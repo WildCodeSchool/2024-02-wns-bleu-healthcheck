@@ -26,3 +26,15 @@ jobs:
       - name: Run backend tests
         run: npm run test
 
+  fontend_unit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm i
+      - name: Run frontend tests
+        run: npm run test
