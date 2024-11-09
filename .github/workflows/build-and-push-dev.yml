@@ -1,0 +1,14 @@
+name: Compile and push dev images
+
+on:
+  push:
+    branches: ["develop"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      environment: "dev"
