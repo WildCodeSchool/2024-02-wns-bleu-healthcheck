@@ -1,0 +1,39 @@
+name: Build and push
+description: Build and push Docker images to Docker Hub
+
+inputs:
+  environment:
+    description: "Environment to build images for"
+    required: true
+  service:
+    description: "Service to build and push"
+    required: true
+  dockerhub_username:
+    description: "Docker Hub username"
+    required: true
+  dockerhub_token:
+    description: "Docker Hub token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check inputs
+      shell: bash
+      if: ${{ inputs.environment != 'dev' && inputs.environment != 'prod' }}
+      run: echo "Wrong environment. Expected 'dev' or 'prod', got '${{ inputs.environment }}'" && exit 1
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ inputs.dockerhub_username }}
+        password: ${{ inputs.dockerhub_token }}
+
+    - name: Build and push backend image
+      shell: bash
+      run: |
+        docker build -t pierrecastro/healthcheck-${{ matrix.service }}:${{ inputs.environment }} ${{ matrix.service }}
+        docker push pierrecastro/healthcheck-${{ matrix.service }}:${{ inputs.environment }}
