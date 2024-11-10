@@ -1,0 +1,55 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  backend_integration:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/tests/integration
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Run backend, APIgateway and database services in a dedicated container
+        run: docker compose -f docker-compose.yml up -d
+      - name: Install dependencies
+        run: npm i
+      - name: Run backend tests
+        run: npm run test
+
+  fontend_unit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm i
+      - name: Run frontend tests
+        run: npm run test
+
+  e2e:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: e2e
+    if: false # Disable e2e tests, deprecated at the moment
+    timeout-minutes: 2
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Run backend, frontend, APIgateway and database services in a dedicated container
+        run: docker compose -f docker-compose.yml up -d
+      - name: Run e2e tests
+        run: docker compose exec playwright npx playwright test

@@ -1,0 +1,31 @@
+services:
+    backend:
+        build: ../backend
+        env_file:
+            - .env.e2e
+        depends_on:
+            - db
+    frontend:
+        build: ../frontend
+        depends_on:
+            - backend
+    db:
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: password
+    apigateway:
+        image: nginx
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            - backend
+            - frontend
+        ports:
+            - 7001:80
+    playwright:
+        build: .
+        volumes:
+            - ./playwright-report:/app/playwright-report
+            - ./test-results:/app/test-results
+        depends_on:
+            - apigateway

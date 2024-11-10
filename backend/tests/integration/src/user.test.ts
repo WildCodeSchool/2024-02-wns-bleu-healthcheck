@@ -7,7 +7,7 @@ import {
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: "http://apigateway/api",
+    uri: "http://localhost:7001/api",
     fetch,
   }),
   cache: new InMemoryCache(),

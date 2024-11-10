@@ -1,5 +1,5 @@
 {
-  "name": "e2e_backend",
+  "name": "backend_integration",
   "version": "1.0.0",
   "description": "",
   "main": "jest.config.js",

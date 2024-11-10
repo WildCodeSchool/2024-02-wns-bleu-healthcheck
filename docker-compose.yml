@@ -1,55 +1,82 @@
+volumes:
+  db:
+    name: db-${TAG}
+
+networks:
+  healthcheck:
+    name: healthcheck-${TAG}
+
 services:
   backend:
+    container_name: backend-${TAG:-prod}
+    image: pierrecastro/healthcheck-backend:${TAG}
     build: ./backend
-    volumes:
-      - ./backend/src:/app/src
-      - /app/node_modules
+    networks:
+      - healthcheck
     environment:
-      - CHOKIDAR_USEPOLLING=true
-    env_file:
-      - .env
+      - DATABASE_HOST
+      - DATABASE_PORT
+      - DATABASE_USERNAME
+      - DATABASE_PASSWORD
+      - DATABASE_NAME
+      - JWT_SECRET_KEY
+      - STRIPE_SECRET_KEY
     healthcheck:
-      test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'' || exit 1'
+      test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'''
       interval: 1s
       timeout: 2s
       retries: 30
     depends_on:
-      db_staging:
+      db:
         condition: service_healthy
   frontend:
+    container_name: frontend-${TAG}
+    image: pierrecastro/healthcheck-frontend:${TAG}
     build: ./frontend
-    volumes:
-      - ./frontend/src:/app/src
-      - /app/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - healthcheck
     depends_on:
       backend:
         condition: service_healthy
     healthcheck:
-      test: "curl --fail --request GET --url 'http://localhost:5173' || exit 1"
+      test: "curl --fail --request GET --url 'http://localhost:5173'"
       interval: 1s
       timeout: 2s
       retries: 30
-  db_staging:
+  db:
+    container_name: db-${TAG}
     image: postgres:16.4
+    networks:
+      - healthcheck
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       interval: 1s
       timeout: 2s
       retries: 30
     environment:
-      POSTGRES_PASSWORD: password
+      - DATABASE_NAME
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./db-init.sh:/docker-entrypoint-initdb.d/db-init.sh
   adminer:
     image: adminer
+    container_name: adminer-${TAG}
+    networks:
+      - healthcheck
   apigateway:
-    image: nginx
+    container_name: apigateway-${TAG}
+    image: nginx:1.21.3
+    networks:
+      - healthcheck
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./logs-${TAG}:/var/log/nginx
     depends_on:
       backend:
         condition: service_healthy
       frontend:
         condition: service_healthy
     ports:
-      - 7001:80
+      - ${GATEWAY_PORT}:80

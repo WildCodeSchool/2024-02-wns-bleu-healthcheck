@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright
+FROM mcr.microsoft.com/playwright:latest
 
 WORKDIR /app
 
@@ -9,4 +9,5 @@ COPY playwright.config.ts /app/playwright.config.ts
 
 COPY tests/ /app/tests/
 
-CMD npx playwright test
+
+CMD ["tail", "-f", "/dev/null"]
