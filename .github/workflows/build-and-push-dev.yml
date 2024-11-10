@@ -15,6 +15,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build and push dev images
-        uses: .github/workflows/build-and-push.yml
+        uses: ./.github/workflows/build-and-push.yml
         with:
           environment: "dev"
