@@ -9,6 +9,13 @@ on:
 
 jobs:
   build:
-    uses: .github/workflows/build-and-push.yml
-    with:
-      environment: "prod"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build and push prod images
+        uses: .github/workflows/build-and-push.yml
+        with:
+          environment: "prod"
+
