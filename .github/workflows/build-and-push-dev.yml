@@ -9,6 +9,6 @@ on:
 
 jobs:
   build:
-    uses: .github/workflows/reusable-workflow.yml
+    uses: .github/workflows/build-and-push.yml
     with:
       environment: "dev"
