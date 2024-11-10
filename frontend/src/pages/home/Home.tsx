@@ -13,7 +13,7 @@ const Home = () => {
   const [executeQuery, { data }] = useLazyQuery(TEST_URL, {
     fetchPolicy: "network-only",
   });
-  const text = "Créez-vous un compte";
+  const text = "Créez-vous un compte ";
   const { userInfos } = useAuth();
   useEffect(() => {
     if (data !== undefined) {
