@@ -1,6 +1,5 @@
 {
   "scripts": {
-    "start": "docker compose up --build",
-    "build_prod_and_start": "docker compose -f docker-compose.build.prod.yml up --build"
+    "start": "docker compose --env-file .env -f docker-compose.yml up --build"
   }
 }
