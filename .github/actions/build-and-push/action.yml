@@ -35,5 +35,5 @@ runs:
     - name: Build and push backend image
       shell: bash
       run: |
-        docker build -t healthcheck-${{ matrix.service }}:${{ inputs.environment }} ${{ matrix.service }}
-        docker push healthcheck-${{ matrix.service }}:${{ inputs.environment }}
+        docker build -t pierrecastro/healthcheck-${{ matrix.service }}:${{ inputs.environment }} ${{ matrix.service }}
+        docker push pierrecastro/healthcheck-${{ matrix.service }}:${{ inputs.environment }}
