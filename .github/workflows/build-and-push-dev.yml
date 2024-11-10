@@ -22,3 +22,5 @@ jobs:
         with:
           environment: "dev"
           service: ${{ matrix.service }}
+          dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+          dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
