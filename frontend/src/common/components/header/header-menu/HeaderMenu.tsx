@@ -5,11 +5,11 @@ import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { LOGOUT } from "@/common/graphql/queries";
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import MonitorHeartOutlinedIcon from '@mui/icons-material/MonitorHeartOutlined';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 
 interface IHeaderMenu {
   handleOpen: () => void;
@@ -42,6 +42,15 @@ const HeaderMenu = ({ handleOpen }: IHeaderMenu) => {
                 <StarBorderOutlinedIcon />
               </Button>
             )}
+            <Button
+              component={Link}
+              to="/groups"
+              className="header__menu-button"
+            >
+              <span>Groupes</span>
+              <GroupOutlinedIcon />
+            </Button>
+
             <Button
               component={Link}
               to="/dashboard"
