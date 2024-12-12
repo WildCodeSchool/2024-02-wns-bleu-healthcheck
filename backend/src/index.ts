@@ -15,58 +15,64 @@ import { startSavedQueriesWorker } from "./workers/savedQueriesWorker";
 import GroupResolver from "./resolvers/GroupResolver";
 
 const start = async () => {
-  await dataSource.initialize();
+    await dataSource.initialize();
 
-  const schema = await buildSchema({
-    resolvers: [UserResolver, SavedQueryResolver, LogResolver, GroupResolver],
-    authChecker: ({ context }, roles) => {
-      // Check user
-      if (!context.email) {
-        // No user, restrict access
-        return false;
-      }
+    const schema = await buildSchema({
+        resolvers: [
+            UserResolver,
+            SavedQueryResolver,
+            LogResolver,
+            GroupResolver,
+            PaymentResolver,
+        ],
+        authChecker: ({ context }, roles) => {
+            // Check user
+            if (!context.email) {
+                // No user, restrict access
+                return false;
+            }
 
-      // Check '@Authorized()'
-      if (roles.length === 0) {
-        // Only authentication required
-        return true;
-      }
+            // Check '@Authorized()'
+            if (roles.length === 0) {
+                // Only authentication required
+                return true;
+            }
 
-      // Check '@Authorized(...)' roles includes the role of user
-      return roles.includes(context.role);
-    },
-  });
+            // Check '@Authorized(...)' roles includes the role of user
+            return roles.includes(context.role);
+        },
+    });
 
-  const server = new ApolloServer({ schema });
+    const server = new ApolloServer({ schema });
 
-  // Passing an ApolloServer instance to the `startStandaloneServer` function:
-  await startStandaloneServer(server, {
-    listen: { port: 4000 },
-    context: async ({ req, res }) => {
-      if (process.env.JWT_SECRET_KEY === undefined) {
-        throw new Error("NO JWT SECRET KEY CONFIGURED");
-      }
+    // Passing an ApolloServer instance to the `startStandaloneServer` function:
+    await startStandaloneServer(server, {
+        listen: { port: 4000 },
+        context: async ({ req, res }) => {
+            if (process.env.JWT_SECRET_KEY === undefined) {
+                throw new Error("NO JWT SECRET KEY CONFIGURED");
+            }
 
-      const cookies = cookie.parse(req.headers.cookie || "");
+            const cookies = cookie.parse(req.headers.cookie || "");
 
-      if (cookies.token) {
-        const payload = jwt.verify(
-          cookies.token,
-          process.env.JWT_SECRET_KEY
-        ) as jwt.JwtPayload;
+            if (cookies.token) {
+                const payload = jwt.verify(
+                    cookies.token,
+                    process.env.JWT_SECRET_KEY
+                ) as jwt.JwtPayload;
 
-        if (payload) {
-          return { ...payload, res: res };
-        }
-      }
-      return { res: res };
-    },
-  });
+                if (payload) {
+                    return { ...payload, res: res };
+                }
+            }
+            return { res: res };
+        },
+    });
 
-  // Start the saved queries worker
-  await startSavedQueriesWorker();
+    // Start the saved queries worker
+    await startSavedQueriesWorker();
 
-  console.log(`🚀  Server ready at: http://localhost:7001/api`);
+    console.log(`🚀  Server ready at: http://localhost:7001/api`);
 };
 
 start();
