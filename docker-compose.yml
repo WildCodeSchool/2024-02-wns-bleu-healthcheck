@@ -43,6 +43,9 @@ services:
       interval: 1s
       timeout: 2s
       retries: 30
+    volumes:
+      - ./frontend/src:/app/src
+      - /app/node_modules
   db:
     container_name: db-${TAG}
     image: postgres:16.4

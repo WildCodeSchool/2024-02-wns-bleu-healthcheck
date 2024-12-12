@@ -9,12 +9,10 @@ export default defineConfig(({ mode }) => {
     server: {
       host: true,
       port: 5173,
-      ...(mode === "development" && {
-        hmr: {
-          path: "/hmr",
-          port: 7001,
-        },
-      }),
+      hmr: {
+        path: "/hmr",
+        port: 7001,
+      },
     },
     resolve: {
       alias: {
