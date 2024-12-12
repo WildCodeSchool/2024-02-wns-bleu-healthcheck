@@ -18,6 +18,8 @@
 .premium__options_container {
     height: calc(100vh - 200px);
     overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .premium__options_wrapper {
