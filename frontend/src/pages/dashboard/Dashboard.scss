@@ -6,12 +6,13 @@
   flex-direction: column;
 }
 
-.dashboard_header {
-  height: 60px;
+.dashboard__header {
+  max-height: 60px;
   margin : 0 16px;
+  padding-bottom: 8px;
   display: flex;
-  gap: 16px;
   align-items: center;
+  gap: 16px;
 }
 
 .dashboard__search-bar {
@@ -25,6 +26,7 @@
   justify-content: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
+  overflow-y: scroll;
 
   margin: 0 16px 16px;
   padding: 8px;
@@ -54,4 +56,24 @@
 .dashboard__limitreached {
   color: $red;
   font-style: italic;
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+
+  .dashboard__body {
+    width: calc(100% - 16px); //Minus double margin
+    margin: 0 8px 8px;
+    padding: 0;
+  }
+
+  .dashboard__header {
+    flex-direction: column;
+    gap: 8px;
+    margin : 0 8px;
+    align-items: flex-start;
+  }
+
+  .dashboard__limitreached {
+    padding: 0 8px;
+  }
 }

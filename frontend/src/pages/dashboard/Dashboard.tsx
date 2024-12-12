@@ -42,6 +42,21 @@ const Dashboard = () => {
     }
   }, [data]);
 
+  // Drag and drop is not active for mobile users
+  const [isDragAndDropActive, setIsDragAndDropActive] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDragAndDropActive(window.innerWidth > 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleLogsClick = async (logs: Log[], name: string) => {
     setLogs(logs);
     setQueryName(name);
@@ -85,7 +100,7 @@ const Dashboard = () => {
   }
   return (
     <div className="dashboard__wrapper">
-      <div className="dashboard_header">
+      <div className="dashboard__header">
         <div className="dashboard__search-bar">
           <SaveQueryBarUrl limitReached={Tools.isRequestLimitReached(userInfos.role, savedQueries.length)}/>
         </div>
@@ -97,6 +112,7 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+
       <div className="dashboard__body">
         {loading && (
             <div className="dashboard__loading">
@@ -105,24 +121,39 @@ const Dashboard = () => {
         )}
 
         {savedQueries && (
-            <DndContext
-            onDragEnd={handleDragEnd}
-            collisionDetection={closestCorners}
-          >
-            <SortableContext
-              items={mappedQueries}
-              strategy={horizontalListSortingStrategy}
-            >
-              {savedQueries.map((query: UrlData) => (
-                <UrlCard
-                  urlData={query}
-                  key={query._id}
-                  onLogsClick={(logs, name) => handleLogsClick(logs, name)}
-                />
-              ))}
-            </SortableContext>
-          </DndContext>
-        )}
+          isDragAndDropActive ?
+            (
+              <DndContext
+                onDragEnd={handleDragEnd}
+                collisionDetection={closestCorners}
+              >
+                <SortableContext
+                  items={mappedQueries}
+                  strategy={horizontalListSortingStrategy}
+                >
+                  {savedQueries.map((query: UrlData) => (
+                    <UrlCard
+                      urlData={query}
+                      key={query._id}
+                      onLogsClick={(logs, name) => handleLogsClick(logs, name)}
+                    />
+                  ))}
+                </SortableContext>
+              </DndContext>
+            )
+            :
+            (
+              <div>
+                {savedQueries.map((query: UrlData) => (
+                  <UrlCard
+                    urlData={query}
+                    key={query._id}
+                    onLogsClick={(logs, name) => handleLogsClick(logs, name)}
+                  />
+                ))}
+              </div>
+            ))
+        }
 
         {savedQueries && savedQueries.length === 0 && !loading && (
           <div className="dashboard__no-queries">
