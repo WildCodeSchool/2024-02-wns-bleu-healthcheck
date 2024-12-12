@@ -10,6 +10,16 @@
     gap: 32px;
 }
 
+.premium__main_title {
+  padding: 16px;
+  margin: 0;
+}
+
+.premium__options_container {
+    height: calc(100vh - 200px);
+    overflow-y: scroll;
+}
+
 .premium__options_wrapper {
     display: flex;
     gap: 64px;
@@ -109,4 +119,17 @@
             color: $dark-blue;
         }
     }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+
+  .premium__wrapper {
+    gap: 16px;
+  }
+
+  .premium__options_wrapper {
+    flex-direction: column-reverse;
+    gap: 32px;
+    padding: 8px;
+  }
 }
