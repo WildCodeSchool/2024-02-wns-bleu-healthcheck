@@ -44,8 +44,9 @@ const Home = () => {
           <HomepageCard data={homepageCardData} />
           {!userInfos.isLoggedIn && (
             <div className="home__redirect">
-              <h2>
+              <h2 className="home__create-account-text">
                 Vous voulez enregistrer cette URL?{" "}
+                <br/>
                 <Link to="/register" className="home__redirect-link">
                   {text.split("").map((char, index) => (
                     <span key={index}>{char}</span>

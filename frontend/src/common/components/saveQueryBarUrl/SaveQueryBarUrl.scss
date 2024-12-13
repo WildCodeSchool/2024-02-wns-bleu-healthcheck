@@ -8,13 +8,14 @@ body {
   display: flex;
   width: 100%;
   box-shadow: $base-shadow;
-  border-radius: 14px;
+  border-radius: 12px;
 
   .savequery__bar-input {
-    flex: 1 0 80%;
+    display: flex;
+    width: 80%;
     padding: $space-xs;
     border: none;
-    border-radius: 14px 0 0 14px;
+    border-radius: 12px 0 0 12px;
     font-size: $base-font-size;
     font-weight: $body-font-weight;
     color: $dark-blue;
@@ -39,12 +40,13 @@ body {
 
   .savequery__bar-button-valid,
   .savequery__bar-button-invalid {
-    width: 15%;
+    width: 20%;
     button {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
+      min-width: 48px;
       height: 100%;
       border: none;
       border-radius: 0 14px 14px 0;
@@ -84,5 +86,19 @@ body {
       opacity: 0;
       transition: opacity $transition-duration ease-in-out 0.1s;
     }
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .savequery__bar-button-valid,
+  .savequery__bar-button-invalid {
+    button {
+      min-width: 48px;
+    }
+  }
+
+  .savequery__bar {
+    width: calc(100vw - 16px);
+    max-width: 600px;
   }
 }
