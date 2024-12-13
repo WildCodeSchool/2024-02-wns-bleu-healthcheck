@@ -63,39 +63,48 @@ const HeaderMenu = ({ handleOpen }: IHeaderMenu) => {
           onClose={() => toggleDrawer(false)}
           onOpen={() => toggleDrawer(true)}
         >
-          <Box sx={{width: 200}} role="presentation" onClick={() => toggleDrawer(false)}>
-            <div className="header__drawer-container">
-              {userInfos.role && userInfos.role < 1 && (
+          <Box sx={{ width: 200 }} role="presentation" onClick={() => toggleDrawer(false)}>
+            {userInfos.isLoggedIn ? (
+              <div className="header__drawer-container">
+                {userInfos.role && userInfos.role < 1 && (
+                  <Button
+                    component={Link}
+                    to="/premium"
+                    className="header__drawer-button"
+                  >
+                    <span>Premium</span>
+                    <StarBorderOutlinedIcon />
+                  </Button>
+                )}
                 <Button
                   component={Link}
-                  to="/premium"
+                  to="/dashboard"
                   className="header__drawer-button"
                 >
-                  <span>Premium</span>
-                  <StarBorderOutlinedIcon/>
+                  <span>Dashboard</span>
+                  <MonitorHeartOutlinedIcon />
                 </Button>
-              )}
-              <Button
-                component={Link}
-                to="/dashboard"
-                className="header__drawer-button"
-              >
-                <span>Dashboard</span>
-                <MonitorHeartOutlinedIcon/>
-              </Button>
-              <Button
-                component={Link}
-                to="/settings"
-                className="header__drawer-button"
-              >
-                <span>{userInfos.name}</span>
-                <AccountCircleOutlinedIcon/>
-              </Button>
-              <Button onClick={() => logout()} className="header__drawer-button">
-                <span>Logout</span>
-                <LogoutOutlinedIcon/>
-              </Button>
-            </div>
+                <Button
+                  component={Link}
+                  to="/settings"
+                  className="header__drawer-button"
+                >
+                  <span>{userInfos.name}</span>
+                  <AccountCircleOutlinedIcon />
+                </Button>
+                <Button onClick={() => logout()} className="header__drawer-button">
+                  <span>Logout</span>
+                  <LogoutOutlinedIcon />
+                </Button>
+              </div>
+            ) : (
+              <div className="header__drawer-container">
+                <Button onClick={handleOpen} className="header__drawer-button">
+                  <span>Connexion</span>
+                  <AccountCircleOutlinedIcon />
+                </Button>
+              </div>
+            )}
           </Box>
         </SwipeableDrawer>
       </>
