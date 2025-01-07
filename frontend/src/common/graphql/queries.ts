@@ -71,6 +71,7 @@ export const GET_SAVED_QUERIES = gql`
       url
       frequency
       queryOrder
+      errorsBeforeSendingMail
     }
   }
 `;
@@ -99,8 +100,9 @@ export const EDIT_SAVED_QUERY = gql`
     $queryId: Float!
     $name: String!
     $frequency: Float!
+    $errorsBeforeSendingMail: Float!
   ) {
-    editQuery(queryId: $queryId, name: $name, frequency: $frequency)
+    editQuery(queryId: $queryId, name: $name, frequency: $frequency, errorsBeforeSendingMail: $errorsBeforeSendingMail)
   }
 `;
 

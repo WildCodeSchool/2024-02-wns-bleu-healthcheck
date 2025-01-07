@@ -21,6 +21,7 @@
     "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
     "jsonwebtoken": "^9.0.2",
+    "node-mailjet": "^6.0.6",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2",
     "stripe": "^17.3.1",

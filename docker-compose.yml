@@ -21,6 +21,8 @@ services:
       - DATABASE_NAME
       - JWT_SECRET_KEY
       - STRIPE_SECRET_KEY
+      - MAILJET_PUBLIC_KEY
+      - MAILJET_SECRET_KEY
     healthcheck:
       test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'''
       interval: 1s

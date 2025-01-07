@@ -157,6 +157,7 @@ class SavedQueryResolver {
     @Arg("queryId") queryId: number,
     @Arg("name") name: string,
     @Arg("frequency") frequency: number,
+    @Arg("errorsBeforeSendingMail") errorsBeforeSendingMail: number,
     @Ctx() ctx: AppContext
   ): Promise<string> {
     if (name.length === 0 || frequency <= 0 || frequency > 60) {
@@ -190,6 +191,8 @@ class SavedQueryResolver {
     query.name = name;
     query.frequency = frequency;
     query.updatedAt = new Date();
+    query.errorsBeforeSendingMail = errorsBeforeSendingMail;
+    query.user = userFromDB;
 
     await query.save();
 

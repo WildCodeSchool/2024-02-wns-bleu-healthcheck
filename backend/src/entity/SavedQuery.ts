@@ -48,4 +48,12 @@ export class SavedQuery extends BaseEntity {
 
   @OneToMany(() => Log, (log) => log.query)
   logs: Log[];
+
+  @Field()
+  @Column({ default: 0 }) // 0 means no mails will be sent
+  errorsBeforeSendingMail: number;
+
+  @Field()
+  @Column({ default: 0 })
+  errorsSinceLastMail: number; // Number of errors since the last mail was sent
 }
