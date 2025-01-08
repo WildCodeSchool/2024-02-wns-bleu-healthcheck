@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client"
-import AuthContext from "../contexts/AuthContext"
+import { useQuery } from "@apollo/client";
+import AuthContext from "../contexts/AuthContext";
 import { WHO_AM_I } from "../graphql/queries";
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -7,6 +7,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   const contextValue = {
     userInfos: {
+      _id: data?.whoAmI._id ?? null,
       isLoggedIn: data?.whoAmI.isLoggedIn ?? false,
       email: data?.whoAmI.email ?? null,
       name: data?.whoAmI.name ?? null,
@@ -15,12 +16,10 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     loading: loading,
     error: error,
     refetch: refetch,
-  }
+  };
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
-  )
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  );
 };
 
-export default AuthContextProvider
+export default AuthContextProvider;

@@ -1,4 +1,4 @@
-import { InputType, Field, ObjectType } from 'type-graphql';
+import { InputType, Field, ObjectType } from "type-graphql";
 
 @InputType()
 export class RegisterInput {
@@ -14,6 +14,9 @@ export class RegisterInput {
 
 @ObjectType()
 export class UserInfo {
+    @Field()
+    _id: number;
+
     @Field()
     isLoggedIn: boolean;
 

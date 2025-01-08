@@ -4,14 +4,15 @@ import { ApolloError } from "@apollo/client/errors";
 
 type AuthContextType = {
   userInfos: {
-    isLoggedIn: boolean,
-    email: string | null,
-    name: string | null,
-    role: Role | null,
-  },
-  loading: boolean,
-  error: ApolloError | undefined,
-  refetch: () => void,
+    _id: number | null;
+    isLoggedIn: boolean;
+    email: string | null;
+    name: string | null;
+    role: Role | null;
+  };
+  loading: boolean;
+  error: ApolloError | undefined;
+  refetch: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);

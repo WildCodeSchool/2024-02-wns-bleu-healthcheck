@@ -1,0 +1,30 @@
+.create-group__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.create-group__wrapper h4 {
+  margin-bottom: 20px;
+}
+
+.create-group__wrapper form {
+  width: 100%;
+}
+
+.create-group__wrapper .MuiTextField-root {
+  margin-bottom: 20px;
+}
+
+.create-group__wrapper .MuiButton-root {
+  display: block;
+  width: 100%;
+}

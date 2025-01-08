@@ -18,6 +18,7 @@ export const TEST_URL = gql`
 export const WHO_AM_I = gql`
     query WhoAmI {
         whoAmI {
+            _id
             email
             role
             name
@@ -161,4 +162,30 @@ export const CREATE_GROUP = gql`
     mutation CreateGroup($name: String!, $emails: [String!]!) {
         createGroup(name: $name, emails: $emails)
     }
+`;
+
+export const GET_GROUPS_BY_USER = gql`
+    query GetGroupsByUser($userId: Float!) {
+        getGroupsByUser(userId: $userId) {
+            _id
+            name
+            users {
+                _id
+                name
+                email
+            }
+        }
+    }
+`;
+
+export const DELETE_GROUP = gql`
+    mutation Mutation($deleteGroupId: Float!) {
+        deleteGroup(id: $deleteGroupId)
+    }
+`;
+
+export const EDIT_GROUP = gql`
+ mutation Mutation($updateGroupId: Float!, $emails: [String!], $name: String) {
+  updateGroup(id: $updateGroupId, emails: $emails, name: $name)
+}
 `;

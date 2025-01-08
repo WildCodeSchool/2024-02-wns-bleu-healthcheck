@@ -66,10 +66,21 @@ class GroupResolver {
         return group;
     }
 
+    // Read Groups by User
+    @Query(() => [Group])
+    async getGroupsByUser(
+        @Arg("userId", () => Number) userId: number
+    ): Promise<Group[]> {
+        return await Group.createQueryBuilder("group")
+            .innerJoin("group.users", "user", "user._id = :userId", { userId })
+            .leftJoinAndSelect("group.users", "allUsers")
+            .getMany();
+    }
+
     // Update Group
     @Mutation(() => String)
     async updateGroup(
-        @Arg("id", () => String) id: number,
+        @Arg("id", () => Number) id: number,
         @Arg("name", () => String, { nullable: true }) name?: string,
         @Arg("emails", () => [String], { nullable: true }) emails?: string[]
     ): Promise<String> {
@@ -113,7 +124,7 @@ class GroupResolver {
 
     // Delete Group
     @Mutation(() => String)
-    async deleteGroup(@Arg("id", () => String) id: number): Promise<String> {
+    async deleteGroup(@Arg("id", () => Number) id: number): Promise<String> {
         const group = await Group.findOne({ where: { _id: id } });
         if (!group) {
             throw new Error("Group not found");
