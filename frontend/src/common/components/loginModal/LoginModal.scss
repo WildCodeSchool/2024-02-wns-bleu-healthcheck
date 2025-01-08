@@ -9,7 +9,6 @@
   font-family: $base-font-family;
   width: 50%;
   background-color: $light-grey;
-  box-shadow: 24px;
   padding: $space-md;
   border-radius: $border-radius-sm;
   color: $dark-blue;
@@ -26,4 +25,10 @@
   }
 
   @include flex-column-center;
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .login__modal-box {
+    width: 80%;
+  }
 }

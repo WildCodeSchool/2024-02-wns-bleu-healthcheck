@@ -42,33 +42,31 @@ const SaveQueryBarUrl = ({ limitReached }: SavedQueryBarUrlProps) => {
   };
 
   return (
-    <>
-      <div className="savequery__bar">
-        <input
-          name="savequery__bar"
-          placeholder="Sauvegarder une URL..."
-          value={url}
-          onChange={handleInputChange}
-          className="savequery__bar-input"
-        />
-        <Tooltip
-          title={isValidUrl ? "Sauvegarder la requête" : "URL invalide"}
-          placement="top"
+    <div className="savequery__bar">
+      <input
+        name="savequery-input"
+        placeholder="Sauvegarder une URL..."
+        value={url}
+        onChange={handleInputChange}
+        className="savequery__bar-input"
+      />
+      <Tooltip
+        title={isValidUrl ? "Sauvegarder la requête" : "URL invalide"}
+        placement="top"
+      >
+        <div
+          className={
+            isValidUrl && !limitReached
+              ? "savequery__bar-button-valid"
+              : "savequery__bar-button-invalid"
+          }
         >
-          <div
-            className={
-              isValidUrl && !limitReached
-                ? "savequery__bar-button-valid"
-                : "savequery__bar-button-invalid"
-            }
-          >
-            <button onClick={handleSubmit} disabled={!isValidUrl || limitReached || loading}>
-              <LanguageOutlinedIcon style={{ fontSize: "20px" }} />
-            </button>
-          </div>
-        </Tooltip>
-      </div>
-    </>
+          <button onClick={handleSubmit} disabled={!isValidUrl || limitReached || loading}>
+            <LanguageOutlinedIcon style={{ fontSize: "20px" }} />
+          </button>
+        </div>
+      </Tooltip>
+    </div>
   );
 };
 

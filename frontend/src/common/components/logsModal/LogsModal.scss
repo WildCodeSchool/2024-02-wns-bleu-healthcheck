@@ -16,6 +16,7 @@
     display: grid;
     grid-template-columns: 100px 50px 100px 80px 90px;
     align-items: center;
+    text-align: right;
     gap: 32px;
     width: 100%;
     padding: 8px;
@@ -43,4 +44,20 @@
     background-color: $backgroundRed;
 }
 
+@media screen and (max-width: $breakpoint-sm) {
+  .logsmodal__header, .logsmodal__item {
+    grid-template-columns: 60px 40px 50px 30px 32px;
+    gap: 16px;
+  }
+
+  .logsmodal__header {
+    font-weight: $heading-font-weight;
+    font-size: $small-font-size;
+  }
+
+  .logsmodal__item {
+    font-size: $small-font-size;
+    padding: 4px;
+  }
+}
 

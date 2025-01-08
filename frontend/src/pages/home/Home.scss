@@ -28,6 +28,11 @@
   text-align: center;
 }
 
+.home__create-account-text {
+  padding: 1rem;
+  text-align: center;
+}
+
 @media screen and (max-width: $breakpoint-sm) and (min-width: $breakpoint-xs) {
   .home__content {
     width: 90%;
@@ -36,6 +41,14 @@
 
   .home__main-title {
     font-size: $h1-font-size;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .home__content-wrapper {
+    justify-content: flex-start;
+    margin-top: 20vh;
+    padding: 0;
   }
 }
 

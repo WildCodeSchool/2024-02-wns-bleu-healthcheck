@@ -7,7 +7,7 @@
   .header__menu-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 
     :hover > * {
       color: $green;
@@ -15,9 +15,9 @@
 
     .header__menu-button {
       color: $dark-blue;
-      gap: 10px;
-      padding-right: 10px;
-      padding-left: 10px;
+      gap: 8px;
+      padding-right: 8px;
+      padding-left: 8px;
       background-color: transparent;
     }
   }
@@ -26,4 +26,25 @@
     color: $dark-blue;
     height: 100%;
   }
+}
+
+.header__drawer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  margin-top: 32px;
+}
+
+.header__drawer-button {
+  color: $dark-blue;
+  gap: 8px;
+  padding: 24px;
+  background-color: transparent;
+}
+
+.header__drawer-button > span {
+  font-family: $base-font-family;
+  color: $dark-blue;
+  font-size: 18px;
 }

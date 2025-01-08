@@ -164,7 +164,7 @@ const AccountSettings = () => {
       {
         userInfos.role == 1 && (
           <div className="account-settings__remove-premium-role">
-            <Button color="error" onClick={() => removePremiumRole()}>
+            <Button color="warning" onClick={() => removePremiumRole()}>
               Résilier l'abonnement premium
             </Button>
           </div>
