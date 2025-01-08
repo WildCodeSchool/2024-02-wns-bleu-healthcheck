@@ -185,7 +185,11 @@ export const DELETE_GROUP = gql`
 `;
 
 export const EDIT_GROUP = gql`
- mutation Mutation($updateGroupId: Float!, $emails: [String!], $name: String) {
-  updateGroup(id: $updateGroupId, emails: $emails, name: $name)
-}
+    mutation Mutation(
+        $updateGroupId: Float!
+        $emails: [String!]
+        $name: String
+    ) {
+        updateGroup(id: $updateGroupId, emails: $emails, name: $name)
+    }
 `;

@@ -5,7 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
+  DialogTitle, Slider,
   Tooltip,
 } from "@mui/material";
 import { useMemo, useState } from "react";
@@ -38,12 +38,28 @@ export interface UrlData {
   frequency?: number;
   name?: string;
   queryOrder: number;
+  errorsBeforeSendingMail: number;
 }
 
 interface UrlCardProps {
   urlData: UrlData;
   onLogsClick?: (logs: Log[], name: string) => void; // Optional onClick prop
 }
+
+const errorMailThresholdMarks = [
+  {
+    value: 0,
+    label: 'Désactivé',
+  },
+  {
+    value: 5,
+    label: '5',
+  },
+  {
+    value: 10,
+    label: '10',
+  },
+];
 
 function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
   const {
@@ -70,6 +86,8 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
   const [editedFrequency, setEditedFrequency] = useState(
     urlData.frequency || 0
   );
+
+  const [errorsBeforeSendingMail, setErrorsBeforeSendingMail] = useState(urlData.errorsBeforeSendingMail || 0);
 
   const logs = useMemo(() => {
     let l = logsData?.getLogsForSavedQuery || [];
@@ -136,11 +154,14 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
       const updatedFrequency =
         editedFrequency !== undefined ? editedFrequency : urlData.frequency;
 
+      const updatedErrorsBeforeSendingMail = errorsBeforeSendingMail !== undefined ? errorsBeforeSendingMail : urlData.errorsBeforeSendingMail;
+
       await editQuery({
         variables: {
           queryId: urlData._id,
           name: updatedName,
           frequency: updatedFrequency,
+          errorsBeforeSendingMail: updatedErrorsBeforeSendingMail,
         },
       });
     } catch (error) {
@@ -359,6 +380,25 @@ function UrlCard({ urlData, onLogsClick }: UrlCardProps) {
                 setEditedFrequency(parseInt(e.target.value) || 0)
               }
             />
+            <div>
+              <span style={{ color: !Tools.isUserPremium(userInfos.role) ? "#DDDDDD" : "inherit" }}>Nombre d'erreurs avant envoi de mail</span>
+              <div className={"card__edit_errors"}>
+                <Slider
+                  disabled={!Tools.isUserPremium(userInfos.role)}
+                  style={{width:"80%"}}
+                  aria-label="Errors before sending mail"
+                  value={errorsBeforeSendingMail}
+                  step={1}
+                  max={10}
+                  valueLabelDisplay="auto"
+                  marks={errorMailThresholdMarks}
+                  onChange={(_, value) => {
+                    setErrorsBeforeSendingMail(typeof value === "number" ? value : 0);
+                  }}
+                />
+              </div>
+            </div>
+
           </div>
         </DialogContent>
         <DialogActions>

@@ -28,16 +28,46 @@ export const scheduleQuery = (savedQuery: SavedQuery) => {
 };
 
 /**
+ * Reset errorsSinceLastMail for all saved queries at midnight
+ */
+export const resetErrorsSinceLastMailJob = () => {
+    const job = new CronJob('0 0 * * *', async () => {
+        console.log("Resetting errorsSinceLastMail for all queries");
+
+        const savedQueryRepository = dataSource.getRepository(SavedQuery);
+
+        try {
+            await savedQueryRepository
+                .createQueryBuilder()
+                .update(SavedQuery)
+                .set({ errorsSinceLastMail: 0 })
+                .execute();
+        } catch (err) {
+            console.error("Error resetting errorsSinceLastMail:", err);
+        }
+    },
+        null,
+        false,
+        'Europe/Paris'
+    );
+
+    job.start();
+};
+
+/**
  * Start the saved queries worker
  */
 export const startSavedQueriesWorker = async () => {
     const savedQueryRepository = dataSource.getRepository(SavedQuery);
-    const savedQueries = await savedQueryRepository.find();
+    const savedQueries = await savedQueryRepository.find({relations: ["user"]});
 
     for (const savedQuery of savedQueries) {
         await executeQuery(savedQuery);
         scheduleQuery(savedQuery);
     }
+
+    // Start the reset job
+    resetErrorsSinceLastMailJob();
 };
 
 /**
