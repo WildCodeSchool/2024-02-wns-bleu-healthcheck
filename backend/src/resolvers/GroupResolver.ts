@@ -1,8 +1,9 @@
 import "dotenv/config";
-import { Resolver, Mutation, Arg, Query } from "type-graphql";
+import { Resolver, Mutation, Arg, Query, Ctx } from "type-graphql";
 import { User } from "../entity/User";
 import { Group } from "../entity/Group";
 import { In } from "typeorm";
+import { AppContext } from "src/types/AppContext";
 
 @Resolver()
 class GroupResolver {
@@ -10,10 +11,20 @@ class GroupResolver {
     @Mutation(() => String)
     async createGroup(
         @Arg("name", () => String) name: string,
-        @Arg("emails", () => [String]) emails: string[]
+        @Arg("emails", () => [String]) emails: string[],
+        @Ctx() context: AppContext
     ): Promise<String> {
+        const userId = context.userId;
         // Vérifier si le groupe existe déjà
-        const groupExists = await Group.findOne({ where: { name: name } });
+        const groupExists = await Group.findOne({
+            where: {
+                name: name,
+                users: {
+                    _id: userId,
+                },
+            },
+            relations: ["users"],
+        });
         if (groupExists) {
             throw new Error("Group name already used");
         }
