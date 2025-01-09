@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { UserConfig } from "vitest/config";
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
     const config: UserConfig = {
         plugins: [react()],
         server: {
@@ -30,8 +30,8 @@ export default defineConfig(({ mode }) => {
             environment: "jsdom",
         },
         optimizeDeps: {
-            include: ["@stripe/stripe-js"],  // Ensure Vite pre-bundles this
-        }
+            include: ["@stripe/stripe-js"], // Ensure Vite pre-bundles this
+        },
     };
 
     return config;

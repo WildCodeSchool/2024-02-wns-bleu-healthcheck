@@ -1,8 +1,9 @@
-import {DataSource} from "typeorm";
-import {User} from "../entity/User";
-import {SavedQuery} from "../entity/SavedQuery";
-import {Log} from "../entity/Log";
-import * as dotenv from 'dotenv';
+import { DataSource } from "typeorm";
+import { User } from "../entity/User";
+import { SavedQuery } from "../entity/SavedQuery";
+import { Log } from "../entity/Log";
+import * as dotenv from "dotenv";
+import { Group } from "../entity/Group";
 
 dotenv.config();
 
@@ -15,5 +16,5 @@ export const dataSource = new DataSource({
     database: process.env.DATABASE_NAME,
     synchronize: true,
     logging: ["error", "query"],
-    entities: [User, SavedQuery, Log],
+    entities: [User, SavedQuery, Log, Group],
 });

@@ -5,6 +5,7 @@ import Register from "@/pages/register/Register";
 import App from "@/App";
 import AccountSettings from "@/pages/account-settings/AccountSettings";
 import Premium from "@/pages/premium/Premium";
+import Groups from "@/pages/groups/Groups";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/premium",
         element: <Premium />,
+      },
+      {
+        path: "/groups",
+        element: <Groups />,
       },
     ],
   },

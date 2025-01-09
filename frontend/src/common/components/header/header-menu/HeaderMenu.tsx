@@ -1,18 +1,18 @@
 import useAuth from "@/common/hooks/useAuth";
 import "./HeaderMenu.scss";
-import {Button, IconButton, SwipeableDrawer} from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import { Button, IconButton, SwipeableDrawer } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { LOGOUT } from "@/common/graphql/queries";
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import MonitorHeartOutlinedIcon from '@mui/icons-material/MonitorHeartOutlined';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import {useEffect, useState} from "react";
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-
 
 interface IHeaderMenu {
   handleOpen: () => void;
@@ -49,112 +49,133 @@ const HeaderMenu = ({ handleOpen }: IHeaderMenu) => {
     setSidebarDisplayed(open);
   };
 
-  return isSmallScreen ?
-    (
-      <>
-        <div onClick={() => toggleDrawer(true)}>
-          <IconButton>
-            <MenuIcon/>
-          </IconButton>
-        </div>
-        <SwipeableDrawer
-          anchor='right'
-          open={sidebarDisplayed}
-          onClose={() => toggleDrawer(false)}
-          onOpen={() => toggleDrawer(true)}
+  return isSmallScreen ? (
+    <>
+      <div onClick={() => toggleDrawer(true)}>
+        <IconButton>
+          <MenuIcon />
+        </IconButton>
+      </div>
+      <SwipeableDrawer
+        anchor="right"
+        open={sidebarDisplayed}
+        onClose={() => toggleDrawer(false)}
+        onOpen={() => toggleDrawer(true)}
+      >
+        <Box
+          sx={{ width: 200 }}
+          role="presentation"
+          onClick={() => toggleDrawer(false)}
         >
-          <Box sx={{ width: 200 }} role="presentation" onClick={() => toggleDrawer(false)}>
-            {userInfos.isLoggedIn ? (
-              <div className="header__drawer-container">
-                {userInfos.role && userInfos.role < 1 && (
-                  <Button
-                    component={Link}
-                    to="/premium"
-                    className="header__drawer-button"
-                  >
-                    <span>Premium</span>
-                    <StarBorderOutlinedIcon />
-                  </Button>
-                )}
-                <Button
-                  component={Link}
-                  to="/dashboard"
-                  className="header__drawer-button"
-                >
-                  <span>Dashboard</span>
-                  <MonitorHeartOutlinedIcon />
-                </Button>
-                <Button
-                  component={Link}
-                  to="/settings"
-                  className="header__drawer-button"
-                >
-                  <span>{userInfos.name}</span>
-                  <AccountCircleOutlinedIcon />
-                </Button>
-                <Button onClick={() => logout()} className="header__drawer-button">
-                  <span>Logout</span>
-                  <LogoutOutlinedIcon />
-                </Button>
-              </div>
-            ) : (
-              <div className="header__drawer-container">
-                <Button onClick={handleOpen} className="header__drawer-button">
-                  <span>Connexion</span>
-                  <AccountCircleOutlinedIcon />
-                </Button>
-              </div>
-            )}
-          </Box>
-        </SwipeableDrawer>
-      </>
-    )
-    :
-    (
-      <div className="header__menu">
-        <div className="header__menu-item">
           {userInfos.isLoggedIn ? (
-            <>
+            <div className="header__drawer-container">
               {userInfos.role && userInfos.role < 1 && (
                 <Button
                   component={Link}
                   to="/premium"
-                  className="header__menu-button"
+                  className="header__drawer-button"
                 >
                   <span>Premium</span>
-                  <StarBorderOutlinedIcon/>
+                  <StarBorderOutlinedIcon />
                 </Button>
               )}
               <Button
                 component={Link}
                 to="/dashboard"
-                className="header__menu-button"
+                className="header__drawer-button"
               >
                 <span>Dashboard</span>
-                <MonitorHeartOutlinedIcon/>
+                <MonitorHeartOutlinedIcon />
               </Button>
               <Button
                 component={Link}
                 to="/settings"
-                className="header__menu-button"
+                className="header__drawer-button"
               >
                 <span>{userInfos.name}</span>
-                <AccountCircleOutlinedIcon/>
+                <AccountCircleOutlinedIcon />
               </Button>
-              <Button onClick={() => logout()} className="header__menu-button">
+              <Button
+                onClick={() => logout()}
+                className="header__drawer-button"
+              >
                 <span>Logout</span>
-                <LogoutOutlinedIcon/>
+                <LogoutOutlinedIcon />
               </Button>
-            </>
+            </div>
           ) : (
-            <Button onClick={handleOpen} className="header__menu-button">
-              <span>Connexion</span>
-              <AccountCircleOutlinedIcon/>
-            </Button>
+            <div className="header__drawer-container">
+              <Button onClick={handleOpen} className="header__drawer-button">
+                <span>Connexion</span>
+                <AccountCircleOutlinedIcon />
+              </Button>
+            </div>
           )}
-        </div>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  ) : (
+    <div className="header__menu">
+      <div className="header__menu-item">
+        {userInfos.isLoggedIn ? (
+          <>
+            {userInfos.role && userInfos.role < 1 && (
+              <Button
+                component={Link}
+                to="/premium"
+                className="header__menu-button"
+              >
+                <span>Premium</span>
+                <StarBorderOutlinedIcon />
+              </Button>
+            )}
+            <Button
+              component={Link}
+              to="/dashboard"
+              className="header__menu-button"
+            >
+              <span>Dashboard</span>
+              <MonitorHeartOutlinedIcon />
+            </Button>
+            <Button
+              component={Link}
+              to="/groups"
+              className="header__menu-button"
+            >
+              <span>Groupes</span>
+              <GroupOutlinedIcon />
+            </Button>
+
+            <Button
+              component={Link}
+              to="/dashboard"
+              className="header__menu-button"
+            >
+              <span>Dashboard</span>
+              <MonitorHeartOutlinedIcon />
+            </Button>
+            <Button
+              component={Link}
+              to="/settings"
+              className="header__menu-button"
+            >
+              <span>{userInfos.name}</span>
+              <AccountCircleOutlinedIcon />
+            </Button>
+            <Button onClick={() => logout()} className="header__menu-button">
+              <span>Logout</span>
+              <LogoutOutlinedIcon />
+            </Button>
+          </>
+        ) : (
+          <Button onClick={handleOpen} className="header__menu-button">
+            <span>Connexion</span>
+            <AccountCircleOutlinedIcon />
+          </Button>
+        )}
       </div>
-    )
+    </div>
+  );
 };
 
 export default HeaderMenu;
