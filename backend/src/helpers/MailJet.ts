@@ -38,7 +38,7 @@ export class MailJet {
             Messages: [
                 {
                     From: {
-                        Email: 'william.podetti@gmail.com',
+                        Email: 'uralive.wcs@gmail.com',
                         Name: 'URaLive',
                     },
                     To: [
