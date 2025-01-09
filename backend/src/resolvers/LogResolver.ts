@@ -26,13 +26,13 @@ class LogResolver {
         await Log.save(log);
 
         // If the status_code doesn't start with 2, increment the number of errors since the last mail sent (premium users only)
-        if(!log.status_code.toString().startsWith('2') && query.errorsBeforeSendingMail !== 0 && query.user.role >= 1) {
+        if(!log.status_code.toString().startsWith('2') && query.errorsBeforeSendingMail !== 0 && query.user!.role >= 1) {
             query.errorsSinceLastMail++;
         }
 
         // If the status_code doesn't start with 2, the user is premium, and the query has reached requested number of errors, send an email using MailJet
         const mailShouldBeSent = !log.status_code.toString().startsWith('2') &&
-            query.user.role >= 1 &&
+            query.user!.role >= 1 &&
             query.errorsBeforeSendingMail !==0 &&
             query.errorsBeforeSendingMail <= query.errorsSinceLastMail
 
@@ -47,8 +47,8 @@ class LogResolver {
                 const mailjetClient = MailJet.getInstance();
 
                 await mailjetClient.sendMail(
-                    query.user.email, // User Email
-                    query.user.name, // User Name
+                    query.user!.email, // User Email
+                    query.user!.name, // User Name
                     `[${query.name}] Failure detected`, // Email Subject
                     `
                     <div style="height: 100vh; display: flex; flex-direction: column; align-items: center; border-radius: 8px; padding: 8px; background: radial-gradient(ellipse at 50% 50%, #c1e0f7 0%, #fafafa 89%);">
@@ -59,7 +59,7 @@ class LogResolver {
                     </div>
                     ` // HTML content
                 );
-                console.log('Email sent to:', query.user.email);
+                console.log('Email sent to:', query.user!.email);
 
                 // Reset the number of errors since the last mail sent
                 query.errorsSinceLastMail = 0;
