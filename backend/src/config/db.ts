@@ -6,6 +6,8 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log("hello");
+
 export const dataSource = new DataSource({
     type: "postgres",
     host: process.env.DATABASE_HOST,
