@@ -16,5 +16,5 @@ export const dataSource = new DataSource({
     database: process.env.DATABASE_NAME,
     synchronize: true,
     logging: ["error", "query"],
-    entities: [User, SavedQuery, Log, Group],
+    entities: [User, SavedQuery, Log],
 });
