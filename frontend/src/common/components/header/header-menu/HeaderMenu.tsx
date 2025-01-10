@@ -131,14 +131,6 @@ const HeaderMenu = ({ handleOpen }: IHeaderMenu) => {
             )}
             <Button
               component={Link}
-              to="/dashboard"
-              className="header__menu-button"
-            >
-              <span>Dashboard</span>
-              <MonitorHeartOutlinedIcon />
-            </Button>
-            <Button
-              component={Link}
               to="/groups"
               className="header__menu-button"
             >
