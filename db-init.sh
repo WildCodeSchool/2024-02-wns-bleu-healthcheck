@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # First, we need to check if the database exists.
 until pg_isready; do
     echo "Waiting for postgres..."
